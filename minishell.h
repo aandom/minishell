@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/02 22:05:45 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/05 14:46:04 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ typedef struct s_data
 }       t_data;
 
 
+char	**clean(char **av);
+char	**ft_split(char *str, char c);
+void    ft_parser(t_data *data);
+size_t	ft_strlen(const char *s);
 
 
 # endif
