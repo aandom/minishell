@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:56 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/05 14:45:27 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/08 17:03:48 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void    ft_minishell()
         data->input = readline(PROMPT);
         // ft_lexer(data);
         ft_parser(data);
+        int i = 0;
+        t_lexer *tmp;
+        tmp = data->lexed;
+        while (tmp)
+        {
+            printf("%s ", tmp->str);
+            tmp = tmp->next;
+        }
+        printf("\n");
         free(data->input);
     }
 }

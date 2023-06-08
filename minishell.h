@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/05 14:46:04 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/08 16:25:46 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ enum tokentype
 
 enum quotes
 {
-    NONE,
+    NOQUOTE,
     SINGLE,
     DOUBLE,
 };
@@ -53,7 +53,7 @@ typedef struct s_lexer
     int     type;
     int     index;
     struct s_lexer *prev;
-    struct t_lexer *next;
+    struct s_lexer *next;
 }       t_lexer;
 
 typedef struct s_cmdtable
