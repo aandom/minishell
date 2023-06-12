@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:56 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/08 17:03:48 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/12 19:54:04 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void    ft_minishell()
         data->input = readline(PROMPT);
         // ft_lexer(data);
         ft_parser(data);
+        remove_quotes(&data->lexed);
+        extrat_commands(data, data->lexed);
         int i = 0;
         t_lexer *tmp;
         tmp = data->lexed;

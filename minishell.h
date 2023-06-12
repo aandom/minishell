@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/08 16:25:46 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/12 16:03:49 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ enum tokentype
     LESS,
     GREAT_GREAT,
     LESS_LESS,
-    END,
     WORD,
     STAB,
+    VAR,
+    END,
 };
 
 enum quotes
@@ -80,6 +81,13 @@ char	**clean(char **av);
 char	**ft_split(char *str, char c);
 void    ft_parser(t_data *data);
 size_t	ft_strlen(const char *s);
+void    remove_quotes(t_lexer **lexed);
+int     inside_quote(char *str);
+int     check_quote(char *str, int i, int  quote);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *src);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strtrim(char const *s1, unsigned char set);
 
 
 # endif

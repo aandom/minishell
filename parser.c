@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 19:41:55 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/08 17:00:32 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/08 19:20:11 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,6 @@ void    ft_parser(t_data *data)
 	{
 		exit(printf("incomplete quotation"));
 	}
+	
 	
 }
