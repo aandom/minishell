@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/12 16:03:49 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/13 19:18:04 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ typedef struct s_lexer
     struct s_lexer *next;
 }       t_lexer;
 
-typedef struct s_cmdtable
+typedef struct s_cmd
 {
     char    *cmd;
     char    **cmdarg;
     char    *path;
     t_iofiles file;
-    struct t_cmdtable *prev;
-    struct t_cmdtable *next;
-}       t_cmdtable;
+    struct t_cmd *prev;
+    struct t_cmd *next;
+}       t_cmd;
 
 typedef struct s_data
 {
     char        *input;
     char        **env;
     char        **wdir;
-    t_cmdtable  *cmds;
+    t_cmd       *cmds;
     t_lexer     *lexed;
 }       t_data;
 
@@ -88,6 +88,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *src);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strtrim(char const *s1, unsigned char set);
+void	extract_command(t_data *data, t_lexer *lexed);
 
 
 # endif
