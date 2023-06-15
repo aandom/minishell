@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/13 19:18:04 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/15 18:59:50 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_cmd
     char    *cmd;
     char    **cmdarg;
     char    *path;
+    int     pipeout;
+    int     pipein;
     t_iofiles file;
     struct t_cmd *prev;
     struct t_cmd *next;
