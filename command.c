@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 19:52:44 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/15 19:30:19 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/15 19:38:15 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 	}
 }
 
+void	no_args_cmds(t_data *data)
+{
+	
+}
+
 
 void	extract_command(t_data *data, t_lexer *lexed)
 {
@@ -105,5 +110,5 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == END)
 			break;
 	}
-	fill_args_for_cmds(data);
+	no_args_cmds(data);
 }
