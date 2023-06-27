@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/15 18:59:50 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/27 15:40:53 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ typedef struct s_cmd
     int     pipeout;
     int     pipein;
     t_iofiles file;
-    struct t_cmd *prev;
-    struct t_cmd *next;
+    struct s_cmd *prev;
+    struct s_cmd *next;
 }       t_cmd;
 
 typedef struct s_data
