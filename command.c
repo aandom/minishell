@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 19:52:44 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/27 16:23:27 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/29 21:40:10 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 {
 	t_lexer	*tmp;
 	t_lexer *tmp2;
+	t_lexer *tmp3;
 	char	**newargs;
 	int		i;
 	int		len;
@@ -75,9 +76,11 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 	len = 0;
 	tmp = *token;
 	tmp2 = *token;
-	while (tmp && tmp->type == WORD)
+	while (tmp->type == WORD)
 	{
 		len++;
+		if (tmp->next->type == END)
+			tmp3 = tmp;
 		tmp = tmp->next;
 	}
 	while((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
@@ -91,7 +94,7 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 		newargs[i] = ft_strdup((*lastcmd)->cmdarg[i]);
 		i++;
 	}
-	while (len >= 0 && (tmp2 && tmp2->type == WORD))
+	while (len > 0 && (tmp2 && tmp2->type == WORD))
 	{
 		newargs[i] = ft_strdup(tmp2->str);
 		tmp2 = tmp2->next;
@@ -100,15 +103,18 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 	}
 	newargs[i] = NULL;
 	i = 0;
-	while (newargs[i])
+	while ( (*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
 	{
-		printf("||%s|| ", newargs[i]);
+		free((*lastcmd)->cmdarg[i]);
 		i++;
 	}
-	// free((*lastcmd)->cmdarg);
+	free((*lastcmd)->cmdarg);
 	(*lastcmd)->cmdarg = newargs;
-	printf("\nthe token = %s\n", tmp->str);
-	// *token = tmp;
+	// if (!tmp2)
+	// 	*token = tmp2;
+	// else
+	*token = tmp;
+	printf("token = %s\n", tmp3->str);
 }
 
 void	word_as_cmd(t_cmd **cmds, t_lexer **token)
@@ -124,12 +130,12 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 		if (tmp->prev == NULL || tmp->prev->type == PIPE)
 		{
 			lastcmd->cmd = ft_strdup(tmp->str);
-			tmp = tmp->next;
+			// tmp = tmp->next;
 		}
-		else
-			fill_cmd_args(&tmp, &lastcmd);
+		fill_cmd_args(&tmp, &lastcmd);
+		printf("here\n");
 	}
-	printf("here\n");
+	*token = tmp;
 }
 
 void	no_args_cmds(t_data *data)
@@ -168,8 +174,7 @@ void	extract_command(t_data *data, t_lexer *lexed)
 			add_back_cmd(&data->cmds, new_cmd(0));
 		if (tmp->type == WORD)
 			word_as_cmd(&data->cmds, &tmp);
-		else
-			tmp = tmp->next;
+	
 		// else if (tmp->type == LESS_LESS)
 		// 	ft_heredoc(&data->cmds, &tmp);
 		// else if (tmp->type == GREAT_GREAT)
@@ -178,7 +183,7 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		// 	ft_redirect(&data->cmds, &tmp);
 		// else if (tmp->type == LESS)
 		// 	ft_read_from(&data->cmds, &tmp);
-		// else if (tmp->type == END)
+		else if (tmp->type == END)
 			break;
 	}
 	no_args_cmds(data);

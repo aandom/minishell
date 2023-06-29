@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 19:41:55 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/08 19:20:11 by aandom           ###   ########.fr       */
+/*   Updated: 2023/06/29 21:32:48 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	add_token_to_lexer(t_data *data, size_t idx, int	type)
 		idx++;
 	}
 	word[i] = '\0';
-	printf ("token = %s\n", word);
+	// printf ("token = %s\n", word);
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 
@@ -137,7 +137,7 @@ int extract_word(t_data *data, size_t *i, int start)
 	{
 		if ((*i) != 0 && check_token(data->input, (*i) - 1) == 0)
 			add_word_to_lexer(data, start, (*i), WORD);
-		if (tktype == PIPE || tktype == GREAT || tktype == GREAT_GREAT || tktype == LESS || tktype == LESS_LESS)
+		if (tktype == PIPE || tktype == GREAT || tktype == GREAT_GREAT || tktype == LESS || tktype == LESS_LESS || tktype == END)
 		{
 			add_token_to_lexer(data, (*i), tktype);
 			if (tktype == GREAT_GREAT || tktype == LESS_LESS)
