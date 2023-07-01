@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:11:56 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/29 21:42:06 by aandom           ###   ########.fr       */
+/*   Updated: 2023/07/01 15:52:04 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ void    ft_minishell()
         tmp = data->cmds;
         while (tmp)
         {
-            printf("%s ", tmp->cmd);
+            printf("cmd == %s ", tmp->cmd);
             i = 0;
             while (tmp->cmdarg && tmp->cmdarg[i])
             {
                 printf("%s ", tmp->cmdarg[i]);
                 i++;
             }
+            printf("\n");
             tmp = tmp->next;
         }
         printf("\n");

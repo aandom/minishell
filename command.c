@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 19:52:44 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/29 21:40:10 by aandom           ###   ########.fr       */
+/*   Updated: 2023/07/01 15:48:21 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 			tmp3 = tmp;
 		tmp = tmp->next;
 	}
+	printf("token = %s\n", tmp->str);
 	while((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
 		i++;
 	newargs = malloc(sizeof(char *) * (len + i + 1));
@@ -114,7 +115,6 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 	// 	*token = tmp2;
 	// else
 	*token = tmp;
-	printf("token = %s\n", tmp3->str);
 }
 
 void	word_as_cmd(t_cmd **cmds, t_lexer **token)
@@ -126,6 +126,7 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 	
 	while (tmp->type == WORD)
 	{
+		printf("here\n");
 		lastcmd = get_last_cmd(*cmds);
 		if (tmp->prev == NULL || tmp->prev->type == PIPE)
 		{
@@ -133,7 +134,6 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 			// tmp = tmp->next;
 		}
 		fill_cmd_args(&tmp, &lastcmd);
-		printf("here\n");
 	}
 	*token = tmp;
 }
@@ -185,6 +185,11 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		// 	ft_read_from(&data->cmds, &tmp);
 		else if (tmp->type == END)
 			break;
+		else
+		{
+			printf("I am here\n");	
+			tmp = tmp->next;
+		}
 	}
 	no_args_cmds(data);
 }
