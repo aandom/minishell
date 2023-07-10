@@ -1,42 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_output.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 23:14:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/05 14:43:21 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/08 20:13:40 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/08 20:13:40 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-// void	ft_clean(t_list **lst)
-// {
-// 	t_list	*tmp;
-// 	t_list	*tmp2;
-
-// 	tmp = *lst;
-// 	while (tmp)
-// 	{
-// 		tmp2 = tmp->next;
-// 		free(tmp);
-// 		tmp = tmp2;
-// 	}
-// 	return ;
-// }
-
-char	**clean(char **av)
+void	ft_append(t_data *data, t_cmd **cmds, t_lexer **token)
 {
-	int	i;
-
-	i = 0;
-	while (av[i] != NULL)
-	{
-		free(av[i]);
-		i++;
-	}
-	free(av);
-	return (0);
+	t_cmd   *lstcmd;
+    t_lexer *tmp;
+    
 }

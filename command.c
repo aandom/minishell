@@ -120,18 +120,25 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 {
 	t_cmd	*lastcmd;
+	t_cmd	*new;
 	t_lexer	*tmp;
 	
 	tmp = *token;
 	
 	while (tmp->type == WORD)
 	{
-		printf("here\n");
 		lastcmd = get_last_cmd(*cmds);
-		if (tmp->prev == NULL || tmp->prev->type == PIPE)
+		if (tmp->prev == NULL || tmp->prev->type == PIPE || tmp->prev->prev->type == LESS || tmp->prev->prev->type == LESS_LESS)
 		{
-			lastcmd->cmd = ft_strdup(tmp->str);
-			// tmp = tmp->next;
+			if (lastcmd == NULL || lastcmd->cmd == NULL)
+				lastcmd->cmd = ft_strdup(tmp->str);
+			else
+			{
+				new = new_cmd(0);
+				new->cmd = ft_strdup(tmp->str);
+				add_back_cmd(cmds, new);
+				lastcmd = get_last_cmd(*cmds);
+			}
 		}
 		fill_cmd_args(&tmp, &lastcmd);
 	}
@@ -143,10 +150,6 @@ void	no_args_cmds(t_data *data)
 	
 }
 
-void	ft_read_from(t_cmd **cmds, t_lexer **token)
-{
-	
-}
 
 void	ft_redirect(t_cmd **cmds, t_lexer **token)
 {
@@ -158,10 +161,6 @@ void	ft_append(t_cmd **cmds, t_lexer **token)
 	
 }
 
-void	ft_heredoc(t_cmd **cmds, t_lexer **token)
-{
-	
-}
 
 void	extract_command(t_data *data, t_lexer *lexed)
 {
@@ -174,15 +173,14 @@ void	extract_command(t_data *data, t_lexer *lexed)
 			add_back_cmd(&data->cmds, new_cmd(0));
 		if (tmp->type == WORD)
 			word_as_cmd(&data->cmds, &tmp);
-	
-		// else if (tmp->type == LESS_LESS)
-		// 	ft_heredoc(&data->cmds, &tmp);
+		else if (tmp->type == LESS_LESS)
+			ft_heredoc(data, &data->cmds, &tmp);
+		else if (tmp->type == LESS)
+			ft_read_from(data, &data->cmds, &tmp);
 		// else if (tmp->type == GREAT_GREAT)
 		// 	ft_append(&data->cmds, &tmp);
 		// else if (tmp->type == GREAT)
 		// 	ft_redirect(&data->cmds, &tmp);
-		// else if (tmp->type == LESS)
-		// 	ft_read_from(&data->cmds, &tmp);
 		else if (tmp->type == END)
 			break;
 		else

@@ -18,6 +18,9 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "/usr/include/readline/readline.h"
+# include "/usr/include/readline/history.h"
+# include <sys/fcntl.h>
 
 # define PROMPT "\033[0;32m [Minishell]~$ \x1B[0m"
 
@@ -43,8 +46,11 @@ enum quotes
 
 typedef struct s_iofiles
 {
-    int infile;
-    int outfile;
+    char    *infile;
+    char    *outfile;
+    int     fdin;
+    int     fdout;
+    char    *here_delimter;
 }   t_iofiles;
 
 
@@ -59,14 +65,14 @@ typedef struct s_lexer
 
 typedef struct s_cmd
 {
-    char    *cmd;
-    char    **cmdarg;
-    char    *path;
-    int     pipeout;
-    int     pipein;
-    t_iofiles file;
-    struct s_cmd *prev;
-    struct s_cmd *next;
+    char            *cmd;
+    char            **cmdarg;
+    char            *path;
+    int             pipeout;
+    int             pipein;
+    t_iofiles       *iofiles;
+    struct s_cmd    *prev;
+    struct s_cmd    *next;
 }       t_cmd;
 
 typedef struct s_data
@@ -91,6 +97,19 @@ char	*ft_strdup(const char *src);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strtrim(char const *s1, unsigned char set);
 void	extract_command(t_data *data, t_lexer *lexed);
+t_cmd	*get_last_cmd(t_cmd *cmd);
+t_cmd	*new_cmd(int pipeout);
+void	add_back_cmd(t_cmd **cmds, t_cmd *cmd);
+void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token);
+char	*ft_itoa(int n);
+char	*ft_strjoin(char const *s1, char const *s2);
+int     ft_strncmp(const char *s1, const char *s2, size_t n);
+void    initialize_iofds(t_cmd  *cmd);
+int     remove_prev_iofds(t_iofiles *iofds, int code);
+void	ft_read_from(t_data *data,t_cmd **cmds, t_lexer **token);
+void	ft_append(t_data *data, t_cmd **cmds, t_lexer **token);
+
+
 
 
 # endif

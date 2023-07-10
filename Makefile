@@ -20,7 +20,7 @@ CC = cc
 		@${CC} ${CFLAGS} -c $< -o $@
 
 $(NAME): $(OBJS)
-		 $(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME)
+		 $(CC) $(CFLAGS)  $(OBJS) -o $(NAME) -lreadline
 
 all: $(NAME)
 

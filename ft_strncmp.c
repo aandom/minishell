@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 23:14:03 by aandom            #+#    #+#             */
-/*   Updated: 2023/06/05 14:43:21 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/06 20:01:34 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/06 20:01:34 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	ft_clean(t_list **lst)
-// {
-// 	t_list	*tmp;
-// 	t_list	*tmp2;
-
-// 	tmp = *lst;
-// 	while (tmp)
-// 	{
-// 		tmp2 = tmp->next;
-// 		free(tmp);
-// 		tmp = tmp2;
-// 	}
-// 	return ;
-// }
-
-char	**clean(char **av)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	i;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
+	str1 = (unsigned char *) s1;
+	str2 = (unsigned char *) s2;
 	i = 0;
-	while (av[i] != NULL)
+	if (n == 0)
+		return (0);
+	while ((str1[i] != 0 && str2[i] != 0) && i < n)
 	{
-		free(av[i]);
-		i++;
+		if (str1[i] == str2[i])
+			i++;
+		else
+			return ((int) str1[i] - str2[i]);
 	}
-	free(av);
-	return (0);
+	if (i != n)
+	{
+		return ((int) str1[i] - str2[i]);
+	}
+	return ((int) str1[i - 1] - str2[i - 1]);
 }
