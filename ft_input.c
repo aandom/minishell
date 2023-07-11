@@ -27,7 +27,6 @@ void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token)
     iofds = lastcmd->iofiles;
     if(!remove_prev_iofds(iofds, 1))
         return ;
-    printf("type == %d\n", tmp->next->type);
     if (tmp->next->type == END || tmp->next->str[0] == '\0')
     {
         printf("syntax error near unexpected token\n");

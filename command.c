@@ -42,7 +42,6 @@ t_cmd	*new_cmd(int pipeout)
 	new->pipeout = pipeout;
 	new->next = NULL;
 	new->prev = NULL;
-	
 	return (new);
 }
 
@@ -156,10 +155,7 @@ void	ft_redirect(t_cmd **cmds, t_lexer **token)
 	
 }
 
-void	ft_append(t_cmd **cmds, t_lexer **token)
-{
-	
-}
+
 
 
 void	extract_command(t_data *data, t_lexer *lexed)
@@ -177,8 +173,8 @@ void	extract_command(t_data *data, t_lexer *lexed)
 			ft_heredoc(data, &data->cmds, &tmp);
 		else if (tmp->type == LESS)
 			ft_read_from(data, &data->cmds, &tmp);
-		// else if (tmp->type == GREAT_GREAT)
-		// 	ft_append(&data->cmds, &tmp);
+		else if (tmp->type == GREAT_GREAT)
+			ft_append(data ,&data->cmds, &tmp);
 		// else if (tmp->type == GREAT)
 		// 	ft_redirect(&data->cmds, &tmp);
 		else if (tmp->type == END)
