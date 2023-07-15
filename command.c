@@ -17,9 +17,12 @@ void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
 	t_cmd	*tmp;
 
 	tmp = *cmds;
-	if (!tmp)
+	if (tmp == NULL)
+	{
 		*cmds = cmd;
-	else
+		return ;
+	}
+	if(cmds && *cmds && cmd)
 	{
 		while (tmp->next != NULL)
 			tmp = tmp->next;
@@ -36,6 +39,7 @@ t_cmd	*new_cmd(int pipeout)
 	new = malloc(sizeof(t_cmd));
 	if(!new)
 		return (NULL);
+	ft_memset(new, 0, sizeof(t_cmd));
 	new->cmd = NULL;
 	new->cmdarg = NULL;
 	new->path = NULL;
@@ -47,14 +51,14 @@ t_cmd	*new_cmd(int pipeout)
 
 t_cmd	*get_last_cmd(t_cmd *cmd)
 {
-	t_cmd	*tmp;
+	// t_cmd	*tmp;
 
-	tmp = cmd;
-	if (!tmp)
-		return (NULL);
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	return (tmp);
+	// tmp = cmd;
+	// if (!tmp)
+	// 	return (NULL);
+	while (cmd->next != NULL)
+		cmd = cmd->next;
+	return (cmd);
 }
 
 char **copyargs ()

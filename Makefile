@@ -14,7 +14,7 @@ NAME = minishell
 SRC = $(wildcard *.c)
 OBJS =  $(SRC:.c=.o)
 CFLAGS = 
-CC = cc
+CC = cc -g
 
 %.o: %.c 
 		@${CC} ${CFLAGS} -c $< -o $@

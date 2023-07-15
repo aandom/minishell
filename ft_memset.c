@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 09:53:25 by aandom            #+#    #+#             */
-/*   Updated: 2022/12/22 09:53:25 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/11 19:01:19 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/11 19:01:19 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-char	*ft_strdup(const char *src)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*cp_str;
-	size_t	len;
+	size_t	i;
 
-	len = ft_strlen(src) + 1;
-	cp_str = NULL;
-	printf("len %s = %lu\n", src, len);
-	cp_str = malloc(sizeof(char) * 4);
-	// cp_str = calloc(len, sizeof(char));
-	printf("here\n");
-	if (!cp_str)
-		return (0);
-	// ft_memcpy(cp_str, src, (len + 1));
-	ft_strlcpy(cp_str, src, (len + 1));
-	return (cp_str);
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = c;
+		i++;
+	}
+	return (s);
 }

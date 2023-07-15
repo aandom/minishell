@@ -108,6 +108,8 @@ void    initialize_iofds(t_cmd  *cmd);
 int     remove_prev_iofds(t_iofiles *iofds, int code);
 void	ft_read_from(t_data *data,t_cmd **cmds, t_lexer **token);
 void	ft_append(t_data *data, t_cmd **cmds, t_lexer **token);
+void	*ft_memset(void *s, int c, size_t n);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 
 
 
