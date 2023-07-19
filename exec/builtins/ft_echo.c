@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.abudhabi42.ae>    +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 20:27:33 by tpetros           #+#    #+#             */
 /*   Updated: 2023/07/15 20:27:34 by tpetros          ###   ########.fr       */

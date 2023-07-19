@@ -19,6 +19,11 @@ void    ft_minishell(char **env)
     
     data = malloc(sizeof(t_data));
     copy_env(data, env);
+    // while (data->envar)
+    // {
+    //     printf("%s = %s\n", data->envar->key, data->envar->value);
+    //     data->envar = data->envar->next;
+    // }
     while (1)
     {
         data->input = readline(PROMPT);
