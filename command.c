@@ -29,7 +29,6 @@ void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
 		tmp->next = cmd;
 	}
 	return ;
-	
 }
 
 t_cmd	*new_cmd(int pipeout)
@@ -86,7 +85,6 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 			tmp3 = tmp;
 		tmp = tmp->next;
 	}
-	printf("token = %s\n", tmp->str);
 	while((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
 		i++;
 	newargs = malloc(sizeof(char *) * (len + i + 1));
@@ -114,9 +112,6 @@ void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 	}
 	free((*lastcmd)->cmdarg);
 	(*lastcmd)->cmdarg = newargs;
-	// if (!tmp2)
-	// 	*token = tmp2;
-	// else
 	*token = tmp;
 }
 
@@ -150,16 +145,22 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 
 void	no_args_cmds(t_data *data)
 {
-	
+	t_cmd	*cmds;
+
+	if(!data || data->cmds)
+		return ;
+	cmds = data->cmds;
+	while(cmds && cmds->cmd)
+	{
+		if (!cmds->cmdarg)
+		{
+			cmds->cmdarg = malloc(sizeof(char *) * 2);
+			cmds->cmdarg[0] = ft_strdup(cmds->cmd);
+			cmds->cmdarg[1] = NULL;
+		}
+		cmds = cmds->next;
+	}
 }
-
-
-void	ft_redirect(t_cmd **cmds, t_lexer **token)
-{
-	
-}
-
-
 
 
 void	extract_command(t_data *data, t_lexer *lexed)
@@ -179,15 +180,12 @@ void	extract_command(t_data *data, t_lexer *lexed)
 			ft_read_from(data, &data->cmds, &tmp);
 		else if (tmp->type == GREAT_GREAT)
 			ft_append(data ,&data->cmds, &tmp);
-		// else if (tmp->type == GREAT)
-		// 	ft_redirect(&data->cmds, &tmp);
+		else if (tmp->type == GREAT)
+			ft_redirect(data, &data->cmds, &tmp);
+		else if (tmp->type == PIPE)
+			ft_pipe(data, &data->cmds, &tmp);
 		else if (tmp->type == END)
 			break;
-		else
-		{
-			printf("I am here\n");	
-			tmp = tmp->next;
-		}
 	}
-	no_args_cmds(data);
+	// no_args_cmds(data);
 }

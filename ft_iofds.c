@@ -14,13 +14,11 @@
 
 void    initialize_iofds(t_cmd  *cmd)
 {
-    // printf("%p\n", &cmd->iofiles);
-    // printf("%p\n", &cmd->cmd);
-    // printf("%p\n", &cmd);
     if (!cmd->iofiles)
     {
         printf("success\n");
-        cmd->iofiles = malloc(sizeof(cmd->iofiles));
+        // cmd->iofiles = malloc(sizeof(cmd->iofiles));
+        cmd->iofiles = malloc(sizeof(t_iofiles));
         if (!cmd->iofiles)
             return ;
         cmd->iofiles->infile = NULL;
@@ -33,10 +31,8 @@ void    initialize_iofds(t_cmd  *cmd)
 
 int remove_prev_iofds(t_iofiles *iofds, int code)
 {
-    printf("Hello there\n");
     if (iofds->infile && code == 1)
     {
-        printf("I am here\n");
         if ((iofds->outfile && iofds->fdout == -1) || iofds->fdin == -1)
             return (0);
         if (iofds->here_delimter != NULL)

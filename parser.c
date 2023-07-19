@@ -96,7 +96,7 @@ void	add_word_to_lexer(t_data *data, int start, size_t end, int	type)
 		start++;
 	}
 	word[i] = '\0';
-	printf ("word = %s\n", word);
+	// printf ("word = %s\n", word);
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 

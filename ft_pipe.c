@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 09:53:25 by aandom            #+#    #+#             */
-/*   Updated: 2022/12/22 09:53:25 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/15 21:17:48 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/15 21:17:48 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-char	*ft_strdup(const char *src)
+void    ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token)
 {
-	char	*cp_str;
-	size_t	len;
+    t_cmd   *lastcmd;
+    t_lexer *tmp;
 
-	len = ft_strlen(src) + 1;
-	cp_str = NULL;
-	cp_str = malloc(sizeof(char) * len);
-	// cp_str = calloc(len, sizeof(char));
-	if (!cp_str)
-		return (0);
-	// ft_memcpy(cp_str, src, (len + 1));
-	ft_strlcpy(cp_str, src, (len + 1));
-	return (cp_str);
+    tmp = *token;
+    lastcmd = get_last_cmd(*cmds);
+    lastcmd->pipeout = 1;
+    tmp = tmp->next;
+    *token = tmp;
 }

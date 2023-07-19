@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 
-void    ft_minishell()
+void    ft_minishell(char **env)
 {
     t_data  *data;
+    int     ex_code;
     
     data = malloc(sizeof(t_data));
+    copy_env(data, env);
     while (1)
     {
         data->input = readline(PROMPT);
@@ -24,19 +26,25 @@ void    ft_minishell()
         ft_parser(data);
         remove_quotes(&data->lexed);
         extract_command(data, data->lexed);
+        // ex_code = execute(data);
+
         int i = 0;
-        t_cmd *tmp;
-        tmp = data->cmds;
-        while (tmp)
+        t_evar *tmp;
+        t_evar  *evar;
+        evar = data->envar;
+        tmp = data->envar;
+        while (tmp != NULL)
         {
-            printf("cmd == %s ", tmp->cmd);
-            i = 0;
-            while (tmp->cmdarg && tmp->cmdarg[i])
-            {
-                printf("%s ", tmp->cmdarg[i]);
-                i++;
-            }
-            printf("\n");
+            printf("%s=", tmp->key);
+            printf("%s\n", tmp->value);
+        // //     // i = 0;
+        //     // while (tmp->cmdarg && tmp->cmdarg[i])
+        //     // {
+        //     //     printf("%s ", tmp->cmdarg[i]);
+        //     //     i++;
+        //     // }
+        //     // printf("pipe_out == %d ", tmp->pipeout);
+        //     // printf("\n");
             tmp = tmp->next;
         }
         printf("\n");
@@ -50,5 +58,5 @@ int main(int ac, char **av, char **env)
     (void) env;
     if (ac != 1)
         return (0);
-    ft_minishell();
+    ft_minishell(env);
 }
