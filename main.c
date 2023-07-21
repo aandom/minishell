@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 void    ft_minishell(char **env)
 {
     t_data  *data;
@@ -19,11 +20,7 @@ void    ft_minishell(char **env)
     
     data = malloc(sizeof(t_data));
     copy_env(data, env);
-    // while (data->envar)
-    // {
-    //     printf("%s = %s\n", data->envar->key, data->envar->value);
-    //     data->envar = data->envar->next;
-    // }
+    // ft_env(data->envar);
     while (1)
     {
         data->input = readline(PROMPT);
@@ -40,8 +37,6 @@ void    ft_minishell(char **env)
         tmp = data->envar;
         while (tmp != NULL)
         {
-            printf("%s=", tmp->key);
-            printf("%s\n", tmp->value);
         // //     // i = 0;
         //     // while (tmp->cmdarg && tmp->cmdarg[i])
         //     // {
@@ -63,5 +58,22 @@ int main(int ac, char **av, char **env)
     (void) env;
     if (ac != 1)
         return (0);
+    // printf("\033[34m"); // Set color to blue
+    // printf("⠀⢀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+    // printf("⢀⣧⠞⠁⠀⢀⡹⠆⠠⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+    // printf("⠀⡇⠀⢀⡴⠋⠀⠀⠀⠀⣨⠖⠀⠠⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+    // printf("⠀⡇⢠⠎⠀⠀⠀⢀⡴⠛⠁⠀⠀⠀⠀⠀⠙⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+    // printf("⠀⠸⣶⣾⣦⣄⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
+    // printf("⠀⢸⡿⣭⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣷⣶⣶⣦⡤⡀⠀⠀⠀⠀\n");
+    // printf("⠀⠈⢿⣿⣽⢿⡄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⢸⣿⣿⣿⣿⣯⡲⡄⠀⠀\n");
+    // printf("⠀⠀⠈⢻⣿⣿⢿⣖⡄⣀⠀⠀⠀⠀⠀⠀⠀⡴⠁⣾⣿⣿⠿⠿⠇⠘⡆⠀\n");
+    // printf("⠀⠀⠀⢸⣿⣿⣿⣿⣾⣿⣿⣦⣄⡀⠀⢀⠞⠀⣼⣿⣿⠟⠁⠀⠀⠀⠀⢸⠀\n");
+    // printf("⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⡜⡌⢰⣿⣟⠇⠀⠄⠀⠀⠀⠀⢸⡇\n");
+    // printf("⠀⠀⠀⠀⠹⣿⣷⣿⣻⣿⣿⣿⣿⣧⣧⠃⢾⡿⠙⠘⠘⠀⠀⠀⠀⠀⢸⡇\n");
+    // printf("⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣟⣛⠀⣽⣷⡀⢳⡀⠀⠀⠀⠀⠀⠀⢀⡎⠀\n");
+    // printf("⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣿⣦⣍⠒⠂⠀⠀⠀⣠⠎⠀⠀\n");
+    // printf("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠉⠉⠙⠛⠒⠒⠋⠁⠀⠀⠀\n");
+    // printf("\033[0m"); // Reset color to default
+
     ft_minishell(env);
 }

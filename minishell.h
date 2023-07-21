@@ -21,6 +21,7 @@
 # include "/usr/include/readline/readline.h"
 # include "/usr/include/readline/history.h"
 # include <sys/fcntl.h>
+# include <limits.h>
 
 # define PROMPT "\033[0;32m [Minishell]~$ \x1B[0m"
 

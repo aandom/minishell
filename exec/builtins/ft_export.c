@@ -96,7 +96,8 @@ void	ft_del_env(t_evar *env, char *str)
 	current = env;
     if (current == NULL)
         return ;
-    while (current != NULL && ft_strncmp(current->key, str, ft_strlen(current->key)) != 0) {
+    while (current != NULL && ft_strncmp(current->key, str, ft_strlen(current->key)) != 0) 
+	{
         prev = current;
         current = current->next;
     }
