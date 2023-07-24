@@ -26,28 +26,27 @@ void    ft_minishell(char **env)
         ft_parser(data);
         remove_quotes(&data->lexed);
         extract_command(data, data->lexed);
-        // ex_code = execute(data);
-
+        ex_code = ft_execute(data);
         int i = 0;
         t_evar *tmp;
         t_evar  *evar;
         evar = data->envar;
         tmp = data->envar;
-        while (tmp != NULL)
-        {
-            printf("%s=", tmp->key);
-            printf("%s\n", tmp->value);
-        // //     // i = 0;
-        //     // while (tmp->cmdarg && tmp->cmdarg[i])
-        //     // {
-        //     //     printf("%s ", tmp->cmdarg[i]);
-        //     //     i++;
-        //     // }
-        //     // printf("pipe_out == %d ", tmp->pipeout);
-        //     // printf("\n");
-            tmp = tmp->next;
-        }
-        printf("\n");
+        // while (tmp != NULL)
+        // {
+        //     printf("%s=", tmp->key);
+        //     printf("%s\n", tmp->value);
+        // // //     // i = 0;
+        // //     // while (tmp->cmdarg && tmp->cmdarg[i])
+        // //     // {
+        // //     //     printf("%s ", tmp->cmdarg[i]);
+        // //     //     i++;
+        // //     // }
+        // //     // printf("pipe_out == %d ", tmp->pipeout);
+        // //     // printf("\n");
+        //     tmp = tmp->next;
+        // }
+        // printf("\n");
         free(data->input);
     }
 }

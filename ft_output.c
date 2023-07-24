@@ -83,5 +83,6 @@ void    ft_redirect(t_data *data, t_cmd **cmds, t_lexer **token)
     }
     else
         tmp = tmp->next;
+    printf("fd= %d, for %s\n", iofds->fdout, iofds->outfile);
     *token = tmp;
 }

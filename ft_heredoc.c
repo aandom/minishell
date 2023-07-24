@@ -32,6 +32,7 @@ int create_heredoc(t_data *data, t_iofiles *iofds)
     char    *line;
 
     fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    printf("heredoc name = %s\n", iofds->infile);
     while (1)
 	{
 		line = readline(">");
