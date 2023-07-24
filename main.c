@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+void	sig_ctrlc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
 void    ft_minishell(char **env)
 {
     t_data  *data;
@@ -22,11 +33,13 @@ void    ft_minishell(char **env)
     // ft_env(data->envar);
     while (1)
     {
+        signal(SIGINT, sig_ctrlc);
+        signal(SIGQUIT, SIG_IGN);
         data->input = readline(PROMPT);
         // ft_lexer(data);
         ft_parser(data);
         remove_quotes(&data->lexed);
-        ft_expand(data);
+        // ft_expand(data);
         extract_command(data, data->lexed);
         // ex_code = execute(data);
 
