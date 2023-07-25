@@ -23,6 +23,63 @@ void	sig_ctrlc(int sig)
 	}
 }
 
+void	ft_arr_freer(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
+void	ft_free_iofile(t_iofiles *iofiles)
+{
+	if (!iofiles)
+		return ;
+	if (iofiles->infile)
+		free(iofiles->infile);
+	if (iofiles->outfile)
+		free(iofiles->outfile);
+	if (iofiles->here_delimter)
+		free(iofiles->here_delimter);
+	free(iofiles);
+}
+
+void	ft_lex_freer(t_lexer *lex)
+{
+	t_lexer *tmp;
+
+	tmp = lex;
+	while (tmp)
+	{
+		free(tmp->str);
+		tmp = tmp->next;
+	}
+	free(lex);
+}
+
+void    ft_cmd_freer(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp)
+	{
+		free(tmp->cmd);
+		// free(tmp->path);
+		ft_free_iofile(tmp->iofiles);
+		ft_arr_freer(tmp->cmdarg);
+		tmp = tmp->next;
+	}
+	free(cmd);
+}
+
+
+
 void    ft_minishell(char **env)
 {
     t_data  *data;
@@ -30,51 +87,29 @@ void    ft_minishell(char **env)
     
     data = malloc(sizeof(t_data));
     copy_env(data, env);
-    // ft_env(data->envar);
     while (1)
     {
-        signal(SIGINT, sig_ctrlc);
-        signal(SIGQUIT, SIG_IGN);
-        sig_init(); 
-        data->input = readline(PROMPT);
-        // ft_lexer(data);
-        ft_parser(data);
-        remove_quotes(&data->lexed);
-        // ft_expand(data);
-        extract_command(data, data->lexed);
-        ex_code = ft_execute(data);
-        int i = 0;
-        t_evar *tmp;
-        t_evar  *evar;
-        evar = data->envar;
-        tmp = data->envar;
-        // while (tmp != NULL)
-        // {
-            
-        //     printf("%s=", tmp->key);
-        //     printf("%s\n", tmp->value);
-        // // //     // i = 0;
-        // //     // while (tmp->cmdarg && tmp->cmdarg[i])
-        // //     // {
-        // //     //     printf("%s ", tmp->cmdarg[i]);
-        // //     //     i++;
-        // //     // }
-        // //     // printf("pipe_out == %d ", tmp->pipeout);
-        // //     // printf("\n");
-        //     tmp = tmp->next;
-        // }
-        printf("\n");
-        // printf("\n");
-        free(data->input);
+		signal(SIGINT, sig_ctrlc);
+		signal(SIGQUIT, SIG_IGN);
+		data->input = readline(PROMPT);
+		ft_parser(data);
+		remove_quotes(&data->lexed);
+		ft_expand(data);
+		extract_command(data, data->lexed);
+		ex_code = ft_execute(data);
+		free(data->input);
+		ft_cmd_freer(data->cmds);
+		ft_lex_freer(data->lexed);
     }
 }
+
 
 int main(int ac, char **av, char **env)
 {
     (void) av;
     (void) env;
     if (ac != 1)
-        return (0);
+	return (0);
     // printf("\033[34m"); // Set color to blue
     // printf("⠀⢀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
     // printf("⢀⣧⠞⠁⠀⢀⡹⠆⠠⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");

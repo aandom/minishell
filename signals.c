@@ -12,7 +12,7 @@
 
 # include "minishell.h"
 
-void    set_sig_int(void)
-{
+// void    set_sig_int(void)
+// {
     
-}
+// }

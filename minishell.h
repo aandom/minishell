@@ -134,7 +134,7 @@ void	*ft_memchr(const void *str, int c, size_t n);
 char	*ft_strchr(const char *s, int c);
 int     ft_execute(t_data *data);
 
-
+void    ft_expand(t_data *data);
 
 
 # endif

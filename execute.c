@@ -123,7 +123,7 @@ void    set_iofds(t_iofiles *iofds)
 {
     if (!iofds)
     {
-        printf("no iofds\n");
+        // printf("no iofds\n");
         return ;
     }
     iofds->stdin_cp = dup(STDIN_FILENO);
@@ -259,7 +259,7 @@ int create_forks(t_data *data)
             return (0);
         else if (data->pid == 0)
         {
-            printf("cmd - %s\n ", cmds->cmd);
+            // printf("cmd - %s\n ", cmds->cmd);
             execute_cmd(data, cmds);
         }
         cmds = cmds->next;
