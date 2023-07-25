@@ -23,6 +23,9 @@
 # include "/usr/include/readline/history.h"
 # include <sys/fcntl.h>
 # include <limits.h>
+#include <fcntl.h>
+# include <sys/wait.h>
+# include <errno.h>
 
 # define PROMPT "\033[0;32m [Minishell]~$ \x1B[0m"
 
@@ -59,6 +62,8 @@ typedef struct s_iofiles
     char    *outfile;
     int     fdin;
     int     fdout;
+    int     stdin_cp;
+    int     stdout_cp;
     char    *here_delimter;
 }   t_iofiles;
 
@@ -90,6 +95,7 @@ typedef struct s_data
     char        *input;
     char        **env;
     char        **wdir;
+    pid_t       pid;
     t_cmd       *cmds;
     t_lexer     *lexed;
     t_evar      *envar;
@@ -124,6 +130,9 @@ void    ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token);
 void	*ft_memset(void *s, int c, size_t n);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 void    copy_env(t_data *data, char **env);
+void	*ft_memchr(const void *str, int c, size_t n);
+char	*ft_strchr(const char *s, int c);
+int     ft_execute(t_data *data);
 
 
 

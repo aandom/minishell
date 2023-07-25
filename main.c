@@ -35,14 +35,14 @@ void    ft_minishell(char **env)
     {
         signal(SIGINT, sig_ctrlc);
         signal(SIGQUIT, SIG_IGN);
+        sig_init(); 
         data->input = readline(PROMPT);
         // ft_lexer(data);
         ft_parser(data);
         remove_quotes(&data->lexed);
         // ft_expand(data);
         extract_command(data, data->lexed);
-        // ex_code = execute(data);
-
+        ex_code = ft_execute(data);
         int i = 0;
         t_evar *tmp;
         t_evar  *evar;
@@ -51,11 +51,20 @@ void    ft_minishell(char **env)
         // while (tmp != NULL)
         // {
             
+        //     printf("%s=", tmp->key);
+        //     printf("%s\n", tmp->value);
+        // // //     // i = 0;
+        // //     // while (tmp->cmdarg && tmp->cmdarg[i])
+        // //     // {
+        // //     //     printf("%s ", tmp->cmdarg[i]);
+        // //     //     i++;
+        // //     // }
         // //     // printf("pipe_out == %d ", tmp->pipeout);
         // //     // printf("\n");
         //     tmp = tmp->next;
         // }
         printf("\n");
+        // printf("\n");
         free(data->input);
     }
 }

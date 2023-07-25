@@ -27,6 +27,7 @@ void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = cmd;
+		cmd->prev = tmp;
 	}
 	return ;
 }
