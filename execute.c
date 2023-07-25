@@ -74,6 +74,25 @@ void    close_unused_pipes(t_cmd *headcmd, t_cmd *curcmd)
     }
 }
 
+void    reset_stdio(t_iofiles *iofds)
+{
+    if (!iofds)
+        return ;
+    if (iofds->stdin_cp != -1)
+    {
+        dup2(iofds->stdin_cp, STDIN_FILENO);
+        close(iofds->stdin_cp);
+        iofds->stdin_cp = -1;
+    }
+    if (iofds->stdout_cp != -1)
+    {
+        dup2(iofds->stdout_cp, STDOUT_FILENO);
+        close(iofds->stdout_cp);
+        iofds->stdout_cp = -1;
+    }
+    return ;
+}
+
 void    close_iofds(t_cmd *cmds, int code)
 {
     if (cmds->iofiles)
@@ -82,6 +101,8 @@ void    close_iofds(t_cmd *cmds, int code)
             close(cmds->iofiles->fdin);
         if (cmds->iofiles->fdout != -1)
             close (cmds->iofiles->fdout);
+        if (code = 1)
+            reset_stdio(cmds->iofiles);
     }
     close_unused_pipes(cmds, NULL);
 }

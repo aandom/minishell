@@ -21,6 +21,7 @@ void    ft_minishell(char **env)
     copy_env(data, env);
     while (1)
     {
+        sig_init(); 
         data->input = readline(PROMPT);
         // ft_lexer(data);
         ft_parser(data);
