@@ -136,5 +136,12 @@ int     ft_execute(t_data *data);
 
 void    ft_expand(t_data *data);
 
+void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
+void    voidfree(void *ptr);
+void	ft_arr_freer(char **str);
+void	ft_free_iofile(t_iofiles *iofiles);
+void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
+
+
 
 # endif

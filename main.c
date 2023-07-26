@@ -28,7 +28,7 @@ void	ft_arr_freer(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		free(str[i]);
 		i++;
@@ -49,37 +49,6 @@ void	ft_free_iofile(t_iofiles *iofiles)
 	free(iofiles);
 }
 
-void	ft_lex_freer(t_lexer *lex)
-{
-	t_lexer *tmp;
-
-	tmp = lex;
-	while (tmp)
-	{
-		free(tmp->str);
-		tmp = tmp->next;
-	}
-	free(lex);
-}
-
-void    ft_cmd_freer(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	while (tmp)
-	{
-		free(tmp->cmd);
-		// free(tmp->path);
-		ft_free_iofile(tmp->iofiles);
-		ft_arr_freer(tmp->cmdarg);
-		tmp = tmp->next;
-	}
-	free(cmd);
-}
-
-
-
 void    ft_minishell(char **env)
 {
     t_data  *data;
@@ -97,9 +66,8 @@ void    ft_minishell(char **env)
 		ft_expand(data);
 		extract_command(data, data->lexed);
 		ex_code = ft_execute(data);
-		free(data->input);
-		ft_cmd_freer(data->cmds);
-		ft_lex_freer(data->lexed);
+        ft_lst_clear_token(&data->lexed, voidfree);
+        ft_lst_clear_cmd(&data->cmds, voidfree);
     }
 }
 
