@@ -39,7 +39,7 @@ int count_len(char *s)
     i = 0;
     stat = NOQUOTE;
     c = 0;
-    while (s[i])
+    while (s && s[i])
     {
         if ((s[i] == '\'' || s[i] == '\"') && stat == NOQUOTE)
         {
@@ -141,7 +141,7 @@ void    remove_quotes(t_lexer **lexed)
     t_lexer *tmp;
 
     tmp = *lexed;
-    while(tmp)
+    while(tmp && tmp->str)
     {
         if (inside_quote(tmp->str) && tmp->prev->type != LESS_LESS)
             trim_quote(&tmp);

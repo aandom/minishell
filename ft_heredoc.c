@@ -84,7 +84,6 @@ static char    *update_var(char *str, int index, char *value)
 
     len = ft_strlen(str) - get_var_len(str + index) + ft_strlen(value);
     newstr = copy_token_str(str, value, index, len);
-    // free(str);
     return (newstr);
 }
 
@@ -96,7 +95,6 @@ char    *replace_here_val(char *line, char *value, int index)
         new = delete_var(line, index);
     else
         new = update_var(line, index, value);
-    voidfree(value);
     return (new);
 
 }
@@ -105,13 +103,19 @@ char    *expand_here_var(char *line, t_data *data)
 {
     char    *newline;
     int     i;
+    char    *value;
 
     i = 0;
-    while (line[i])
+
+    while (line && line[i])
     {
         if (line[i] == '$' && is_next_char_sep(line, i))
         {
-            line = replace_here_val(line, extract_here_val(line, i, data), i);
+            // int m = i + ft_strlen(extract_here_val(line, i, data));
+            value = extract_here_val(line, i, data);
+            line = replace_here_val(line, value, i);
+            // line = replace_here_val(line, extract_here_val(line, i, data), i);
+            // printf("line m -[%d] - [%s]\n", m, line);
         } 
         else
             i++;
@@ -137,7 +141,7 @@ int create_heredoc(t_data *data, t_iofiles *iofds)
         {
             tmp = expand_here_var(line, data);
             // line = expand_here_var(line, data);
-            free(line);
+            // voidfree(line);
             line = tmp;
         }
         write(fd, line, ft_strlen(line));
@@ -187,6 +191,7 @@ int check_update_delimiter(char **delim)
         str++;
     }
     d[i] = '\0';
+    voidfree(*delim);
     *delim = d;
     return (1);       
 }

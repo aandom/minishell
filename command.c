@@ -169,6 +169,8 @@ void	extract_command(t_data *data, t_lexer *lexed)
 	t_lexer	*tmp;
 	
 	tmp = lexed;
+	// if (!tmp)
+	// 	return ;
 	while (tmp->next != NULL)
 	{
 		if (tmp == lexed)

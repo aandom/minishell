@@ -17,7 +17,7 @@ void    check_var(t_lexer  **token)
     int i;
 
     i = 0;
-    while ((*token)->str[i])
+    while (*token && (*token)->str && (*token)->str[i])
     {
         if ((*token)->str[i] == '$')
         {
@@ -277,7 +277,7 @@ int    ft_expand_var(t_data *data, t_lexer **token)
     t_lexer *tmp;
 
     tmp = *token;
-    if (tmp->type == PIPE)
+    if (tmp && tmp->type == PIPE)
         return(printf("syntax error near unexpected token"), 1);
     while (tmp)
     {

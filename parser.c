@@ -161,7 +161,7 @@ void    ft_parser(t_data *data)
 	i = 0;
 	start = 0;
 	qtype = NOQUOTE;
-	while (i <= end)
+	while (i <= end && end > 0)
 	{
 		qtype = check_quote(data->input, i, qtype);
 		if (qtype == NOQUOTE)

@@ -69,6 +69,7 @@ void    ft_minishell(char **env)
 		ex_code = ft_execute(data);
         ft_lst_clear_token(&data->lexed, voidfree);
         ft_lst_clear_cmd(&data->cmds, voidfree);
+        free(data->input);
     }
 }
 
