@@ -35,6 +35,8 @@ int check_token(char *str, int i)
 
 int check_quote(char *str, int i, int  quote)
 {
+	if (!str)
+		return (NOQUOTE);
 	if (str[i] == '\'' && quote == NOQUOTE)
 		quote = SINGLE;
 	else if (str[i] == '\"' && quote == NOQUOTE)
