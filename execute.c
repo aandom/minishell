@@ -208,8 +208,8 @@ int execute_cmd(t_data *data, t_cmd *cmd)
     set_iofds(data->cmds->iofiles);
     if (!ft_strchr(cmd->cmd, '/'))
     {
-        // if (is_builtin(cmd->cmd))
-        //     res = execute_builtin(data, cmd);
+        if (is_builtin(cmd->cmd))
+            res = execute_builtin(data, cmd);
 
             // printf("fd2= %d, for %s\n", cmd->iofiles->fdout, cmd->iofiles->outfile);
         // else

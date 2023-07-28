@@ -10,42 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	is_builtin(char *str)
 {
-	if (ft_strncmp(str, "echo", ft_strlen(str)))
+	if (ft_strncmp(str, "cd", 2) == 0)
 		return (1);
-	else if (ft_strncmp(str, "cd", ft_strlen(str)))
+	else if (ft_strncmp(str, "echo", 4) == 0)
 		return (1);
-	else if (ft_strncmp(str, "pwd", ft_strlen(str)))
+	else if (ft_strncmp(str, "pwd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(str, "export", ft_strlen(str)))
+	else if (ft_strncmp(str, "export", 6) == 0)
 		return (1);	
-	else if (ft_strncmp(str, "unset", ft_strlen(str)))
+	else if (ft_strncmp(str, "unset", 5) == 0)
 		return (1);
-	else if (ft_strncmp(str, "env", ft_strlen(str)))
+	else if (ft_strncmp(str, "env", 3) == 0)
 		return (1);
-	else if (ft_strncmp(str, "exit", ft_strlen(str)))
+	else if (ft_strncmp(str, "exit", 4) == 0)
 		return (1);
 	else
 		return (0);
 }
 
-void	exec_builtin(t_cmd *cmd)
+void	execute_builtin(t_data *data, t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd, "echo", ft_strlen(cmd->cmd)))
+	if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
 		ft_echo(cmd);
-	else if (ft_strncmp(cmd->cmd, "cd", ft_strlen(cmd->cmd)))
-		ft_cd();
-	else if (ft_strncmp(cmd->cmd, "pwd", ft_strlen(cmd->cmd)))
-		ft_pwd();
-	else if (ft_strncmp(cmd->cmd, "export", ft_strlen(cmd->cmd)))
-		ft_export();	
-	else if (ft_strncmp(cmd->cmd, "unset", ft_strlen(cmd->cmd)))
-		ft_unset();
-	else if (ft_strncmp(cmd->cmd, "env", ft_strlen(cmd->cmd)))
-		ft_env();
-	else if (ft_strncmp(cmd->cmd, "exit", ft_strlen(cmd->cmd)))
-		ft_exit();
+	else if (ft_strncmp(cmd->cmd, "cd", 2) == 0)
+		ft_cd(data->envar, cmd);
+	else if (ft_strncmp(cmd->cmd, "pwd", 3) == 0)
+		ft_pwd(data->envar);
+	else if (ft_strncmp(cmd->cmd, "export", 6) == 0)
+		ft_export(data);	
+	else if (ft_strncmp(cmd->cmd, "unset", 5) == 0)
+		ft_unset(data, cmd);
+	else if (ft_strncmp(cmd->cmd, "env", 3) == 0)
+		ft_env(data->envar);
+	// else if (ft_strncmp(cmd->cmd, "exit", ft_strlen(cmd->cmd)))
+	// 	ft_exit();
 }

@@ -10,14 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
-void	ft_pwd()
+void	ft_pwd(t_evar *env)
 {
-	char	buff[PATH_MAX];
+	t_evar	*tmp;
 
-	if (getcwd(buff, PATH_MAX))
-		printf("%s\n", buff);
-	else
-		printf("Couldn't retrieve path");
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strncmp("PWD", tmp->key, 4) == 0)
+		{
+			printf("%s\n", tmp->value);
+			break ;
+		}
+		tmp = tmp->next;
+	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	all_n(char *str)
 {
@@ -45,7 +45,7 @@ void	ft_echo(t_cmd *cmd)
 		i++;
 	}
 	if (n_flag != 1)
-		write(1, '\n', 1);
+		write(1, "\n", 1);
 }
 
 

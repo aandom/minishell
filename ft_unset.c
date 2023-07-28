@@ -10,41 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
-void	ft_del_env(t_evar *env, char *str)
+
+void	ft_del_envv(t_evar **head, char *str)
 {
-    t_evar	*current;
-    t_evar	*prev;
+	t_evar	*temp;
+	t_evar	*prev;
 
-	current = env;
-    if (current == NULL)
+    if (!head || !*head || !str)
         return ;
-    while (current != NULL && ft_strncmp(current->key, str, ft_strlen(current->key)) != 0) 
-	{
-        prev = current;
-        current = current->next;
-    }
-    if (current == NULL)
+    temp = *head;
+	prev = NULL;
+    if (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) == 0)
+    {
+        *head = temp->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
         return;
-    if (prev == NULL)
-        env = current->next;
-    else
-        prev->next = current->next;
-    free(current->key);
-	free(current->value);
-    free(current);
+    }
+    while (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) != 0)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return ;
+    prev->next = temp->next;
+    free(temp->key);
+    free(temp->value);
+    free(temp);
 }
 
-
-void	ft_unset(t_data *data)
+void	ft_unset(t_data *data, t_cmd *cmd)
 {
 	int	i;
 
 	i = 1;
-	while (data->cmds->cmdarg[i])
+	while (cmd->cmdarg[i])
 	{
-		ft_del_env(data->envar, data->cmd->cmdargs[i]);
+		ft_del_envv(&data->envar, cmd->cmdarg[i]);
 		i++;
 	}
+	ft_env((data)->envar);
 }

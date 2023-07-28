@@ -158,4 +158,13 @@ char    *copy_token_str(char *str, char *value, int index, int len);
 
 
 
+void	ft_cd(t_evar *env, t_cmd *cmd);
+void	ft_pwd(t_evar *env);
+void	ft_unset(t_data *data, t_cmd *cmd);
+void    ft_export(t_data *d);
+void	execute_builtin(t_data *data, t_cmd *cmd);
+int	    is_builtin(char *str);
+void	ft_env(t_evar *env);
+void	ft_echo(t_cmd *cmd);
+
 # endif
