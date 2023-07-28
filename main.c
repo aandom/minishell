@@ -62,8 +62,9 @@ void    ft_minishell(char **env)
 		signal(SIGQUIT, SIG_IGN);
 		data->input = readline(PROMPT);
 		ft_parser(data);
+        ft_expand_var(data, &data->lexed);
 		remove_quotes(&data->lexed);
-		ft_expand(data);
+		// ft_expand(data);
 		extract_command(data, data->lexed);
 		ex_code = ft_execute(data);
         ft_lst_clear_token(&data->lexed, voidfree);

@@ -57,6 +57,8 @@ t_lexer	*ft_new_token(char	*word, int	type)
 	new->next = NULL;
 	new->prev = NULL;
 	new->type = type;
+	new->is_var = 0;
+	new->quote = NOQUOTE;
 	return(new);
 }
 
@@ -170,6 +172,4 @@ void    ft_parser(t_data *data)
 	{
 		exit(printf("incomplete quotation"));
 	}
-	
-	
 }

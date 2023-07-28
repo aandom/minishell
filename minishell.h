@@ -65,6 +65,7 @@ typedef struct s_iofiles
     int     stdin_cp;
     int     stdout_cp;
     char    *here_delimter;
+    int     here_quote;
 }   t_iofiles;
 
 
@@ -72,7 +73,9 @@ typedef struct s_lexer
 {
     char    *str;
     int     type;
+    int     is_var;
     int     index;
+    int     quote;
     struct s_lexer *prev;
     struct s_lexer *next;
 }       t_lexer;
@@ -141,6 +144,17 @@ void    voidfree(void *ptr);
 void	ft_arr_freer(char **str);
 void	ft_free_iofile(t_iofiles *iofiles);
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
+int     ft_isdigit(int c);
+int     ft_isalpha(int c);
+int     ft_isalnum(int c);
+int     ft_expand_var(t_data *data, t_lexer **token);
+int     is_next_char_sep(char *str, int i);
+char    *extract_var_value(t_lexer *token, int i, t_data *data);
+char    *get_varname(char   *str);
+int     var_in_env(t_evar *envar, char *key);
+char    *get_varvalue(t_evar *evar, char *key);
+int     get_var_len(char *str);
+char    *copy_token_str(char *str, char *value, int index, int len);
 
 
 
