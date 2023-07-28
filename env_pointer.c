@@ -35,6 +35,8 @@ void	env_pointer(t_data *data)
 
 	if (data->env)
 		clean(data->env);
+	if (!data->envar)
+		return ;
 	env_len = ft_envlen(data->envar);
 	tmp = data->envar;
 	i = 0;
