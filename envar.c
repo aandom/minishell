@@ -90,3 +90,31 @@ void    copy_env(t_data *data, char **env)
         i++;
     }
 }
+
+int	env_var_len(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+		i++;
+	return (i);
+}
+
+int initialize_envar(t_data *data, char **env)
+{
+	int		i;
+
+	data->env = malloc( sizeof(char *) * (env_var_len(env) + 1));
+	if (!data->env)
+		return (0);
+	i = 0;
+	while (env[i])
+	{
+		data->env[i] = ft_strdup(env[i]);
+		if (!data->env[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}

@@ -152,7 +152,7 @@ int extract_word(t_data *data, size_t *i, int start)
 	return (start);
 }
 
-void    ft_parser(t_data *data)
+int    ft_parser(t_data *data)
 {
 	size_t i;
 	size_t start;
@@ -171,7 +171,6 @@ void    ft_parser(t_data *data)
 		i++;
 	}
 	if (qtype != NOQUOTE)
-	{
-		exit(printf("incomplete quotation"));
-	}
+		return(printf("incomplete quotation"), 1);
+	return (0);
 }

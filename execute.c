@@ -208,11 +208,12 @@ int execute_cmd(t_data *data, t_cmd *cmd)
     set_iofds(data->cmds->iofiles);
     if (!ft_strchr(cmd->cmd, '/'))
     {
-        // if (is_builtin(cmd->cmd))
-        //     res = execute_builtin(data, cmd);
+        if (is_builtin(cmd->cmd))
+            exec_builtin(cmd);
+            // res = execute_builtin(data, cmd);
 
             // printf("fd2= %d, for %s\n", cmd->iofiles->fdout, cmd->iofiles->outfile);
-        // else
+        else
             res = execute_nopath_cmd(data, cmd);
     }
     // else
@@ -276,12 +277,13 @@ int ft_execute(t_data *data)
     res = check_prepare_exec(data);
     if (res != 127)
         return (res);
+    if (!data->cmds->pipeout && !data->cmds->prev && ft_check_iofiles(data->cmds->iofiles))
+	{
+		set_iofds(data->cmds->iofiles);
+        if (is_builtin(data->cmds->cmd))
+            exec_builtin(data->cmds);
+		// ret = execute_builtin(data, data->cmd);
+		reset_stdio(data->cmds->iofiles);
+	}
     res = create_forks(data);
-    t_cmd *tmp = data->cmds;
-
-    // while (tmp->cmd)
-    // {
-	// 	waitpid(-1, NULL, 0);
-    //     tmp = tmp->next;
-    // }
 }

@@ -260,7 +260,7 @@ int expand_var(t_data *data, t_lexer **token)
                 if (tmp->str[i] == '$' && is_valid_expansion(tmp, i))
                 {
                     replace_var(&tmp, extract_var_value(tmp, i, data), i);
-                    printf("After_replace = [%s]\n", tmp->str);
+                    // printf("After_replace = [%s]\n", tmp->str);
                 }
                 else
                     i++;
@@ -269,7 +269,7 @@ int expand_var(t_data *data, t_lexer **token)
         tmp = tmp->next;
         
     }
-    return (0);
+    return (1);
 }
 
 int    ft_expand_var(t_data *data, t_lexer **token)
@@ -277,12 +277,13 @@ int    ft_expand_var(t_data *data, t_lexer **token)
     t_lexer *tmp;
 
     tmp = *token;
+    printf("token = [%s]\n", tmp->str);
     if (tmp && tmp->type == PIPE)
-        return(printf("syntax error near unexpected token"), 1);
+        return(printf("syntax error near unexpected token"), 0);
     while (tmp)
     {
         check_var(&tmp);
         tmp = tmp->next;
     }
-    expand_var(data, token);
+    return(expand_var(data, token), 1);
 }

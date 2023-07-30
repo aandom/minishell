@@ -16,7 +16,6 @@ void    initialize_iofds(t_cmd  *cmd)
 {
     if (!cmd->iofiles)
     {
-        printf("success\n");
         // cmd->iofiles = malloc(sizeof(cmd->iofiles));
         cmd->iofiles = malloc(sizeof(t_iofiles));
         if (!cmd->iofiles)

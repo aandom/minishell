@@ -27,7 +27,9 @@
 # include <sys/wait.h>
 # include <errno.h>
 
-# define PROMPT "\033[0;32m [Minishell]~$ \x1B[0m"
+# define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
+
+extern int	exit_code;
 
 enum tokentype
 {
@@ -107,7 +109,7 @@ typedef struct s_data
 
 char	**clean(char **av);
 char	**ft_split(char *str, char c);
-void    ft_parser(t_data *data);
+int     ft_parser(t_data *data);
 size_t	ft_strlen(const char *s);
 void    remove_quotes(t_lexer **lexed);
 int     inside_quote(char *str);
@@ -155,6 +157,18 @@ int     var_in_env(t_evar *envar, char *key);
 char    *get_varvalue(t_evar *evar, char *key);
 int     get_var_len(char *str);
 char    *copy_token_str(char *str, char *value, int index, int len);
+void	sig_ctrlc(int sig);
+
+void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
+void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
+int     initialize_envar(t_data *data, char **env);
+void    close_iofds(t_cmd *cmds, int code);
+int     ft_isspace(int c);
+void    exitshell(t_data *data, int excode);
+int     ft_exit(t_data *data, char **args);
+int     ft_strcmp(const char *s1, const char *s2);
+void	exec_builtin(t_cmd *cmd);
+int     is_builtin(char *str);
 
 
 

@@ -99,23 +99,24 @@ char    *replace_here_val(char *line, char *value, int index)
 
 }
 
-char    *expand_here_var(char *line, t_data *data)
+char    *expand_here_var(char *lineorgin, t_data *data)
 {
     char    *newline;
+    char    *line;
     int     i;
     char    *value;
 
     i = 0;
-
+    line = ft_strdup(lineorgin);
     while (line && line[i])
     {
         if (line[i] == '$' && is_next_char_sep(line, i))
         {
-            // int m = i + ft_strlen(extract_here_val(line, i, data));
             value = extract_here_val(line, i, data);
-            line = replace_here_val(line, value, i);
-            // line = replace_here_val(line, extract_here_val(line, i, data), i);
-            // printf("line m -[%d] - [%s]\n", m, line);
+            newline = replace_here_val(line, value, i);
+            voidfree (line);
+            line = newline;
+            // line = replace_here_val(line, value, i);
         } 
         else
             i++;
@@ -135,6 +136,12 @@ int create_heredoc(t_data *data, t_iofiles *iofds)
     while (1)
 	{
 		line = readline(">");
+        if (!line)
+        {
+            printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->here_delimter);
+            close(fd);
+            sig_ctrlc(2);
+        }
 		if (!ft_strncmp(line, iofds->here_delimter, ft_strlen(iofds->here_delimter)))
 			break ;
         else if (iofds->here_quote != 1)

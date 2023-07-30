@@ -118,7 +118,6 @@ void    trim_quote(t_lexer **token)
     {
         if (is_quote(token, i))
         {
-            printf("len = %d\n", len);
             change_to_quote(token, &i);
             continue;
         }
@@ -127,7 +126,6 @@ void    trim_quote(t_lexer **token)
         str[j++] = (*token)->str[i++];
     }
     str[j] = '\0';
-    printf("after_trim = [%s]\n", str);
     free((*token)->str);
     (*token)->str = str;
     return ;
