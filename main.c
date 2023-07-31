@@ -133,15 +133,9 @@ int parse_input(t_data *data)
         ft_exit(data, NULL);
     }
     else if (ft_strcmp(data->input, "\0") == 0)
-    {
-        printf("data->input == 0\n");
         return (0);
-    }
     else if (all_space(data->input))
-    {
-        printf("data->input == all space\n");
         return (1);
-    }
     add_history(data->input);
     if (ft_parser(data) == 1)
     {

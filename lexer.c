@@ -139,9 +139,9 @@ void    remove_quotes(t_lexer **lexed)
     t_lexer *tmp;
 
     tmp = *lexed;
-    while(tmp && tmp->str)
+    while(tmp && tmp->str && tmp->type != END)
     {
-        if (inside_quote(tmp->str) && tmp->prev->type != LESS_LESS)
+        if (inside_quote(tmp->str) && (tmp->prev  && tmp->prev->type != LESS_LESS))
             trim_quote(&tmp);
         tmp = tmp->next;
     }

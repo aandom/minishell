@@ -277,7 +277,7 @@ int    ft_expand_var(t_data *data, t_lexer **token)
     t_lexer *tmp;
 
     tmp = *token;
-    printf("token = [%s]\n", tmp->str);
+    // printf("token = [%s]\n", tmp->str);
     if (tmp && tmp->type == PIPE)
         return(printf("syntax error near unexpected token"), 0);
     while (tmp)

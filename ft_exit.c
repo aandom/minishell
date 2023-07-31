@@ -105,7 +105,7 @@ int ft_exit(t_data *data, char **args)
     is_valid_code = 1; 
     if (!valid_arg)
         printf("exit\n");
-    if (!args && !args[1])
+    if (!args || !args[1])
         ex_code = exit_code;
     else
     {

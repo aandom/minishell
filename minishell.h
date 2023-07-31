@@ -167,9 +167,16 @@ int     ft_isspace(int c);
 void    exitshell(t_data *data, int excode);
 int     ft_exit(t_data *data, char **args);
 int     ft_strcmp(const char *s1, const char *s2);
-void	exec_builtin(t_cmd *cmd);
-int     is_builtin(char *str);
 
 
+
+void	ft_cd(t_evar *env, t_cmd *cmd);
+void	ft_pwd(t_evar *env);
+void	ft_unset(t_data *data, t_cmd *cmd);
+void    ft_export(t_data *d);
+void	execute_builtin(t_data *data, t_cmd *cmd);
+int	    is_builtin(char *str);
+void	ft_env(t_evar *env);
+void	ft_echo(t_cmd *cmd);
 
 # endif

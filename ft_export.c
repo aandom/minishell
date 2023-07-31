@@ -10,53 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 static char    *extract_key(char *str)
 {
-    char    *res;
-    size_t  len;
+	char    *res;
+	size_t  len;
 
-    len = 0;
-    while (str[len] && str[len] != '=')
-        len++;
-    res = ft_substr(str, 0, len);
-    return(res);
+	len = 0;
+	while (str[len] && str[len] != '=')
+		len++;
+	res = ft_substr(str, 0, len);
+	return(res);
 }
 
 static char    *extract_value(char *str)
 {
-    char    *res;
-    size_t  len;
-    size_t  start;
+	char    *res;
+	size_t  len;
+	size_t  start;
 
-    start = 0;
-    while (str[start] && str[start] != '=')
-        start++;
-    start++;
-    len = ft_strlen(str + start);
-    res = ft_substr(str, start, len);
-    return(res);
+	start = 0;
+	while (str[start] && str[start] != '=')
+		start++;
+	start++;
+	len = ft_strlen(str + start);
+	res = ft_substr(str, start, len);
+	return(res);
 }
 
 
 static t_evar  *new_evar(char  *str)
 {
-    t_evar  *newvar;
+	t_evar  *newvar;
 
-    newvar  = malloc(sizeof(t_evar));
-    if(!newvar)
-        return (NULL);
-    newvar->key = extract_key(str);
-    newvar->value = extract_value(str);
-    newvar->next = NULL;
-    return (newvar);
-    
+	newvar  = malloc(sizeof(t_evar));
+	if(!newvar)
+		return (NULL);
+	newvar->key = extract_key(str);
+	newvar->value = extract_value(str);
+	newvar->next = NULL;
+	return (newvar);
+	
 }
 
 static void    add_back_env(t_evar **evar, t_evar *newvar)
 {
-    t_evar	*tmp;
+	t_evar	*tmp;
 
 	tmp = *evar;
 	if (tmp == NULL)
@@ -88,28 +88,34 @@ int	ft_already_exit(t_evar *env, char *str)
 	return (0);
 }
 
-void	ft_del_env(t_evar *env, char *str)
+void	ft_del_env(t_evar **head, char *str)
 {
-    t_evar	*current;
-    t_evar	*prev;
+	t_evar	*temp;
+	t_evar	*prev;
 
-	current = env;
-    if (current == NULL)
+    if (!head || !*head || !str)
         return ;
-    while (current != NULL && ft_strncmp(current->key, str, ft_strlen(current->key)) != 0) 
-	{
-        prev = current;
-        current = current->next;
-    }
-    if (current == NULL)
+    temp = *head;
+	prev = NULL;
+    if (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) == 0)
+    {
+        *head = temp->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
         return;
-    if (prev == NULL)
-        env = current->next;
-    else
-        prev->next = current->next;
-    free(current->key);
-	free(current->value);
-    free(current);
+    }
+    while (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) != 0)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return ;
+    prev->next = temp->next;
+    free(temp->key);
+    free(temp->value);
+    free(temp);
 }
 
 void    ft_export(t_data *d)
@@ -124,9 +130,9 @@ void    ft_export(t_data *d)
 		while (d->cmds->cmdarg[i])
 		{
 			tmp = new_evar(d->cmds->cmdarg[i]);
-			if (ft_already_exit(d->envar, tmp->value))
-				ft_del_env(d->envar, tmp->key);
-			add_back_env(d->envar, tmp);
+			if (ft_already_exit(d->envar, tmp->key))
+				ft_del_env(&d->envar, tmp->key);
+			add_back_env(&d->envar, tmp);
 			i++;
 		}
 	}
@@ -139,6 +145,7 @@ void    ft_export(t_data *d)
 			tmp2 = tmp2->next;
 		}
 	}
+	ft_env(d->envar);
 }
 
 

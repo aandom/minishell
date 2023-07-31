@@ -182,6 +182,7 @@ int execute_nopath_cmd(t_data *data, t_cmd *cmd)
 {
     char    *c_exe;
 
+    // printf("cmd = [%s]\n", cmd->cmd);
     if (!cmd)
         exit(printf("empty command\n"));
     c_exe = get_cmd(data->envar, cmd);
@@ -209,8 +210,7 @@ int execute_cmd(t_data *data, t_cmd *cmd)
     if (!ft_strchr(cmd->cmd, '/'))
     {
         if (is_builtin(cmd->cmd))
-            exec_builtin(cmd);
-            // res = execute_builtin(data, cmd);
+            execute_builtin(data, cmd);
 
             // printf("fd2= %d, for %s\n", cmd->iofiles->fdout, cmd->iofiles->outfile);
         else
@@ -281,8 +281,12 @@ int ft_execute(t_data *data)
 	{
 		set_iofds(data->cmds->iofiles);
         if (is_builtin(data->cmds->cmd))
-            exec_builtin(data->cmds);
-		// ret = execute_builtin(data, data->cmd);
+        {
+            printf("I am here\n");
+            execute_builtin(data, data->cmds);
+            exitshell(data, 0);
+        }
+		// res = execute_builtin(data, data->cmds);
 		reset_stdio(data->cmds->iofiles);
 	}
     res = create_forks(data);
