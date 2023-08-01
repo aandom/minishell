@@ -196,6 +196,19 @@ int execute_nopath_cmd(t_data *data, t_cmd *cmd)
     return(0);
 }
 
+int execute_path_cmd(t_data *data, t_cmd *cmd)
+{
+    if(!cmd->cmd)
+        exit(printf("command not found\n"));
+    if (execve(cmd->cmd, cmd->cmdarg, data->env) == -1)
+	{
+		perror(cmd->cmdarg[0]);
+		exit(printf("execve error\n"));
+	}
+    return(0);
+}
+
+
 int execute_cmd(t_data *data, t_cmd *cmd)
 {
     int res;
@@ -210,14 +223,16 @@ int execute_cmd(t_data *data, t_cmd *cmd)
     if (!ft_strchr(cmd->cmd, '/'))
     {
         if (is_builtin(cmd->cmd))
+        {
             execute_builtin(data, cmd);
+        }
 
             // printf("fd2= %d, for %s\n", cmd->iofiles->fdout, cmd->iofiles->outfile);
         else
             res = execute_nopath_cmd(data, cmd);
     }
-    // else
-    //     res = execute_path_cmd(data, cmd);
+    else
+        res = execute_path_cmd(data, cmd);
     if (res == 0)
         exit(printf("command executed successfully"));
 }
@@ -282,12 +297,15 @@ int ft_execute(t_data *data)
 		set_iofds(data->cmds->iofiles);
         if (is_builtin(data->cmds->cmd))
         {
-            printf("I am here\n");
             execute_builtin(data, data->cmds);
-            exitshell(data, 0);
+            res = 1;
         }
+        else
+            res = 127;
 		// res = execute_builtin(data, data->cmds);
 		reset_stdio(data->cmds->iofiles);
 	}
+    if (res != 127)\
+        return (res);
     res = create_forks(data);
 }

@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:31:20 by tpetros           #+#    #+#             */
-/*   Updated: 2023/07/31 15:49:32 by aandom           ###   ########.fr       */
+/*   Updated: 2023/07/31 16:21:28 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ void	execute_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
 	{
 		ft_echo(cmd);
-		// return ;
-		printf("built echo\n");
-
 	}
 	else if (ft_strncmp(cmd->cmd, "cd", 2) == 0)
 		ft_cd(data->envar, cmd);
@@ -51,6 +48,6 @@ void	execute_builtin(t_data *data, t_cmd *cmd)
 		ft_unset(data, cmd);
 	else if (ft_strncmp(cmd->cmd, "env", 3) == 0)
 		ft_env(data->envar);
-	else if (ft_strncmp(cmd->cmd, "exit", 4) == 0);
+	else if (ft_strncmp(cmd->cmd, "exit", 4) == 0)
 		ft_exit(data, cmd->cmdarg);
 }
