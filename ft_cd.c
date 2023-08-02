@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/07/31 14:44:00 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:45:52 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	old_pwd(t_evar *env)
 void	new_pwd(t_evar *env)
 {
 	t_evar	*tmp;
-	char 	newpwd[PATH_MAX];
+	char	newpwd[PATH_MAX];
 
 	tmp = env;
 	getcwd(newpwd, PATH_MAX);
@@ -142,26 +142,30 @@ void	new_pwd(t_evar *env)
 	}
 }
 
-void	ft_cd(t_evar *env, t_cmd *cmd)
+int	ft_cd(t_evar *env, t_cmd *cmd)
 {
 	t_evar	*tmp;
+	int		code;
 
 	tmp = env;
+	code = EXIT_SUCCESS;
+	if (cmd->cmdarg[2] != NULL)
+		return (ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO), EXIT_FAILURE);
 	old_pwd(env);
-	if (!(cmd->cmdarg[1]) || !ft_strncmp(cmd->cmdarg[1], "~", 1))
+	if ((cmd->cmdarg[1]) == NULL || !ft_strncmp(cmd->cmdarg[1], "~", 1))
 	{
 		while (tmp)
 		{
-			if (ft_strncmp("HOME", tmp->key, 4) == 0)
-			{
+			if (ft_strcmp("HOME", tmp->key) == 0)
 				chdir(tmp->value);
-				break ;
-			}
 			tmp = tmp->next;
 		}
 	}
 	else if (chdir(cmd->cmdarg[1]) != 0)
-		printf("%s: no such file or directory\n", cmd->cmdarg[1]);
+	{
+		perror("minishell: cd");
+		return (code = EXIT_FAILURE, code);
+	}
 	new_pwd(env);
-	ft_env(env);
+	return (code);
 }

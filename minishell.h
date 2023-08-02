@@ -157,7 +157,6 @@ int     var_in_env(t_evar *envar, char *key);
 char    *get_varvalue(t_evar *evar, char *key);
 int     get_var_len(char *str);
 char    *copy_token_str(char *str, char *value, int index, int len);
-void	sig_ctrlc(int sig);
 
 void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
@@ -170,13 +169,26 @@ int     ft_strcmp(const char *s1, const char *s2);
 
 
 
-void	ft_cd(t_evar *env, t_cmd *cmd);
-void	ft_pwd(t_evar *env);
-void	ft_unset(t_data *data, t_cmd *cmd);
-void    ft_export(t_data *d);
-void	execute_builtin(t_data *data, t_cmd *cmd);
+int	    ft_cd(t_evar *env, t_cmd *cmd);
+int 	ft_pwd();
+int		ft_unset(t_data *data, t_cmd *cmd);
+int		ft_export(t_data *d);
+int 	execute_builtin(t_data *data, t_cmd *cmd);
 int	    is_builtin(char *str);
 void	ft_env(t_evar *env);
-void	ft_echo(t_cmd *cmd);
+int 	ft_echo(t_cmd *cmd);
+
+
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
+
+void	expecting_input(void);
+void	ft_bzero(void *s, size_t n);
+void	not_expecting_input(void);
+
+void	env_pointer(t_data *data);
+void	sort_env(char **tab, int env_len);
+int	    ft_envlen(t_evar *env);
 
 # endif

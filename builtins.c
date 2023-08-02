@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:31:20 by tpetros           #+#    #+#             */
-/*   Updated: 2023/07/31 16:21:28 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:48:38 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,42 @@
 
 int	is_builtin(char *str)
 {
-	if (ft_strncmp(str, "cd", 2) == 0)
+	if (!ft_strcmp(str, "cd"))
 		return (1);
-	else if (ft_strncmp(str, "echo", 4) == 0)
+	else if (!ft_strcmp(str, "echo"))
 		return (1);
-	else if (ft_strncmp(str, "pwd", 3) == 0)
+	else if (!ft_strcmp(str, "pwd"))
 		return (1);
-	else if (ft_strncmp(str, "export", 6) == 0)
-		return (1);	
-	else if (ft_strncmp(str, "unset", 5) == 0)
+	else if (!ft_strcmp(str, "export"))
 		return (1);
-	else if (ft_strncmp(str, "env", 3) == 0)
+	else if (!ft_strcmp(str, "unset"))
 		return (1);
-	else if (ft_strncmp(str, "exit", 4) == 0)
+	else if (!ft_strcmp(str, "env"))
+		return (1);
+	else if (!ft_strcmp(str, "exit"))
 		return (1);
 	else
 		return (0);
 }
 
-void	execute_builtin(t_data *data, t_cmd *cmd)
+int	execute_builtin(t_data *data, t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd, "echo", 4) == 0)
-	{
-		ft_echo(cmd);
-	}
-	else if (ft_strncmp(cmd->cmd, "cd", 2) == 0)
-		ft_cd(data->envar, cmd);
-	else if (ft_strncmp(cmd->cmd, "pwd", 3) == 0)
-		ft_pwd(data->envar);
-	else if (ft_strncmp(cmd->cmd, "export", 6) == 0)
-		ft_export(data);	
-	else if (ft_strncmp(cmd->cmd, "unset", 5) == 0)
-		ft_unset(data, cmd);
-	else if (ft_strncmp(cmd->cmd, "env", 3) == 0)
+	int	code;
+
+	code = 0;
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		code = ft_echo(cmd);
+	else if (!ft_strcmp(cmd->cmd, "cd"))
+		code = ft_cd(data->envar, cmd);
+	else if (!ft_strcmp(cmd->cmd, "pwd"))
+		code = ft_pwd();
+	else if (!ft_strcmp(cmd->cmd, "export"))
+		code = ft_export(data);
+	else if (!ft_strcmp(cmd->cmd, "unset"))
+		code = ft_unset(data, cmd);
+	else if (!ft_strcmp(cmd->cmd, "env"))
 		ft_env(data->envar);
-	else if (ft_strncmp(cmd->cmd, "exit", 4) == 0)
-		ft_exit(data, cmd->cmdarg);
+	else if (!ft_strcmp(cmd->cmd, "exit"))
+		code = ft_exit(data, cmd->cmdarg);
+	return (code);
 }

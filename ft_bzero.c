@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 13:26:14 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/02 12:46:45 by tpetros          ###   ########.fr       */
+/*   Created: 2022/09/24 15:17:03 by tpetros           #+#    #+#             */
+/*   Updated: 2023/08/02 12:00:15 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+void	ft_bzero(void *s, size_t n)
 {
-	char	PRESENT_WORKING_DIR[PATH_MAX];
-
-	if (getcwd(PRESENT_WORKING_DIR, PATH_MAX))
-	{
-		printf("%s\n", PRESENT_WORKING_DIR);
-		return (EXIT_SUCCESS);
-	}
-	else
-		return (EXIT_FAILURE);
+	ft_memset(s, 0, n);
 }

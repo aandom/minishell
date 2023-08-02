@@ -14,17 +14,6 @@
 
 int exit_code;
 
-void	sig_ctrlc(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
 void	ft_arr_freer(char **str)
 {
 	int	i;
@@ -158,26 +147,26 @@ int parse_input(t_data *data)
 }
 
 
-void    ft_minishell_new(t_data *data)
+void	ft_minishell_new(t_data *data)
 {
-    while (1)
-    {
-        data->input = readline(PROMPT);
-        if (parse_input(data) == 1)
-            exit_code = ft_execute(data);
-        else
-            exit_code = 1;
-        free_all(data);
-    }
-    
+	while ('T')
+	{
+		expecting_input();
+		data->input = readline(PROMPT);
+		not_expecting_input();
+		if (parse_input(data) == 1)
+			exit_code = ft_execute(data);
+		else
+			exit_code = 1;
+		free_all(data);
+	}
 }
-
 
 int initialize_data(t_data *data, char **env)
 {
     if (!initialize_envar(data, env))
     {
-        write(2, "Couldn't initialize env", ft_strlen("Couldn't initialize env"));
+        ft_putendl_fd("Couldn't initialize env", STDERR_FILENO);
         return (0);
     }
     data->lexed = NULL;

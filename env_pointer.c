@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:25:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/07/28 15:25:43 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:21:12 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,31 @@ void	env_pointer(t_data *data)
 		data->env[i] = ft_strjoin(ft_strjoin(tmp->key, "="), tmp->value);
 		i++;
 		tmp = tmp->next;
+	}
+}
+
+void		sort_env(char **tab, int env_len)
+{
+	int		ordered;
+	int		i;
+	char	*tmp;
+
+	ordered = 0;
+	while (tab && ordered == 0)
+	{
+		ordered = 1;
+		i = 0;
+		while (i < env_len - 1)
+		{
+			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[i + 1];
+				tab[i + 1] = tmp;
+				ordered = 0;
+			}
+			i++;
+		}
+		env_len--;
 	}
 }

@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 13:26:14 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/02 12:46:45 by tpetros          ###   ########.fr       */
+/*   Created: 2022/10/08 12:02:26 by tpetros           #+#    #+#             */
+/*   Updated: 2023/08/01 19:22:50 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+void	ft_putchar_fd(char c, int fd)
 {
-	char	PRESENT_WORKING_DIR[PATH_MAX];
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
+}
 
-	if (getcwd(PRESENT_WORKING_DIR, PATH_MAX))
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
 	{
-		printf("%s\n", PRESENT_WORKING_DIR);
-		return (EXIT_SUCCESS);
+		ft_putchar_fd(s[i], fd);
+		i++;
 	}
-	else
-		return (EXIT_FAILURE);
 }
