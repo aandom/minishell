@@ -147,12 +147,7 @@ char    *extract_var_value(t_lexer *token, int i, t_data *data)
     if (varname && var_in_env(data->envar, varname))
         varvalue = get_varvalue(data->envar, varname);
     else if(varname && varname[0] == '?')
-    {
-        // varvalue = (ft_itoa(last_exit_code));
-        varvalue = NULL;
-        // return (NULL);
-        
-    }
+        varvalue = ft_itoa(exit_code);
     else
         varvalue = NULL;
     voidfree(varname);

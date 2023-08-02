@@ -26,6 +26,7 @@
 #include <fcntl.h>
 # include <sys/wait.h>
 # include <errno.h>
+#include <sys/stat.h>
 
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
 
