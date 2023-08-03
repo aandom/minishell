@@ -267,14 +267,58 @@ int expand_var(t_data *data, t_lexer **token)
     return (1);
 }
 
-int    ft_expand_var(t_data *data, t_lexer **token)
+int check_consecutive(t_lexer *token)
+{
+    if(token->prev)
+    {
+        if (token->type == PIPE && token->prev->type == PIPE)
+            return (1);
+        if (token->type >= PIPE && token->prev->type > PIPE)
+            return (1);
+        if (token->type == END && token->prev->type >= PIPE)
+            return (1);
+    }
+    return (0);
+}
+
+int parsing_check(t_lexer **token)
 {
     t_lexer *tmp;
 
     tmp = *token;
-    // printf("token = [%s]\n", tmp->str);
     if (tmp && tmp->type == PIPE)
-        return(printf("syntax error near unexpected token"), 0);
+    {
+        ft_errmsg(TOK_ERR, "|\'", NOQUOTE);
+        return (1);
+    }
+    while (tmp)
+    {
+        if (check_consecutive(tmp))
+        {
+            if (tmp->type == END && tmp->prev && tmp->prev->type > PIPE)
+                ft_errmsg(TOK_ERR, "newline\'", NOQUOTE);
+            else if (tmp->type == END && tmp->prev)
+                ft_errmsg(TOK_ERR, tmp->prev->str, NOQUOTE);
+            else
+                ft_errmsg(TOK_ERR, tmp->str, NOQUOTE);
+            return (1);
+        }
+        tmp = tmp->next;
+    }
+    return (0);
+}
+
+int ft_expand_var(t_data *data, t_lexer **token)
+{
+    t_lexer *tmp;
+
+    tmp = *token;
+    // if (tmp && tmp->type == PIPE)
+    // {
+    //     ft_errmsg(TOK_ERR, "|\'", NOQUOTE);
+    //     return (1);
+    //     // return(printf("syntax error near unexpected token"), 0);
+    // }
     while (tmp)
     {
         check_var(&tmp);

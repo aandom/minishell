@@ -27,7 +27,7 @@ int inside_quote(char *str)
 {
     if (check_quote(str, 0, NOQUOTE) == SINGLE || check_quote(str, 0, NOQUOTE) == DOUBLE)
         return (1);
-    return(0);
+    return(1);
 }
 
 int count_len(char *s)
@@ -111,9 +111,11 @@ void    trim_quote(t_lexer **token)
     i = 0;
     j = 0;
     len = count_len((*token)->str);
+    printf("len = [%d]\n", len);
     str = malloc(sizeof(char) * len + 1);
     if (!str)
         return ;
+    // printf("before_trim = [%s]\n", (*token)->str);
     while((*token)->str[i])
     {
         if (is_quote(token, i))
@@ -126,6 +128,7 @@ void    trim_quote(t_lexer **token)
         str[j++] = (*token)->str[i++];
     }
     str[j] = '\0';
+    printf("After_trim = [%s]\n", str);
     free((*token)->str);
     (*token)->str = str;
     return ;

@@ -60,45 +60,13 @@ void    exitshell(t_data *data, int excode)
         if (data->cmds && data->cmds->iofiles)
             close_iofds(data->cmds, 1);
         free_all(data);
+        if (data->env)
+            ft_arr_freer(data->env);
+        // if (data->envar)
+        voidfree(data);
     }
     exit(excode);
 }
-
-
-// void    ft_minishell(char **env)
-// {
-//     t_data  *data;
-//     int     ex_code;
-    
-//     data = malloc(sizeof(t_data));
-//     ft_memset(data, 0, sizeof(t_data));
-//     copy_env(data, env);
-//     while (1)
-//     {
-// 		signal(SIGINT, sig_ctrlc);
-// 		signal(SIGQUIT, SIG_IGN);
-// 		data->input = readline(PROMPT);
-//         if (!data->input)
-//         {
-//             printf("exit\n");
-//             exit(0);
-//         }
-//         if (data->input[0] == '\0')
-//         {
-//             voidfree(data->input);
-//             continue;
-//         }
-// 		ft_parser(data);
-//         ft_expand_var(data, &data->lexed);
-// 		remove_quotes(&data->lexed);
-// 		// ft_expand(data);
-// 		extract_command(data, data->lexed);
-// 		ex_code = ft_execute(data);
-//         ft_lst_clear_token(&data->lexed, voidfree);
-//         ft_lst_clear_cmd(&data->cmds, voidfree);
-//         free(data->input);
-//     }
-// }
 
 int all_space(char *str)
 {
@@ -117,30 +85,20 @@ int all_space(char *str)
 int parse_input(t_data *data)
 {
     if (data->input == NULL)
-    {
-        printf("data->input == NULL\n");
         ft_exit(data, NULL);
-    }
     else if (ft_strcmp(data->input, "\0") == 0)
         return (0);
     else if (all_space(data->input))
         return (1);
     add_history(data->input);
     if (ft_parser(data) == 1)
-    {
-        printf("ft_parser\n");
         return (0);
-    }
     if (data->lexed->type == END)
-    {
-        printf("data->lexed->type = END\n");
         return (0);
-    }
+    if (parsing_check(&data->lexed) == 1)
+        return (0);
     if (ft_expand_var(data, &data->lexed) == 0)
-    {
-        printf("ft_expand_var_error\n");
         return (0);
-    }
     remove_quotes(&data->lexed);
     extract_command(data, data->lexed);
     return(1);
@@ -200,7 +158,5 @@ int main(int ac, char **av, char **env)
     (void) env;
     if (ac != 1)
 	    return (127);
-    
-    // ft_minishell(env);
     my_minishell(env);
 }

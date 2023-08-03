@@ -100,7 +100,6 @@ void	add_word_to_lexer(t_data *data, int start, size_t end, int	type)
 		start++;
 	}
 	word[i] = '\0';
-	// printf ("word = %s\n", word);
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 
@@ -171,6 +170,10 @@ int    ft_parser(t_data *data)
 		i++;
 	}
 	if (qtype != NOQUOTE)
-		return(printf("incomplete quotation"), 1);
+	{
+		ft_errmsg(QERRMSG, NULL, qtype);
+		ft_errmsg("syntax error: ", "unexpected end of file", NOQUOTE);
+		return (1);
+	}
 	return (0);
 }

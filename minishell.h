@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "/usr/include/readline/readline.h"
@@ -29,20 +30,21 @@
 #include <sys/stat.h>
 
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
+# define QERRMSG "unexpected EOF while looking for matching `"
+# define TOK_ERR "syntax error near unexpected token `"
 
 extern int	exit_code;
 
 enum tokentype
 {
-    PIPE = 1,
+    WORD = 1,
+    STAB,
+    PIPE,
     GREAT,
     LESS,
     GREAT_GREAT,
     LESS_LESS,
-    WORD,
-    STAB,
-    VAR,
-    END,
+    END
 };
 
 enum quotes
@@ -159,6 +161,7 @@ char    *get_varvalue(t_evar *evar, char *key);
 int     get_var_len(char *str);
 char    *copy_token_str(char *str, char *value, int index, int len);
 
+
 void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
 int     initialize_envar(t_data *data, char **env);
@@ -167,6 +170,10 @@ int     ft_isspace(int c);
 void    exitshell(t_data *data, int excode);
 int     ft_exit(t_data *data, char **args);
 int     ft_strcmp(const char *s1, const char *s2);
+void	ft_putendl_fd(char *s, int fd);
+int     print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
+void    ft_errmsg(char *msg, char *info, int quote);
+int     parsing_check(t_lexer **token);
 
 
 

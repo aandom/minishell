@@ -104,7 +104,7 @@ int ft_exit(t_data *data, char **args)
     valid_arg = exit_with_arg(data);
     is_valid_code = 1; 
     if (!valid_arg)
-        printf("exit\n");
+        ft_putendl_fd("exit", STDERR_FILENO);
     if (!args || !args[1])
         ex_code = exit_code;
     else
@@ -112,11 +112,15 @@ int ft_exit(t_data *data, char **args)
         ex_code = get_exit_code(args[1], &is_valid_code);
         if(!is_valid_code)
         {
-            printf("exit: %s: numeric argument required\n", args[1]);
-            exit_code = 2;
+            // printf("exit: %s: numeric argument required\n", args[1]);
+            exit_code = print_errmsg("exit", args[1], "numeric argument required", 2);
+            // exit_code = 2;
         }
         else if (args[2])
-            return (printf("exit: too many arguments\n"), 1);
+        {
+            return(print_errmsg("exit", NULL, "too many arguments", 1));
+            // return (printf("exit: too many arguments\n"), 1);
+        }
     }
     exitshell(data, exit_code);
     return (2);

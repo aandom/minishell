@@ -141,7 +141,6 @@ int create_heredoc(t_data *data, t_iofiles *iofds)
         {
             printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->here_delimter);
             break;
-            // sig_ctrlc(2);
         }
 		if (!ft_strncmp(line, iofds->here_delimter, ft_strlen(iofds->here_delimter)))
 			break ;

@@ -27,25 +27,23 @@ void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token)
     iofds = lastcmd->iofiles;
     if(!remove_prev_iofds(iofds, 1))
         return ;
-    if (tmp->next->type == END || tmp->next->str[0] == '\0')
-    {
-        printf("syntax error near unexpected token\n");
-        exit(0);
-        return ;
-    }
     iofds->infile = ft_strdup(tmp->next->str);
+    // if (access(iofds->infile, F_OK | R_OK) != 0)
+    // {
+    //     print_errmsg(iofds->infile, NULL, strerror(errno), 1);
+    //     return ;
+    // }
     fd = open(iofds->infile, O_RDONLY);
     if (fd == -1)
     {
-        printf("error while opening a file\n");
-        exit(1);
-        return ;
+       print_errmsg(iofds->infile, NULL, strerror(errno), 1);
+       while (tmp->next && tmp->next->type != PIPE)
+            tmp = tmp->next;
+        // return ;
     }
     iofds->fdin = fd;
     if (tmp->next->next)
-    {
         tmp = tmp->next->next;
-    }
     else
         tmp = tmp->next;
     *token = tmp;

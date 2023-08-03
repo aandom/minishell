@@ -203,7 +203,7 @@ int execute_nopath_cmd(t_data *data, t_cmd *cmd)
     c_exe = get_cmd(data->envar, cmd);
     if(!c_exe)
     {
-        printf("path not found \n");
+        printf("path not found [%s]\n", cmd->cmd);
         // printf("%s: command not found\n", cmd->cmdarg[0]);
         return (127);
         // exit(printf("command not found\n"));
@@ -298,18 +298,11 @@ int fork_wait(t_data *data)
 		continue ;
 	}
 	if (WIFSIGNALED(status))
-    {
-        printf("WIFSIGNALED\n");
 		status = 128 + WTERMSIG(status);
-    }
 	else if (WIFEXITED(status))
-    {
-        printf("WIFEXITED\n");
 		status = WEXITSTATUS(status);
-    }
 	else
     {
-        printf("NO_SIGNAL\n");
 		// status = res;
         status = status;
     }
@@ -333,7 +326,7 @@ int create_forks(t_data *data)
     }
     int a = (fork_wait(data));
     // return (fork_wait(data));
-    printf("last_exit = [%d]\n", a);
+    // printf("last_exit = [%d]\n", a);
     return (a);
     // waitpid(-1, NULL, 0);
 }
