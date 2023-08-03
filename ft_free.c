@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-// void	ft_clean(t_list **lst)
-// {
-// 	t_list	*tmp;
-// 	t_list	*tmp2;
-
-// 	tmp = *lst;
-// 	while (tmp)
-// 	{
-// 		tmp2 = tmp->next;
-// 		free(tmp);
-// 		tmp = tmp2;
-// 	}
-// 	return ;
-// }
-
 char	**clean(char **av)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:26:14 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/02 12:46:45 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/03 20:13:44 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	ft_pwd(void)
 {
-	char	PRESENT_WORKING_DIR[PATH_MAX];
+	char	pwd[PATH_MAX];
 
-	if (getcwd(PRESENT_WORKING_DIR, PATH_MAX))
+	if (getcwd(pwd, PATH_MAX))
 	{
-		printf("%s\n", PRESENT_WORKING_DIR);
+		printf("%s\n", pwd);
 		return (EXIT_SUCCESS);
 	}
 	else

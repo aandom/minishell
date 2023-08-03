@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int check_token(char *str, int i)
+int	check_token(char *str, int i)
 {
 	if ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		return (STAB);
@@ -28,12 +28,11 @@ int check_token(char *str, int i)
 		return (LESS);
 	if (str[i] == '\0')
 		return (END);
-	else 
+	else
 		return (0);
-	
 }
 
-int check_quote(char *str, int i, int  quote)
+int	check_quote(char *str, int i, int quote)
 {
 	if (!str)
 		return (NOQUOTE);
@@ -45,14 +44,14 @@ int check_quote(char *str, int i, int  quote)
 		quote = NOQUOTE;
 	else if (str[i] == '\"' && quote == DOUBLE)
 		quote = NOQUOTE;
-	return(quote);
+	return (quote);
 }
 
-t_lexer	*ft_new_token(char	*word, int	type)
+t_lexer	*ft_new_token(char *word, int type)
 {
-	t_lexer *new;
-	
-	new = malloc(sizeof(t_lexer));
+	t_lexer	*new;
+
+	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!new)
 		return (NULL);
 	new->str = word;
@@ -61,13 +60,13 @@ t_lexer	*ft_new_token(char	*word, int	type)
 	new->type = type;
 	new->is_var = 0;
 	new->quote = NOQUOTE;
-	return(new);
+	return (new);
 }
 
 void	ft_add_token_back(t_lexer **tokens, t_lexer *new)
 {
 	t_lexer	*tmp;
-	
+
 	tmp = *tokens;
 	if (tmp == NULL)
 	{
@@ -84,13 +83,13 @@ void	ft_add_token_back(t_lexer **tokens, t_lexer *new)
 	return ;
 }
 
-void	add_word_to_lexer(t_data *data, int start, size_t end, int	type)
+void	add_word_to_lexer(t_data *data, int start, size_t end, int type)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = malloc(sizeof(char) * (end - start + 1));
+	word = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!word)
 		return ;
 	while (start < end)
@@ -103,7 +102,7 @@ void	add_word_to_lexer(t_data *data, int start, size_t end, int	type)
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 
-void	add_token_to_lexer(t_data *data, size_t idx, int	type)
+void	add_token_to_lexer(t_data *data, size_t idx, int type)
 {
 	char	*word;
 	int		i;
@@ -113,7 +112,7 @@ void	add_token_to_lexer(t_data *data, size_t idx, int	type)
 	end = 2;
 	if (type == GREAT_GREAT || type == LESS_LESS)
 	{
-		word = malloc (sizeof(char) * 3);
+		word = (char *)malloc (sizeof(char) * 3);
 		end = 3;
 	}
 	else
@@ -127,20 +126,20 @@ void	add_token_to_lexer(t_data *data, size_t idx, int	type)
 		idx++;
 	}
 	word[i] = '\0';
-	// printf ("token = %s\n", word);
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 
-int extract_word(t_data *data, size_t *i, int start)
+int	extract_word(t_data *data, size_t *i, int start)
 {
 	int		tktype;
 
-	tktype = check_token(data->input,(*i));
+	tktype = check_token(data->input, (*i));
 	if (tktype != 0)
 	{
 		if ((*i) != 0 && check_token(data->input, (*i) - 1) == 0)
 			add_word_to_lexer(data, start, (*i), WORD);
-		if (tktype == PIPE || tktype == GREAT || tktype == GREAT_GREAT || tktype == LESS || tktype == LESS_LESS || tktype == END)
+		if (tktype == PIPE || tktype == GREAT || tktype == GREAT_GREAT
+			|| tktype == LESS || tktype == LESS_LESS || tktype == END)
 		{
 			add_token_to_lexer(data, (*i), tktype);
 			if (tktype == GREAT_GREAT || tktype == LESS_LESS)
@@ -151,12 +150,12 @@ int extract_word(t_data *data, size_t *i, int start)
 	return (start);
 }
 
-int    ft_parser(t_data *data)
+int	ft_parser(t_data *data)
 {
-	size_t i;
-	size_t start;
-	size_t end;
-	int    qtype;
+	size_t	i;
+	size_t	start;
+	size_t	end;
+	int		qtype;
 
 	end = ft_strlen(data->input);
 	i = 0;

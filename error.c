@@ -10,47 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
-# include "minishell.h"
-
-int print_errmsg(char *cmd, char *info, char *errmsg, int errnum)
+int	print_errmsg(char *cmd, char *info, char *errmsg, int errnum)
 {
-    char    *message;
-    int     quote;
+	char	*message;
+	int		quote;
 
-    message = ft_strdup("minishell: ");
-    if (cmd != NULL)
-    {
-        message = ft_strjoin(message, cmd);
-        message = ft_strjoin(message, ": ");
-    }
-    if (info != NULL)
-    {
-        message = ft_strjoin(message, info);
-        message = ft_strjoin(message, ": ");
-    }
-    message = ft_strjoin(message, errmsg);
-    ft_putendl_fd(message, STDERR_FILENO);
-    free(message);
-    return(errnum);
+	message = ft_strdup("minishell: ");
+	if (cmd != NULL)
+	{
+		message = ft_strjoin(message, cmd);
+		message = ft_strjoin(message, ": ");
+	}
+	if (info != NULL)
+	{
+		message = ft_strjoin(message, info);
+		message = ft_strjoin(message, ": ");
+	}
+	message = ft_strjoin(message, errmsg);
+	ft_putendl_fd(message, STDERR_FILENO);
+	free(message);
+	return (errnum);
 }
 
-void    ft_errmsg(char *msg, char *info, int quote)
+void	ft_errmsg(char *msg, char *info, int quote)
 {
-    char *message;
+	char	*message;
 
-    message = ft_strdup("minishell: ");
-    message = ft_strjoin(message, msg);
-    if (info != NULL)
-        message = ft_strjoin(message, info);
-    if (quote == SINGLE)
-        message = ft_strjoin(message, "\'");
-    else if (quote == DOUBLE)
-        message = ft_strjoin(message, "\"");
-    if (quote != NOQUOTE)
-        message = ft_strjoin(message, "\'");
-    ft_putendl_fd(message, STDERR_FILENO);
-    voidfree(message);
-
-
+	message = ft_strdup("minishell: ");
+	message = ft_strjoin(message, msg);
+	if (info != NULL)
+		message = ft_strjoin(message, info);
+	if (quote == SINGLE)
+		message = ft_strjoin(message, "\'");
+	else if (quote == DOUBLE)
+		message = ft_strjoin(message, "\"");
+	if (quote != NOQUOTE)
+		message = ft_strjoin(message, "\'");
+	ft_putendl_fd(message, STDERR_FILENO);
+	voidfree(message);
 }

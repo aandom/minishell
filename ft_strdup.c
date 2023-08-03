@@ -20,10 +20,8 @@ char	*ft_strdup(const char *src)
 	len = ft_strlen(src) + 1;
 	cp_str = NULL;
 	cp_str = malloc(sizeof(char) * len);
-	// cp_str = calloc(len, sizeof(char));
 	if (!cp_str)
 		return (0);
-	// ft_memcpy(cp_str, src, (len + 1));
 	ft_strlcpy(cp_str, src, (len + 1));
 	return (cp_str);
 }

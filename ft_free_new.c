@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void    voidfree(void *ptr)
+void	voidfree(void *ptr)
 {
-    if (ptr)
-    {
-        free(ptr);
-        ptr = NULL;
-    }
-    return ;
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+	return ;
 }
 
 void	ft_delone_token(t_lexer *lst, void (*del)(void*))
@@ -29,11 +29,11 @@ void	ft_delone_token(t_lexer *lst, void (*del)(void*))
 		(del)(lst->str);
 		lst->str = NULL;
 	}
-    if (lst->prev)
-        lst->prev->next = lst->next;
-    if (lst->next)
-        lst->next->prev = lst->prev;
-    // voidfree(lst);
+	if (lst->prev)
+		lst->prev->next = lst->next;
+	if (lst->next)
+		lst->next->prev = lst->prev;
+	// voidfree(lst);
 }
 
 void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*))
@@ -45,24 +45,23 @@ void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*))
 		while (*lst)
 		{
 			m = (*lst)->next;
-            ft_delone_token(*lst, del);
-			// (*del)((*lst)->content);
+			ft_delone_token(*lst, del);
 			free(*lst);
 			*lst = m;
 		}
 	}
 }
 
-void    ft_delone_cmd(t_cmd *lst, void (*del) (void *))
+void	ft_delone_cmd(t_cmd *lst, void (*del) (void *))
 {
-    if (lst->cmd)
-        (*del)(lst->cmd);
-    if (lst->tube)
-        (*del)(lst->tube);
-    if (lst->cmdarg)
-        ft_arr_freer(lst->cmdarg);
-    if (lst->iofiles)
-        ft_free_iofile(lst->iofiles);
+	if (lst->cmd)
+		(*del)(lst->cmd);
+	if (lst->tube)
+		(*del)(lst->tube);
+	if (lst->cmdarg)
+		ft_arr_freer(lst->cmdarg);
+	if (lst->iofiles)
+		ft_free_iofile(lst->iofiles);
 }
 
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*))
@@ -74,8 +73,7 @@ void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*))
 		while (*lst)
 		{
 			m = (*lst)->next;
-            ft_delone_cmd(*lst, del);
-			// (*del)((*lst)->content);
+			ft_delone_cmd(*lst, del);
 			free(*lst);
 			*lst = m;
 		}

@@ -22,7 +22,7 @@ void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
 		*cmds = cmd;
 		return ;
 	}
-	if(cmds && *cmds && cmd)
+	if (cmds && *cmds && cmd)
 	{
 		while (tmp->next != NULL)
 			tmp = tmp->next;
@@ -35,9 +35,9 @@ void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
 t_cmd	*new_cmd(int pipeout)
 {
 	t_cmd	*new;
-	
-	new = malloc(sizeof(t_cmd));
-	if(!new)
+
+	new = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!new)
 		return (NULL);
 	ft_memset(new, 0, sizeof(t_cmd));
 	new->cmd = NULL;
@@ -51,26 +51,21 @@ t_cmd	*new_cmd(int pipeout)
 
 t_cmd	*get_last_cmd(t_cmd *cmd)
 {
-	// t_cmd	*tmp;
+	t_cmd	*tmp;
 
-	// tmp = cmd;
-	// if (!tmp)
-	// 	return (NULL);
+	tmp = cmd;
+	if (!tmp)
+		return (NULL);
 	while (cmd->next != NULL)
 		cmd = cmd->next;
 	return (cmd);
 }
 
-char **copyargs ()
-{
-	return (NULL);
-}
-
 void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 {
 	t_lexer	*tmp;
-	t_lexer *tmp2;
-	t_lexer *tmp3;
+	t_lexer	*tmp2;
+	t_lexer	*tmp3;
 	char	**newargs;
 	int		i;
 	int		len;
@@ -120,42 +115,43 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 {
 	t_cmd	*lastcmd;
 	t_cmd	*new;
-	t_lexer	*tmp;
+	t_lexer	*t;
 	
-	tmp = *token;
-	
-	while (tmp->type == WORD)
+	t = *token;
+
+	while (t->type == WORD)
 	{
 		lastcmd = get_last_cmd(*cmds);
-		if (tmp->prev == NULL || tmp->prev->type == PIPE || tmp->prev->prev->type == LESS || tmp->prev->prev->type == LESS_LESS)
+		if (t->prev == NULL || t->prev->type == PIPE
+			|| t->prev->prev->type == LESS || t->prev->prev->type == LESS_LESS)
 		{
 			if (lastcmd == NULL || lastcmd->cmd == NULL)
-				lastcmd->cmd = ft_strdup(tmp->str);
+				lastcmd->cmd = ft_strdup(t->str);
 			else
 			{
 				new = new_cmd(0);
-				new->cmd = ft_strdup(tmp->str);
+				new->cmd = ft_strdup(t->str);
 				add_back_cmd(cmds, new);
 				lastcmd = get_last_cmd(*cmds);
 			}
 		}
-		fill_cmd_args(&tmp, &lastcmd);
+		fill_cmd_args(&t, &lastcmd);
 	}
-	*token = tmp;
+	*token = t;
 }
 
 void	no_args_cmds(t_data *data)
 {
 	t_cmd	*cmds;
 
-	if(!data || data->cmds)
+	if (!data || data->cmds)
 		return ;
 	cmds = data->cmds;
-	while(cmds && cmds->cmd)
+	while (cmds && cmds->cmd)
 	{
 		if (!cmds->cmdarg)
 		{
-			cmds->cmdarg = malloc(sizeof(char *) * 2);
+			cmds->cmdarg = (char **)malloc(sizeof(char *) * 2);
 			cmds->cmdarg[0] = ft_strdup(cmds->cmd);
 			cmds->cmdarg[1] = NULL;
 		}
@@ -163,11 +159,10 @@ void	no_args_cmds(t_data *data)
 	}
 }
 
-
 void	extract_command(t_data *data, t_lexer *lexed)
 {
 	t_lexer	*tmp;
-	
+
 	tmp = lexed;
 	while (tmp->next != NULL)
 	{
@@ -180,13 +175,12 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == LESS)
 			ft_read_from(data, &data->cmds, &tmp);
 		else if (tmp->type == GREAT_GREAT)
-			ft_append(data ,&data->cmds, &tmp);
+			ft_append(data, &data->cmds, &tmp);
 		else if (tmp->type == GREAT)
 			ft_redirect(data, &data->cmds, &tmp);
 		else if (tmp->type == PIPE)
 			ft_pipe(data, &data->cmds, &tmp);
 		else if (tmp->type == END)
-			break;
+			break ;
 	}
-	// no_args_cmds(data);
 }

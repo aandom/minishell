@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int check_max(unsigned long long num, int sign, int *is_valid)
+int	check_max(unsigned long long num, int sign, int *is_valid)
 {
-    if (sign == 1 && num > LONG_MAX)
-        *is_valid = 1;
-    else if (sign == -1 && num > -(unsigned long)LONG_MIN)
+	if (sign == 1 && num > LONG_MAX)
+		*is_valid = 1;
+	else if (sign == -1 && num > -(unsigned long)LONG_MIN)
 		*is_valid = 1;
 	return (*is_valid);
 }
@@ -35,93 +35,85 @@ int	set_sign(const char *str, int *sign, int i)
 	return (c);
 }
 
-long long  ft_atoi_lu(char *str, int *is_valid)
+long long	ft_atoi_lu(char *str, int *is_valid)
 {
-    unsigned long long  num;
-    size_t  i;
-    int     sign;
+	unsigned long long	num;
+	size_t				i;
+	int					sign;
 
-    i = 0;
-    sign = 1;
-    num = 0;
-    while (str[i] && ft_isspace(str[i]))
-        i++;
-    i = i + set_sign(str, &sign, i);
-    while (str[i] && ft_isdigit(str[i]))
-    {
-        num = (num * 10) + (str[i] - '0');
-		if (check_max(num, sign, is_valid))
-			break;
+	i = 0;
+	sign = 1;
+	num = 0;
+	while (str[i] && ft_isspace(str[i]))
 		i++;
-    }
-    return (num * sign);
+	i = i + set_sign(str, &sign, i);
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		num = (num * 10) + (str[i] - '0');
+		if (check_max(num, sign, is_valid))
+			break ;
+		i++;
+	}
+	return (num * sign);
 }
 
-int get_exit_code(char *exarg, int *is_valid)
+int	get_exit_code(char *exarg, int *is_valid)
 {
-    unsigned long long   i;
+	unsigned long long	i;
 
-    if (!exarg)
-        return(exit_code);
-    i = 0;
-    while (ft_isspace(exarg[i]))
-        i++;
-    if(exarg[i] == '\0')
-        *is_valid = 0;
-    if(exarg[i] == '-' || exarg[i] == '+')
-        i++;
-    if(!ft_isdigit(exarg[i]))
-        *is_valid = 0;
-    while (exarg[i])
-    {
-        if (!ft_isdigit(exarg[i]) && !ft_isspace(exarg[i]))
-            *is_valid = 0;
-        i++;
-    }
-    i = ft_atoi_lu(exarg, is_valid);
-    return (i % 256);
+	if (!exarg)
+		return (g_exit_code);
+	i = 0;
+	while (ft_isspace(exarg[i]))
+		i++;
+	if (exarg[i] == '\0')
+		*is_valid = 0;
+	if (exarg[i] == '-' || exarg[i] == '+')
+		i++;
+	if (!ft_isdigit(exarg[i]))
+		*is_valid = 0;
+	while (exarg[i])
+	{
+		if (!ft_isdigit(exarg[i]) && !ft_isspace(exarg[i]))
+			*is_valid = 0;
+		i++;
+	}
+	i = ft_atoi_lu(exarg, is_valid);
+	return (i % 256);
 }
 
-
-int exit_with_arg(t_data *data)
+int	exit_with_arg(t_data *data)
 {
-    t_cmd   *cmd;
+	t_cmd	*cmd;
 
-    cmd = data->cmds;
-    if (!cmd)
-        return (0);
-    if (cmd->prev || cmd->next)
-        return (1);
-    return (0);
+	cmd = data->cmds;
+	if (!cmd)
+		return (0);
+	if (cmd->prev || cmd->next)
+		return (1);
+	return (0);
 }
 
-int ft_exit(t_data *data, char **args)
+int	ft_exit(t_data *data, char **args)
 {
-    int ex_code;
-    int valid_arg;
-    int is_valid_code;
+	int	ex_code;
+	int	valid_arg;
+	int	is_valid_code;
 
-    valid_arg = exit_with_arg(data);
-    is_valid_code = 1; 
-    if (!valid_arg)
-        ft_putendl_fd("exit", STDERR_FILENO);
-    if (!args || !args[1])
-        ex_code = exit_code;
-    else
-    {
-        ex_code = get_exit_code(args[1], &is_valid_code);
-        if(!is_valid_code)
-        {
-            // printf("exit: %s: numeric argument required\n", args[1]);
-            exit_code = print_errmsg("exit", args[1], "numeric argument required", 2);
-            // exit_code = 2;
-        }
-        else if (args[2])
-        {
-            return(print_errmsg("exit", NULL, "too many arguments", 1));
-            // return (printf("exit: too many arguments\n"), 1);
-        }
-    }
-    exitshell(data, exit_code);
-    return (2);
+	valid_arg = exit_with_arg(data);
+	is_valid_code = 1; 
+	if (!valid_arg)
+		ft_putendl_fd("exit", STDERR_FILENO);
+	if (!args || !args[1])
+		ex_code = g_exit_code;
+	else
+	{
+		ex_code = get_exit_code(args[1], &is_valid_code);
+		if (!is_valid_code)
+			g_exit_code = print_errmsg("exit", args[1], "numeric argument required", 2);
+		else if (args[2])
+			return (print_errmsg("exit", NULL, "too many arguments", 1));
+	}
+	exitshell(data, g_exit_code);
+	return (2);
 }
