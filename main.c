@@ -118,7 +118,7 @@ void	ft_minishell_new(t_data *data)
 			g_exit_code = ft_execute(data);
 		else
 			g_exit_code = 1;
-		free_all(data);
+		free_all(data, 0);
 	}
 }
 

@@ -59,7 +59,7 @@ int	is_valid_expansion(t_lexer *token, int i)
 	return (1);
 }
 
-int	get_var_len(char *str)
+int	var_len(char *str)
 {
 	int	i;
 	int	count;
@@ -100,7 +100,7 @@ char	*get_varname(char *str)
 		}
 		start++;
 	}
-	len = get_var_len(str);
+	len = var_len(str);
 	varname = ft_substr(str, start, len);
 	if (!varname)
 		return (NULL);
@@ -155,32 +155,30 @@ char	*extract_var_value(t_lexer *token, int i, t_data *data)
 
 void	delete_var(t_lexer **token, char *str, int index)
 {
-	char	*newstr;
-	int		len;
+	char	*new;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	len = ft_strlen(str) - get_var_len(str + index);
-	newstr = malloc (sizeof(char) * (len + 1));
-	if (!newstr)
+	new = malloc (sizeof(char) * (ft_strlen(str) - var_len(str + index) + 1));
+	if (!new)
 		return ;
 	while (str[i])
 	{
 		if (i == index && str[i] == '$')
 		{
-			i = i + get_var_len(str + index) + 1;
+			i = i + var_len(str + index) + 1;
 			if (str[i] == '\0')
 				break ;
 		}
-		newstr[j] = str[i];
+		new[j] = str[i];
 		i++;
 		j++;
 	}
-	newstr[j] = '\0';
+	new[j] = '\0';
 	voidfree((*token)->str);
-	(*token)->str = newstr;
+	(*token)->str = new;
 	return ;
 }
 
@@ -201,7 +199,7 @@ char	*copy_token_str(char *str, char *value, int index, int len)
 	{
 		if (i == index && str[i] == '$')
 		{
-			i = i + get_var_len(str + index) + 1;
+			i = i + var_len(str + index) + 1;
 			while (value[m])
 				newstr[j++] = value[m++];
 			if (str[i] == '\0')
@@ -218,7 +216,7 @@ void	update_var(t_lexer **token, char *str, int index, char *value)
 	char	*newstr;
 	int		len;
 
-	len = ft_strlen(str) - get_var_len(str + index) + ft_strlen(value);
+	len = ft_strlen(str) - var_len(str + index) + ft_strlen(value);
 	newstr = copy_token_str(str, value, index, len);
 	free((*token)->str);
 	(*token)->str = newstr;

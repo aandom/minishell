@@ -156,7 +156,7 @@ char	*extract_var_value(t_lexer *token, int i, t_data *data);
 char	*get_varname(char *str);
 int		var_in_env(t_evar *envar, char *key);
 char	*get_varvalue(t_evar *evar, char *key);
-int		get_var_len(char *str);
+int		var_len(char *str);
 char	*copy_token_str(char *str, char *value, int index, int len);
 
 void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));

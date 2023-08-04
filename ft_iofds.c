@@ -36,7 +36,7 @@ int	remove_prev_iofds(t_iofiles *iofds, int code)
 		if (iofds->here_delimter != NULL)
 		{
 			free(iofds->here_delimter);
-			iofds->here_delimter == NULL;
+			iofds->here_delimter = NULL;
 			unlink(iofds->infile);
 		}
 		free(iofds->infile);

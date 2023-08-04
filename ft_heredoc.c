@@ -50,7 +50,7 @@ static char	*delete_var(char *str, int index)
 
 	i = 0;
 	j = 0;
-	len = ft_strlen(str) - get_var_len(str + index);
+	len = ft_strlen(str) - var_len(str + index);
 	newstr = malloc (sizeof(char) * (len + 1));
 	if (!newstr)
 		return (NULL);
@@ -58,7 +58,7 @@ static char	*delete_var(char *str, int index)
 	{
 		if (i == index && str[i] == '$')
 		{
-			i = i + get_var_len(str + index) + 1;
+			i = i + var_len(str + index) + 1;
 			if (str[i] == '\0')
 				break ;
 		}
@@ -75,7 +75,7 @@ static char	*update_var(char *str, int index, char *value)
 	char	*newstr;
 	int		len;
 
-	len = ft_strlen(str) - get_var_len(str + index) + ft_strlen(value);
+	len = ft_strlen(str) - var_len(str + index) + ft_strlen(value);
 	newstr = copy_token_str(str, value, index, len);
 	return (newstr);
 }
@@ -118,7 +118,6 @@ char	*expand_here_var(char *lineorgin, t_data *data)
 int	create_heredoc(t_data *data, t_iofiles *iofds)
 {
 	int		fd;
-	int		i;
 	char	*line;
 	char	*tmp;
 
