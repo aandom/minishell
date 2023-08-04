@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/04 15:16:35 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/04 17:10:41 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	ft_print_export(t_data *data)
 	i = 0;
 	while (tab[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(tab[i], 1);
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putendl_fd(tab[i], STDOUT_FILENO);
 		i++;
 	}
 }

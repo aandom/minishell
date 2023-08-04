@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/03 17:06:25 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 17:50:48 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_cd(t_evar *env, t_cmd *cmd)
 	tmp = env;
 	code = EXIT_SUCCESS;
 	if (cmd->cmdarg[2] != NULL)
-		return (ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO), EXIT_FAILURE);
+		return (ft_putendl_fd("minishell: cd: too many arguments"
+				, STDERR_FILENO), EXIT_FAILURE);
 	old_pwd(env);
 	if ((cmd->cmdarg[1]) == NULL || !ft_strncmp(cmd->cmdarg[1], "~", 1))
 	{

@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:29:59 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/03 18:28:20 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 17:48:05 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,9 @@ int	ft_unset(t_data *data, t_cmd *cmd)
 	code = EXIT_SUCCESS;
 	while (cmd->cmdarg[i])
 	{
-		if (is_invalid_key(cmd->cmdarg[i]) == 0)
-		{
-			printf("minishell: unset: `%s': not a valid identifier\n",
-				cmd->cmdarg[i]);
-			code = EXIT_FAILURE;
-		}
-		else
-			ft_del_env(&data->envar, cmd->cmdarg[i]);
+		ft_del_env(&data->envar, cmd->cmdarg[i]);
 		i++;
 	}
+	env_pointer(data);
 	return (code);
 }

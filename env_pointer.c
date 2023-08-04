@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:25:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/03 17:21:54 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 16:10:45 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	env_pointer(t_data *data)
 	int		i;
 
 	if (data->env)
-		clean(data->env);
+		ft_arr_freer(data->env);
 	if (!data->envar)
 		return ;
 	env_len = ft_envlen(data->envar);

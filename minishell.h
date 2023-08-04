@@ -180,7 +180,7 @@ int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
 int		execute_builtin(t_data *data, t_cmd *cmd);
 int		is_builtin(char *str);
-int		ft_env(t_evar *env);
+int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
 
 void	ft_putendl_fd(char *s, int fd);
