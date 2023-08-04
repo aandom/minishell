@@ -35,8 +35,8 @@ void	ft_free_iofile(t_iofiles *iofiles)
 		free(iofiles->infile);
 	if (iofiles->outfile)
 		free(iofiles->outfile);
-	if (iofiles->here_delimter)
-		free(iofiles->here_delimter);
+	if (iofiles->h_delim)
+		free(iofiles->h_delim);
 	free(iofiles);
 }
 
@@ -122,7 +122,7 @@ void	ft_minishell_new(t_data *data)
 	}
 }
 
-int initialize_data(t_data *data, char **env)
+int	initialize_data(t_data *data, char **env)
 {
 	if (!initialize_envar(data, env))
 	{
@@ -140,8 +140,8 @@ int initialize_data(t_data *data, char **env)
 
 void	my_minishell(char **env)
 {
-	t_data  *data;
-	
+	t_data	*data;
+
 	data = (t_data *)malloc(sizeof(t_data));
 	ft_memset(data, 0, sizeof(t_data));
 	if (!initialize_data(data, env))
@@ -159,4 +159,3 @@ int	main(int ac, char **av, char **env)
 		return (127);
 	my_minishell(env);
 }
-

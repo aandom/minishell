@@ -63,9 +63,8 @@ t_cmd	*get_last_cmd(t_cmd *cmd)
 
 int	count_args(t_lexer *token)
 {
-	int	len;
-	t_lexer *tmp;
-
+	int		len;
+	t_lexer	*tmp;
 
 	len = 0;
 	tmp = token;
@@ -113,9 +112,8 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 	t_cmd	*lastcmd;
 	t_cmd	*new;
 	t_lexer	*t;
-	
-	t = *token;
 
+	t = *token;
 	while (t->type == WORD)
 	{
 		lastcmd = get_last_cmd(*cmds);

@@ -69,7 +69,7 @@ typedef struct s_iofiles
 	int		fdout;
 	int		stdin_cp;
 	int		stdout_cp;
-	char	*here_delimter;
+	char	*h_delim;
 	int		here_quote;
 }	t_iofiles;
 

@@ -127,15 +127,14 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 		line = readline(">");
 		if (!line)
 		{
-			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->here_delimter);
-			break;
+			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->h_delim);
+			break ;
 		}
-		if (!ft_strncmp(line, iofds->here_delimter, ft_strlen(iofds->here_delimter)))
+		if (!ft_strncmp(line, iofds->h_delim, ft_strlen(iofds->h_delim)))
 			break ;
 		else if (iofds->here_quote != 1)
 		{
 			tmp = expand_here_var(line, data);
-			// line = expand_here_var(line, data);
 			// voidfree(line);
 			line = tmp;
 		}
@@ -202,8 +201,8 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 	iofds = lastcmd->iofiles;
 	if (!remove_prev_iofds(iofds, 1))
 		return ;
-	iofds->here_delimter = ft_strdup(tmp->next->str);
-	iofds->here_quote = check_update_delimiter(&iofds->here_delimter);
+	iofds->h_delim = ft_strdup(tmp->next->str);
+	iofds->here_quote = check_update_delimiter(&iofds->h_delim);
 	iofds->infile = generate_heredoc_name();
 	if (create_heredoc(data, iofds))
 		iofds->fdin = open(iofds->infile, O_RDONLY);

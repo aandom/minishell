@@ -14,7 +14,7 @@
 
 int	print_errmsg(char *cmd, char *info, char *errmsg, int errnum)
 {
-    char    *message;
+	char	*message;
 
 	message = ft_strdup("minishell: ");
 	if (cmd != NULL)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	initialize_iofds(t_cmd  *cmd)
+void	initialize_iofds(t_cmd *cmd)
 {
 	if (!cmd->iofiles)
 	{
@@ -23,7 +23,7 @@ void	initialize_iofds(t_cmd  *cmd)
 		cmd->iofiles->outfile = NULL;
 		cmd->iofiles->fdin = -1;
 		cmd->iofiles->fdout = -1;
-		cmd->iofiles->here_delimter = NULL;
+		cmd->iofiles->h_delim = NULL;
 	}
 }
 
@@ -33,19 +33,19 @@ int	remove_prev_iofds(t_iofiles *iofds, int code)
 	{
 		if ((iofds->outfile && iofds->fdout == -1) || iofds->fdin == -1)
 			return (0);
-		if (iofds->here_delimter != NULL)
+		if (iofds->h_delim != NULL)
 		{
-			free(iofds->here_delimter);
-			iofds->here_delimter = NULL;
+			free(iofds->h_delim);
+			iofds->h_delim = NULL;
 			unlink(iofds->infile);
 		}
 		free(iofds->infile);
-		close(iofds->fdin); 
+		close(iofds->fdin);
 		return (1);
 	}
 	else if (iofds->outfile && code == 2)
 	{
-		if ((iofds->infile  && iofds->fdin == -1) || iofds->fdout == -1)
+		if ((iofds->infile && iofds->fdin == -1) || iofds->fdout == -1)
 			return (0);
 		free(iofds->outfile);
 		close(iofds->fdout);

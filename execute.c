@@ -14,15 +14,15 @@
 
 int	ft_check_iofiles(t_iofiles *iofds)
 {
-    if (!iofds || (!iofds->infile && !iofds->outfile))
-        return (1);
-    if ((iofds->infile && iofds->fdin == -1) || \
-        (iofds->outfile && iofds->fdout == -1))
-        return (0);
-    return (1);
+	if (!iofds || (!iofds->infile && !iofds->outfile))
+		return (1);
+	if ((iofds->infile && iofds->fdin == -1) || \
+		(iofds->outfile && iofds->fdout == -1))
+		return (0);
+	return (1);
 }
 
-int create_pipes(t_data *data)
+int	create_pipes(t_data *data)
 {
 	int		*tube;
 	t_cmd	*cmds;
@@ -72,23 +72,23 @@ void	close_unused_pipes(t_cmd *headcmd, t_cmd *curcmd)
 
 void	reset_stdio(t_iofiles *iofds)
 {
-    if (!iofds)
-        return ;
-    if (iofds->stdin_cp != -1)
-    {
-        if (dup2(iofds->stdin_cp, STDIN_FILENO) == -1)
-            return ;
-        close(iofds->stdin_cp);
-        iofds->stdin_cp = -1;
-    }
-    if (iofds->stdout_cp != -1)
-    {
-        if (dup2(iofds->stdout_cp, STDOUT_FILENO) == -1)
-            return ;
-        close(iofds->stdout_cp);
-        iofds->stdout_cp = -1;
-    }
-    return ;
+	if (!iofds)
+		return ;
+	if (iofds->stdin_cp != -1)
+	{
+		if (dup2(iofds->stdin_cp, STDIN_FILENO) == -1)
+			return ;
+		close(iofds->stdin_cp);
+		iofds->stdin_cp = -1;
+	}
+	if (iofds->stdout_cp != -1)
+	{
+		if (dup2(iofds->stdout_cp, STDOUT_FILENO) == -1)
+			return ;
+		close(iofds->stdout_cp);
+		iofds->stdout_cp = -1;
+	}
+	return ;
 }
 
 void	close_iofds(t_cmd *cmds, int code)
@@ -239,10 +239,7 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 	if (!ft_strchr(cmd->cmd, '/'))
 	{
 		if (is_builtin(cmd->cmd))
-		{
-			execute_builtin(data, cmd);
-			res = 0;
-		}
+			res = execute_builtin(data, cmd);
 		else
 		{
 			res = 127;
@@ -312,8 +309,8 @@ int	ft_execute(t_data *data)
 		&& ft_check_iofiles(data->cmds->iofiles))
 	{
 		set_iofds(data->cmds->iofiles);
-        if (is_builtin(data->cmds->cmd))
-            res = execute_builtin(data, data->cmds);
+		if (is_builtin(data->cmds->cmd))
+			res = execute_builtin(data, data->cmds);
 		reset_stdio(data->cmds->iofiles);
 	}
 	if (res != 127)

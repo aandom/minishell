@@ -14,16 +14,17 @@
 
 int	inside_quote(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        if (check_quote(str, i, NOQUOTE) == SINGLE || check_quote(str, i, NOQUOTE) == DOUBLE)
-            return (1);
-        i++;
-    }
-    return(0);
+	i = 0;
+	while (str[i])
+	{
+		if (check_quote(str, i, NOQUOTE) == SINGLE || \
+			check_quote(str, i, NOQUOTE) == DOUBLE)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	count_len(char *s)
@@ -98,15 +99,13 @@ int	change_to_noquote(t_lexer **token, int *i)
 
 void	trim_quote(t_lexer **token)
 {
-	int		len;
 	int		i;
 	int		j;
 	char	*str;
 
 	i = 0;
 	j = 0;
-	len = count_len((*token)->str);
-	str = (char *)malloc(sizeof(char) * len + 1);
+	str = (char *)malloc(sizeof(char) * (count_len((*token)->str) + 1));
 	if (!str)
 		return ;
 	while ((*token)->str[i])

@@ -38,7 +38,7 @@ void	update_quotes(t_lexer **token, char c)
 		(*token)->quote = DOUBLE;
 	else if ((c == '\'' && (*token)->quote == SINGLE)
 		|| (c == '\"' && (*token)->quote == DOUBLE))
-		(*token)->quote = NOQUOTE; 
+		(*token)->quote = NOQUOTE;
 }
 
 int	is_next_char_sep(char *str, int i)
