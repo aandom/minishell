@@ -92,7 +92,7 @@ void	add_word_to_lexer(t_data *data, int start, size_t end, int type)
 	word = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!word)
 		return ;
-	while (start < end)
+	while (start < (int)end)
 	{
 		word[i] = data->input[start];
 		i++;

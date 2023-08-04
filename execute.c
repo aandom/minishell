@@ -14,15 +14,15 @@
 
 int	ft_check_iofiles(t_iofiles *iofds)
 {
-	if (!iofds || (!iofds->infile && !iofds->outfile))
-		return (1);
-	if ((iofds->infile && iofds->fdin == -1)
-		|| (iofds->outfile && iofds->fdout == -1))
-		return (0);
-	return (1);
+    if (!iofds || (!iofds->infile && !iofds->outfile))
+        return (1);
+    if ((iofds->infile && iofds->fdin == -1) || \
+        (iofds->outfile && iofds->fdout == -1))
+        return (0);
+    return (1);
 }
 
-int	create_pipes(t_data *data)
+int create_pipes(t_data *data)
 {
 	int		*tube;
 	t_cmd	*cmds;
@@ -72,21 +72,23 @@ void	close_unused_pipes(t_cmd *headcmd, t_cmd *curcmd)
 
 void	reset_stdio(t_iofiles *iofds)
 {
-	if (!iofds)
-		return ;
-	if (iofds->stdin_cp != -1)
-	{
-		dup2(iofds->stdin_cp, STDIN_FILENO);
-		close(iofds->stdin_cp);
-		iofds->stdin_cp = -1;
-	}
-	if (iofds->stdout_cp != -1)
-	{
-		dup2(iofds->stdout_cp, STDOUT_FILENO);
-		close(iofds->stdout_cp);
-		iofds->stdout_cp = -1;
-	}
-	return ;
+    if (!iofds)
+        return ;
+    if (iofds->stdin_cp != -1)
+    {
+        if (dup2(iofds->stdin_cp, STDIN_FILENO) == -1)
+            return ;
+        close(iofds->stdin_cp);
+        iofds->stdin_cp = -1;
+    }
+    if (iofds->stdout_cp != -1)
+    {
+        if (dup2(iofds->stdout_cp, STDOUT_FILENO) == -1)
+            return ;
+        close(iofds->stdout_cp);
+        iofds->stdout_cp = -1;
+    }
+    return ;
 }
 
 void	close_iofds(t_cmd *cmds, int code)
@@ -159,7 +161,7 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 		tmp = ft_strjoin(path[i], "/");
 		c = ft_strjoin(tmp, cmd->cmd);
 		free(tmp);
-		if (access(c, F_OK | X_OK) == 0)
+		if (access(c, F_OK) == 0)
 			return (c);
 		free(c);
 		i++;
@@ -276,7 +278,7 @@ int	fork_wait(t_data *data)
 	else if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	else
-		status = status;
+		status = res;
 	return (status);
 }
 
@@ -310,13 +312,8 @@ int	ft_execute(t_data *data)
 		&& ft_check_iofiles(data->cmds->iofiles))
 	{
 		set_iofds(data->cmds->iofiles);
-		if (is_builtin(data->cmds->cmd))
-		{
-			execute_builtin(data, data->cmds);
-			res = 0;
-		}
-		else 
-			res = 127;
+        if (is_builtin(data->cmds->cmd))
+            res = execute_builtin(data, data->cmds);
 		reset_stdio(data->cmds->iofiles);
 	}
 	if (res != 127)

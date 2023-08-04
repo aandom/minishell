@@ -39,13 +39,6 @@ char	*extract_value(char *str)
 	return (res);
 }
 
-static t_evar	*get_last_var(t_evar *evar)
-{
-	while (evar->next != NULL)
-		evar = evar->next;
-	return (evar);
-}
-
 t_evar	*new_evar(char *str)
 {
 	t_evar	*newvar;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/03 18:53:42 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 15:16:35 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	ft_export(t_data *d)
 			tmp = new_evar(d->cmds->cmdarg[i]);
 			if (is_invalid_key(tmp->key) == 0)
 			{
-				printf("minishell: export: `%s=%s': not a valid identifier\n",
-					tmp->key, tmp->value);
+				print_errmsg(d->cmds->cmd, tmp->key, "not a valid identifier", 1);
 				code = EXIT_FAILURE;
 			}
 			if (ft_already_exit(d->envar, tmp->key))

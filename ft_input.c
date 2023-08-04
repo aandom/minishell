@@ -28,11 +28,6 @@ void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token)
 	if(!remove_prev_iofds(iofds, 1))
 		return ;
 	iofds->infile = ft_strdup(tmp->next->str);
-	// if (access(iofds->infile, F_OK | R_OK) != 0)
-	// {
-	//     print_errmsg(iofds->infile, NULL, strerror(errno), 1);
-	//     return ;
-	// }
 	fd = open(iofds->infile, O_RDONLY);
 	if (fd == -1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:31:20 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/02 12:48:38 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 09:14:53 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtin(t_data *data, t_cmd *cmd)
 {
 	int	code;
 
-	code = 0;
+	code = 127;
 	if (!ft_strcmp(cmd->cmd, "echo"))
 		code = ft_echo(cmd);
 	else if (!ft_strcmp(cmd->cmd, "cd"))
@@ -48,7 +48,7 @@ int	execute_builtin(t_data *data, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmd, "unset"))
 		code = ft_unset(data, cmd);
 	else if (!ft_strcmp(cmd->cmd, "env"))
-		ft_env(data->envar);
+		code = ft_env(data->envar);
 	else if (!ft_strcmp(cmd->cmd, "exit"))
 		code = ft_exit(data, cmd->cmdarg);
 	return (code);

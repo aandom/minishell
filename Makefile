@@ -13,7 +13,7 @@
 NAME = minishell
 SRC = $(wildcard *.c) $(wildcard ./exec/builtins/*.c)
 OBJS =  $(SRC:.c=.o)
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 CC = cc -g
 
 %.o: %.c 

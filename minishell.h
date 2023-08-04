@@ -171,6 +171,8 @@ void	ft_putendl_fd(char *s, int fd);
 int		print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
 void	ft_errmsg(char *msg, char *info, int quote);
 int		parsing_check(t_lexer **token);
+void	free_all(t_data *data, int code);
+int		env_var_len(char **env);
 
 int		ft_cd(t_evar *env, t_cmd *cmd);
 int		ft_pwd(void);
@@ -178,7 +180,7 @@ int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
 int		execute_builtin(t_data *data, t_cmd *cmd);
 int		is_builtin(char *str);
-void	ft_env(t_evar *env);
+int		ft_env(t_evar *env);
 int		ft_echo(t_cmd *cmd);
 
 void	ft_putendl_fd(char *s, int fd);

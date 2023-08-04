@@ -114,6 +114,6 @@ int	ft_exit(t_data *data, char **args)
 		else if (args[2])
 			return (print_errmsg("exit", NULL, "too many arguments", 1));
 	}
-	exitshell(data, g_exit_code);
+	exitshell(data, ex_code);
 	return (2);
 }

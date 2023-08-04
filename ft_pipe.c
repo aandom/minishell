@@ -14,9 +14,10 @@
 
 void	ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token)
 {
-	t_cmd	*lastcmd;
-	t_lexer	*tmp;
-
+	t_cmd   *lastcmd;
+	t_lexer *tmp;
+	
+	(void) data;
 	tmp = *token;
 	lastcmd = get_last_cmd(*cmds);
 	lastcmd->pipeout = 1;

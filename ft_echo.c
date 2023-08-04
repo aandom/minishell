@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 20:27:33 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/02 12:50:46 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/04 09:07:15 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	ft_echo(t_cmd *cmd)
 	}
 	while (cmd->cmdarg[i])
 	{
-		write(1, cmd->cmdarg[i], ft_strlen(cmd->cmdarg[i]) + 1);
+		write(STDOUT_FILENO, cmd->cmdarg[i], ft_strlen(cmd->cmdarg[i]));
 		if (cmd->cmdarg[i + 1] && cmd->cmdarg[i][0] != '\0')
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 	if (n_flag != 1)
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	return (EXIT_SUCCESS);
 }

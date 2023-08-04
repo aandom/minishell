@@ -61,52 +61,49 @@ t_cmd	*get_last_cmd(t_cmd *cmd)
 	return (cmd);
 }
 
+int	count_args(t_lexer *token)
+{
+	int	len;
+	t_lexer *tmp;
+
+
+	len = 0;
+	tmp = token;
+	while (tmp && tmp->type == WORD)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	return (len);
+}
+
 void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
 {
 	t_lexer	*tmp;
-	t_lexer	*tmp2;
-	t_lexer	*tmp3;
 	char	**newargs;
 	int		i;
 	int		len;
 
-	i = 0;
 	len = 0;
+	i = 0;
 	tmp = *token;
-	tmp2 = *token;
-	while (tmp->type == WORD)
-	{
-		len++;
-		if (tmp->next->type == END)
-			tmp3 = tmp;
-		tmp = tmp->next;
-	}
-	while((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
-		i++;
-	newargs = malloc(sizeof(char *) * (len + i + 1));
+	len = count_args(tmp) + env_var_len((*lastcmd)->cmdarg);
+	newargs = malloc(sizeof(char *) * (len + 1));
 	if (!newargs)
 		return ;
-	i = 0;
 	while ((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
 	{
 		newargs[i] = ft_strdup((*lastcmd)->cmdarg[i]);
 		i++;
 	}
-	while (len > 0 && (tmp2 && tmp2->type == WORD))
+	while (i < len && (tmp && tmp->type == WORD))
 	{
-		newargs[i] = ft_strdup(tmp2->str);
-		tmp2 = tmp2->next;
-		len--;
+		newargs[i] = ft_strdup(tmp->str);
+		tmp = tmp->next;
 		i++;
 	}
 	newargs[i] = NULL;
-	i = 0;
-	while ( (*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
-	{
-		free((*lastcmd)->cmdarg[i]);
-		i++;
-	}
-	free((*lastcmd)->cmdarg);
+	ft_arr_freer((*lastcmd)->cmdarg);
 	(*lastcmd)->cmdarg = newargs;
 	*token = tmp;
 }
@@ -183,4 +180,5 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == END)
 			break ;
 	}
+	return ;
 }

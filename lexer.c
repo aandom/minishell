@@ -14,10 +14,23 @@
 
 int	inside_quote(char *str)
 {
+<<<<<<< HEAD
 	if (check_quote(str, 0, NOQUOTE) == SINGLE || check_quote(str, 0, NOQUOTE)
 		== DOUBLE)
 		return (1);
 	return (1);
+=======
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (check_quote(str, i, NOQUOTE) == SINGLE || check_quote(str, i, NOQUOTE) == DOUBLE)
+            return (1);
+        i++;
+    }
+    return(0);
+>>>>>>> 09c3401 (alex ungabunga)
 }
 
 int	count_len(char *s)

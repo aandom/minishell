@@ -21,10 +21,10 @@ void	ft_arr_freer(char **str)
 	i = 0;
 	while (str && str[i])
 	{
-		free(str[i]);
+		voidfree(str[i]);
 		i++;
 	}
-	free(str);
+	voidfree(str);
 }
 
 void	ft_free_iofile(t_iofiles *iofiles)
@@ -40,17 +40,23 @@ void	ft_free_iofile(t_iofiles *iofiles)
 	free(iofiles);
 }
 
-void	free_all(t_data *data)
+void	free_all(t_data *data, int code)
 {
 	if (data && data->input)
+	{
 		voidfree(data->input);
+		data->input = NULL;
+	}
 	if (data && data->lexed)
-		ft_lst_clear_token(&data->lexed, voidfree);
+		ft_lst_clear_token(&data->lexed, &voidfree);
 	if (data && data->cmds)
-		ft_lst_clear_cmd(&data->cmds, voidfree);
-	// if (data->env)
-	//     ft_arr_freer(data->env);
-	// if (data->envar)
+		ft_lst_clear_cmd(&data->cmds, &voidfree);
+	if (code == 1)
+	{
+		if (data && data->env)
+			ft_arr_freer(data->env);
+		rl_clear_history();
+	}
 }
 
 void	exitshell(t_data *data, int excode)
@@ -59,10 +65,7 @@ void	exitshell(t_data *data, int excode)
 	{
 		if (data->cmds && data->cmds->iofiles)
 			close_iofds(data->cmds, 1);
-		free_all(data);
-		if (data->env)
-			ft_arr_freer(data->env);
-		// if (data->envar)
+		free_all(data, 1);
 		voidfree(data);
 	}
 	exit(excode);
@@ -106,7 +109,7 @@ int	parse_input(t_data *data)
 
 void	ft_minishell_new(t_data *data)
 {
-	while ('T')
+	while (1)
 	{
 		expecting_input();
 		data->input = readline(PROMPT);
@@ -138,9 +141,8 @@ int initialize_data(t_data *data, char **env)
 void	my_minishell(char **env)
 {
 	t_data  *data;
-	int		code;
-
-	data = malloc(sizeof(t_data));
+	
+	data = (t_data *)malloc(sizeof(t_data));
 	ft_memset(data, 0, sizeof(t_data));
 	if (!initialize_data(data, env))
 		exitshell(NULL, EXIT_FAILURE);
