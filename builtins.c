@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:31:20 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/04 17:34:20 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/05 23:34:28 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	execute_builtin(t_data *data, t_cmd *cmd)
 	if (!ft_strcmp(cmd->cmd, "echo"))
 		code = ft_echo(cmd);
 	else if (!ft_strcmp(cmd->cmd, "cd"))
-		code = ft_cd(data->envar, cmd);
+		code = ft_cd(data, cmd);
 	else if (!ft_strcmp(cmd->cmd, "pwd"))
 		code = ft_pwd();
 	else if (!ft_strcmp(cmd->cmd, "export"))

@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/04 17:50:48 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/06 00:34:42 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,61 @@ void	new_pwd(t_evar *env)
 	}
 }
 
-int	ft_cd(t_evar *env, t_cmd *cmd)
+// void	ft_previous_dir(t_data *data)
+// {
+// 	t_evar	*tmp;
+// 	char	*old;
+// 	char	*new;
+
+// 	tmp = data->envar;
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp("PWD", tmp->key) == 0)
+// 		{
+// 			new = ft_strdup(tmp->value);
+// 			ft_del_env(&data->envar, "PWD");
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	tmp = data->envar;
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp("OLDPWD", tmp->key) == 0)
+// 		{
+// 			old = ft_strdup(tmp->value);
+// 			ft_del_env(&data->envar, "OLDPWD");
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	add_back_env(&data->envar, new_evar(ft_strjoin("PWD=", new)));
+// 	add_back_env(&data->envar, new_evar(ft_strjoin("OLDPWD=", old)));
+	
+// 	tmp = data->envar;
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp("OLDPWD", tmp->key) == 0)
+// 			chdir(tmp->value);
+// 		tmp = tmp->next;
+// 	}
+// 	env_pointer(data);
+// }
+
+int	ft_cd(t_data *d, t_cmd *cmd)
 {
 	t_evar	*tmp;
 	int		code;
 
-	tmp = env;
+	tmp = d->envar;
 	code = EXIT_SUCCESS;
 	if (cmd->cmdarg[2] != NULL)
 		return (ft_putendl_fd("minishell: cd: too many arguments"
 				, STDERR_FILENO), EXIT_FAILURE);
-	old_pwd(env);
+	// if (!ft_strncmp(cmd->cmdarg[1], "-", 1))
+	// {
+	// 	ft_previous_dir(d);
+	// 	return (EXIT_SUCCESS);
+	// }
+	old_pwd(d->envar);
 	if ((cmd->cmdarg[1]) == NULL || !ft_strncmp(cmd->cmdarg[1], "~", 1))
 	{
 		while (tmp)
@@ -75,6 +119,7 @@ int	ft_cd(t_evar *env, t_cmd *cmd)
 		perror("minishell: cd");
 		return (code = EXIT_FAILURE, code);
 	}
-	new_pwd(env);
+	new_pwd(d->envar);
+	env_pointer(d);
 	return (code);
 }

@@ -174,7 +174,7 @@ int		parsing_check(t_lexer **token);
 void	free_all(t_data *data, int code);
 int		env_var_len(char **env);
 
-int		ft_cd(t_evar *env, t_cmd *cmd);
+int		ft_cd(t_data *d, t_cmd *cmd);
 int		ft_pwd(void);
 int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
@@ -200,5 +200,9 @@ char	*extract_value(char *str);
 void	add_back_env(t_evar **evar, t_evar *newvar);
 t_evar	*new_evar(char *str);
 int		initialize_envar(t_data *data, char **env);
+
+void	ft_shlvl(t_data *data, t_evar *env);
+int		ft_atoi(const char *str);
+int		ft_already_exit(t_evar *env, char *str);
 
 #endif

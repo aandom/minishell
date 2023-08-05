@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/04 17:10:41 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/06 00:32:19 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,42 @@ int	is_invalid_key(char *str)
 	int	i;
 
 	i = 0;
+	if (!(ft_isalpha(str[i]) || str[i] == '_'))
+		return (0);
+	i++;
 	while (str[i])
 	{
-		if (ft_isalpha(str[i]) || str[i] == '_' || str[i] == '!')
+		if (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '!')
 			i++;
 		else
 			return (0);
 	}
 	return (i);
+}
+
+void	ft_putendl_fd2(char *str, int fd)
+{
+	size_t	i;
+	int		flag;
+
+	if (str)
+	{
+		flag = 0;
+		i = 0;
+		while (str[i])
+		{
+			if (flag == 0 && str[i - 1] == '=')
+			{
+				write(fd, "\"", 1);
+				flag = 1;
+			}
+			write(fd, &str[i], 1);
+			i++;
+		}
+		if (str[i] == '\0')
+			write(fd, "\"", 1);
+		write(fd, "\n", 1);
+	}
 }
 
 void	ft_print_export(t_data *data)
@@ -53,7 +81,7 @@ void	ft_print_export(t_data *data)
 	while (tab[i])
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putendl_fd(tab[i], STDOUT_FILENO);
+		ft_putendl_fd2(tab[i], STDOUT_FILENO);
 		i++;
 	}
 }
@@ -61,7 +89,7 @@ void	ft_print_export(t_data *data)
 int	ft_export(t_data *d)
 {
 	int		i;
-	t_evar	*tmp;
+	t_evar	*t;
 	int		code;
 
 	i = 1;
@@ -70,17 +98,18 @@ int	ft_export(t_data *d)
 	{
 		while (d->cmds->cmdarg[i])
 		{
-			tmp = new_evar(d->cmds->cmdarg[i]);
-			if (is_invalid_key(tmp->key) == 0)
+			t = new_evar(d->cmds->cmdarg[i]);
+			if (is_invalid_key(t->key) == 0)
 			{
-				print_errmsg(d->cmds->cmd, tmp->key, "not a valid identifier", 1);
+				print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
 				code = EXIT_FAILURE;
 			}
-			if (ft_already_exit(d->envar, tmp->key))
-				ft_del_env(&d->envar, tmp->key);
-			add_back_env(&d->envar, tmp);
+			if (ft_already_exit(d->envar, t->key))
+				ft_del_env(&d->envar, t->key);
+			add_back_env(&d->envar, t);
 			i++;
 		}
+		env_pointer(d);
 	}
 	else
 		ft_print_export(d);

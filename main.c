@@ -146,6 +146,7 @@ void	my_minishell(char **env)
 	ft_memset(data, 0, sizeof(t_data));
 	if (!initialize_data(data, env))
 		exitshell(NULL, EXIT_FAILURE);
+	ft_shlvl(data, data->envar);
 	ft_minishell_new(data);
 	exitshell(data, g_exit_code);
 	return ;
