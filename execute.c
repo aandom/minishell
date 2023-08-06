@@ -34,7 +34,10 @@ int	create_pipes(t_data *data)
 		{
 			tube = malloc(sizeof(int) * 2);
 			if (!tube || pipe(tube) != 0)
+			{
+				free_all(data, 0);
 				return (0);
+			}
 			cmds->tube = tube;
 		}
 		cmds = cmds->next;
@@ -128,9 +131,11 @@ void	set_iofds(t_iofiles *iofds)
 	if (iofds->stdout_cp == -1)
 		return ;
 	if (iofds->fdin != -1)
-		dup2(iofds->fdin, STDIN_FILENO);
+		if (dup2(iofds->fdin, STDIN_FILENO) == -1)
+			print_errmsg("dup2", iofds->infile, strerror(errno), 0);
 	if (iofds->fdout != -1)
-		dup2(iofds->fdout, STDOUT_FILENO);
+		if (dup2(iofds->fdout, STDIN_FILENO) == -1)
+			print_errmsg("dup2", iofds->outfile, strerror(errno), 0);
 	return ;
 }
 
@@ -236,6 +241,7 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 		exitshell(data, 1);
 	dup_pipe_fds(data->cmds, cmd);
 	set_iofds(data->cmds->iofiles);
+	close_iofds(data->cmds, 0);
 	if (!ft_strchr(cmd->cmd, '/'))
 	{
 		if (is_builtin(cmd->cmd))
@@ -256,24 +262,24 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 
 int	fork_wait(t_data *data)
 {
-	pid_t	wstatus;
+	pid_t	ch_pid;
 	int		status;
 	int		res;
 
 	close_iofds(data->cmds, 0);
 	res = 0;
-	wstatus = 0;
-	while (wstatus != -1 || errno != ECHILD)
+	ch_pid = 0;
+	while (ch_pid != -1 || errno != ECHILD)
 	{
-		wstatus = waitpid(-1, &status, 0);
-		if (wstatus == data->pid)
+		ch_pid = waitpid(-1, &status, 0);
+		if (ch_pid == data->pid)
 			res = status;
 		continue ;
 	}
-	if (WIFSIGNALED(status))
-		status = 128 + WTERMSIG(status);
-	else if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
+	if (WIFSIGNALED(res))
+		status = 128 + WTERMSIG(res);
+	else if (WIFEXITED(res))
+		status = WEXITSTATUS(res);
 	else
 		status = res;
 	return (status);
@@ -285,7 +291,7 @@ int	create_forks(t_data *data)
 	int		a;
 
 	cmds = data->cmds;
-	while (cmds)
+	while (cmds && data->pid != 0)
 	{
 		data->pid = fork();
 		if (data->pid == -1)
@@ -315,6 +321,6 @@ int	ft_execute(t_data *data)
 	}
 	if (res != 127)
 		return (res);
-	res = create_forks(data);
-	return (res);
+	return (create_forks(data));
+	// return (res);
 }
