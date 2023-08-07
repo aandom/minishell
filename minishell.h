@@ -119,7 +119,7 @@ int		check_quote(char *str, int i, int quote);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *src);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strtrim(char const *s1, unsigned char set);
+char	*ft_strtrim(const char *s1, const char *set);
 void	extract_command(t_data *data, t_lexer *lexed);
 t_cmd	*get_last_cmd(t_cmd *cmd);
 t_cmd	*new_cmd(int pipeout);
@@ -137,6 +137,7 @@ void	copy_env(t_data *data, char **env);
 void	*ft_memchr(const void *str, int c, size_t n);
 char	*ft_strchr(const char *s, int c);
 int		ft_execute(t_data *data);
+char	*ft_strrchr(const char *s, int c);
 
 void	ft_expand(t_data *data);
 

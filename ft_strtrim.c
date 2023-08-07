@@ -12,14 +12,22 @@
 
 #include "minishell.h"
 
-char	*ft_strtrim(char const *s1, unsigned char set)
+char	*ft_strtrim(const char *s1, const char *set)
 {
-	int	lstart;
-	int	lend;
+	size_t	left;
+	size_t	right;
 
-	if (!s1 || !set)
+	if (!(s1) || !(set))
 		return (NULL);
-	lstart = 1;
-	lend = ft_strlen((char *)s1);
-	return (ft_substr(s1, lstart, lend - 2));
+	left = 0;
+	right = ft_strlen(s1) - 1;
+	while (s1[left] && ft_strchr(set, s1[left]))
+	{
+		left++;
+	}
+	while (s1[right] && ft_strrchr(set, s1[right]) && (right > left))
+	{
+		right--;
+	}
+	return (ft_substr(s1, left, right - left + 1));
 }
