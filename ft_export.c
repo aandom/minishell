@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/06 00:32:19 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/07 22:02:21 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	ft_putendl_fd2(char *str, int fd)
 		}
 		if (str[i] == '\0')
 			write(fd, "\"", 1);
+		if (str[i] == '\0' && str[i - 1] == '=')
+			write(fd, "\"", 1);
 		write(fd, "\n", 1);
 	}
 }
@@ -100,10 +102,7 @@ int	ft_export(t_data *d)
 		{
 			t = new_evar(d->cmds->cmdarg[i]);
 			if (is_invalid_key(t->key) == 0)
-			{
 				print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
-				code = EXIT_FAILURE;
-			}
 			if (ft_already_exit(d->envar, t->key))
 				ft_del_env(&d->envar, t->key);
 			add_back_env(&d->envar, t);
