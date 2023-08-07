@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:03:25 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/04 17:51:40 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/07 21:18:10 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_env(t_cmd *cmd, t_evar *env)
 	t_evar	*tmp;
 
 	if (!env)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (cmd->cmdarg[1] != NULL)
 	{
 		print_errmsg("env", cmd->cmdarg[1], "No such file or directory", 127);

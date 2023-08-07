@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shlvl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:09:52 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/05 22:51:21 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/07 22:04:01 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_current_shlvl(t_evar *env)
 {
 	t_evar	*tmp;
 	int		sh_lvl;
-	
+
 	tmp = env;
 	sh_lvl = 0;
 	while (tmp)

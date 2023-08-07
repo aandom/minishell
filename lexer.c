@@ -12,63 +12,6 @@
 
 #include "minishell.h"
 
-int	inside_quote(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (check_quote(str, i, NOQUOTE) == SINGLE || \
-			check_quote(str, i, NOQUOTE) == DOUBLE)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	count_len(char *s)
-{
-	int	c;
-	int	sta;
-	int	i;
-
-	i = 0;
-	sta = NOQUOTE;
-	c = 0;
-	while (s && s[i])
-	{
-		if ((s[i] == '\'' || s[i] == '\"') && sta == NOQUOTE)
-		{
-			if (s[i] == '\'')
-				sta = SINGLE;
-			else if (s[i] == '\"')
-				sta = DOUBLE;
-			i++;
-			continue ;
-		}
-		if ((s[i] == '\'' && sta == SINGLE) || (s[i] == '\"' && sta == DOUBLE))
-		{
-			sta = NOQUOTE;
-			i++;
-			continue ;
-		}
-		c++;
-		i++;
-	}
-	return (c);
-}
-
-int	is_quote(t_lexer **token, int i)
-{
-	char	c;
-
-	c = (*token)->str[i];
-	if ((c == '\'' || c == '\"') && (*token)->quote == NOQUOTE)
-		return (1);
-	return (0);
-}
-
 void	change_to_quote(t_lexer **token, int *i)
 {
 	char	c;
@@ -105,7 +48,7 @@ void	trim_quote(t_lexer **token)
 
 	i = 0;
 	j = 0;
-	str = (char *)malloc(sizeof(char) * (count_len((*token)->str) + 1));
+	str = malloc(sizeof(char) * (count_len((*token)->str, 0, 0) + 1));
 	if (!str)
 		return ;
 	while ((*token)->str[i])
@@ -132,8 +75,8 @@ void	remove_quotes(t_lexer **lexed)
 	tmp = *lexed;
 	while (tmp && tmp->str && tmp->type != END)
 	{
-		if (inside_quote(tmp->str) && (tmp->prev && tmp->prev->type
-				!= LESS_LESS))
+		if (inside_quote(tmp->str) && (!tmp->prev || \
+			(tmp->prev && tmp->prev->type != LESS_LESS)))
 			trim_quote(&tmp);
 		tmp = tmp->next;
 	}

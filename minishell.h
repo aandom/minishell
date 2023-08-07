@@ -32,6 +32,7 @@
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
 # define QERRMSG "unexpected EOF while looking for matching `"
 # define TOK_ERR "syntax error near unexpected token `"
+# define INVARG "numeric argument required"
 
 extern int	g_exit_code;
 
@@ -129,9 +130,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	initialize_iofds(t_cmd *cmd);
 int		remove_prev_iofds(t_iofiles *iofds, int code);
-void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token);
-void	ft_append(t_data *data, t_cmd **cmds, t_lexer **token);
-void	ft_redirect(t_data *data, t_cmd **cmds, t_lexer **token);
 void	ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token);
 void	*ft_memset(void *s, int c, size_t n);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
@@ -204,5 +202,134 @@ int		initialize_envar(t_data *data, char **env);
 void	ft_shlvl(t_data *data, t_evar *env);
 int		ft_atoi(const char *str);
 int		ft_already_exit(t_evar *env, char *str);
+
+
+// command_utils.c
+void		add_back_cmd(t_cmd **cmds, t_cmd *cmd);
+t_cmd		*new_cmd(int pipeout);
+t_cmd		*get_last_cmd(t_cmd *cmd);
+
+// command_args.
+int			count_args(t_lexer *token);
+int			copy_cmdarg(char **cmdarg, char **newarg);
+void		fill_cmd_args(t_lexer **token, t_cmd **lastcmd);
+
+// iofds.c
+int			ft_check_iofiles(t_iofiles *iofds);
+void		reset_stdio(t_iofiles *iofds);
+void		close_iofds(t_cmd *cmds, int code);
+void		set_iofds(t_iofiles *iofds);
+
+// ft_pipe.c 
+
+void		ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token);
+int			create_pipes(t_data *data);
+void		close_unused_pipes(t_cmd *headcmd, t_cmd *curcmd);
+void		dup_pipe_fds(t_cmd *headcmd, t_cmd *curcmd);
+
+// execute_utils.c
+char		**get_splited_path(t_evar *evar);
+char		*get_cmd(t_evar *envar, t_cmd *cmd);
+int			is_directory(char *cmd);
+int			check_command(t_cmd *cmd);
+int			check_prepare_exec(t_data *data);
+
+// ft_wait.c
+int			fork_wait(t_data *data);
+
+// execute.c
+int			execute_nopath_cmd(t_data *data, t_cmd *cmd);
+int			execute_path_cmd(t_data *data, t_cmd *cmd);
+int			execute_cmd(t_data *data, t_cmd *cmd);
+int			create_forks(t_data *data);
+int			ft_execute(t_data *data);
+
+
+// ft_exit_utils.c
+int			check_max(unsigned long long num, int sign, int *is_valid);
+int			set_sign(const char *str, int *sign, int i);
+long long	ft_atoi_lu(char *str, int *is_valid);
+
+// ft_exit.c
+int			get_exit_code(char *exarg, int *is_valid);
+int			exit_with_arg(t_data *data);
+int			ft_exit(t_data *data, char **args);
+
+// ft_heredoc_utils.c
+char		*extract_here_val(char *str, int index, t_data *data);
+char		*replace_here_val(char *line, char *value, int index);
+char		*expand_here_var(char *lineorgin, t_data *data);
+
+// ft_heredoc.c
+char		*generate_heredoc_name(void);
+int			create_heredoc(t_data *data, t_iofiles *iofds);
+int			delim_len(char *str);
+int			check_update_delimiter(char **delim);
+void		ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token);
+
+// ft_input.c
+void		ft_read_from(t_cmd **cmds, t_lexer **token);
+
+// ft_output.c
+void		ft_append(t_cmd **cmds, t_lexer **token);
+void		ft_redirect(t_cmd **cmds, t_lexer **token);
+
+// lexer_utils.c
+int			inside_quote(char *str);
+int			is_quote(t_lexer **token, int i);
+int			count_len(char *s, int i, int c);
+
+// lexer.c
+void		change_to_quote(t_lexer **token, int *i);
+int			change_to_noquote(t_lexer **token, int *i);
+void		trim_quote(t_lexer **token);
+void		remove_quotes(t_lexer **lexed);
+
+// expand_var.c
+void		check_var(t_lexer **token);
+char		*get_varvalue(t_evar *evar, char *key);
+int			var_in_env(t_evar *envar, char *key);
+char		*extract_var_value(t_lexer *token, int i, t_data *data);
+void		delete_var(t_lexer **token, char *str, int index);
+
+// expand_utilis.c
+void		update_quotes(t_lexer **token, char c);
+int			is_next_char_sep(char *str, int i);
+int			is_valid_expansion(t_lexer *token, int i);
+int			var_len(char *str);
+char		*get_varname(char *str);
+
+// expand.c
+void		replace_var(t_lexer **token, char *varvalue, int index);
+int			expand_var(t_data *data, t_lexer **token);
+int			check_consecutive(t_lexer *token);
+int			parsing_check(t_lexer **token);
+int			ft_expand_var(t_data *data, t_lexer **token);
+
+// expand_var_utils.c
+char		*copy_token_str(char *str, char *value, int index, int len);
+void		update_var(t_lexer **token, char *str, int index, char *value);
+
+// exit_shell.c
+void		ft_arr_freer(char **str);
+void		ft_free_iofile(t_iofiles *iofiles);
+void		free_all(t_data *data, int code);
+void		exitshell(t_data *data, int excode);
+
+// ft_token_utils.c
+void		ft_add_token_back(t_lexer **tokens, t_lexer *new);
+t_lexer		*ft_new_token(char *word, int type);
+
+// ft_token.c
+int			extract_word(t_data *data, size_t *i, int start);
+void		add_token_to_lexer(t_data *data, size_t idx, int type);
+void		add_word_to_lexer(t_data *data, int start, size_t end, int type);
+
+// parser.c
+int			check_token(char *str, int i);
+int			check_quote(char *str, int i, int quote);
+int			ft_parser(t_data *data);
+
+
 
 #endif

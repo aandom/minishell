@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token)
+void	ft_read_from(t_cmd **cmds, t_lexer **token)
 {
 	t_cmd		*lastcmd;
 	t_lexer		*tmp;
@@ -20,7 +20,6 @@ void	ft_read_from(t_data *data, t_cmd **cmds, t_lexer **token)
 	int			fd;
 
 	tmp = *token;
-	(void) data;
 	lastcmd = get_last_cmd(*cmds);
 	initialize_iofds(lastcmd);
 	iofds = lastcmd->iofiles;

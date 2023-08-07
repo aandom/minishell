@@ -12,101 +12,6 @@
 
 #include "minishell.h"
 
-void	add_back_cmd(t_cmd **cmds, t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = *cmds;
-	if (tmp == NULL)
-	{
-		*cmds = cmd;
-		return ;
-	}
-	if (cmds && *cmds && cmd)
-	{
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = cmd;
-		cmd->prev = tmp;
-	}
-	return ;
-}
-
-t_cmd	*new_cmd(int pipeout)
-{
-	t_cmd	*new;
-
-	new = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!new)
-		return (NULL);
-	ft_memset(new, 0, sizeof(t_cmd));
-	new->cmd = NULL;
-	new->cmdarg = NULL;
-	new->path = NULL;
-	new->pipeout = pipeout;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-t_cmd	*get_last_cmd(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	if (!tmp)
-		return (NULL);
-	while (cmd->next != NULL)
-		cmd = cmd->next;
-	return (cmd);
-}
-
-int	count_args(t_lexer *token)
-{
-	int		len;
-	t_lexer	*tmp;
-
-	len = 0;
-	tmp = token;
-	while (tmp && tmp->type == WORD)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	return (len);
-}
-
-void	fill_cmd_args(t_lexer **token, t_cmd **lastcmd)
-{
-	t_lexer	*tmp;
-	char	**newargs;
-	int		i;
-	int		len;
-
-	len = 0;
-	i = 0;
-	tmp = *token;
-	len = count_args(tmp) + env_var_len((*lastcmd)->cmdarg);
-	newargs = malloc(sizeof(char *) * (len + 1));
-	if (!newargs)
-		return ;
-	while ((*lastcmd)->cmdarg && (*lastcmd)->cmdarg[i])
-	{
-		newargs[i] = ft_strdup((*lastcmd)->cmdarg[i]);
-		i++;
-	}
-	while (i < len && (tmp && tmp->type == WORD))
-	{
-		newargs[i] = ft_strdup(tmp->str);
-		tmp = tmp->next;
-		i++;
-	}
-	newargs[i] = NULL;
-	ft_arr_freer((*lastcmd)->cmdarg);
-	(*lastcmd)->cmdarg = newargs;
-	*token = tmp;
-}
-
 void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 {
 	t_cmd	*lastcmd;
@@ -168,11 +73,11 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == LESS_LESS)
 			ft_heredoc(data, &data->cmds, &tmp);
 		else if (tmp->type == LESS)
-			ft_read_from(data, &data->cmds, &tmp);
+			ft_read_from(&data->cmds, &tmp);
 		else if (tmp->type == GREAT_GREAT)
-			ft_append(data, &data->cmds, &tmp);
+			ft_append(&data->cmds, &tmp);
 		else if (tmp->type == GREAT)
-			ft_redirect(data, &data->cmds, &tmp);
+			ft_redirect(&data->cmds, &tmp);
 		else if (tmp->type == PIPE)
 			ft_pipe(data, &data->cmds, &tmp);
 		else if (tmp->type == END)
