@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void free_evar_list(t_evar *head)
+void	free_evar_list(t_evar *head)
 {
-	t_evar *tmp;
-	
+	t_evar	*tmp;
+
 	if (head == NULL || head->key == NULL)
-		return;
+		return ;
 	while (head)
 	{
 		tmp = head;
@@ -29,7 +29,6 @@ void free_evar_list(t_evar *head)
 		free(tmp);
 	}
 }
-
 
 char	**clean(char **av)
 {

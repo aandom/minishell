@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 21:11:16 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/08 22:23:03 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,6 @@ void	pwd(t_evar *env, char *key)
 		}
 		tmp = tmp->next;
 	}
-}
-
-t_evar	*find_evar(t_evar *env, char *key)
-{
-	t_evar	*tmp;
-
-	tmp = env;
-	while (tmp != NULL)
-	{
-		if (tmp->key && strcmp(tmp->key, key) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 void	update_pwd(t_data *data, char *key, char *value)
@@ -92,32 +78,6 @@ void	ft_previous_dir(t_data *data)
 	free(new_pwd);
 	free(new_oldpwd);
 	env_pointer(data);
-}
-
-void	ft_expanding_tilda(t_data *data)
-{
-	t_evar	*tmp;
-	char	*h;
-	char	*temp;
-
-	tmp = data->envar;
-	h = NULL;
-	while (tmp)
-	{
-		if (tmp->key && ft_strcmp("HOME", tmp->key) == 0)
-		{
-			temp = ft_strtrim(data->cmds->cmdarg[1], "~");
-			h = ft_strjoin(ft_strdup(tmp->value), temp);
-		}
-		tmp = tmp->next;
-	}
-	if (h)
-	{
-		if (chdir(h) != 0)
-			perror("minishell: cd");
-	}
-	free(h);
-	free(temp);
 }
 
 void	ft_home(t_data *data)

@@ -335,6 +335,13 @@ int			check_token(char *str, int i);
 int			check_quote(char *str, int i, int quote);
 int			ft_parser(t_data *data);
 
+// ft_export
+int			ft_already_exit(t_evar *env, char *str);
+int			is_invalid_key(char *str);
+void		ft_putendl_fd2(char *str, int fd);
 
+// ft_cd_utils
+void		ft_expanding_tilda(t_data *data);
+t_evar		*find_evar(t_evar *env, char *key);
 
 #endif
