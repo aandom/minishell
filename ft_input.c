@@ -34,7 +34,7 @@ void	ft_read_from(t_cmd **cmds, t_lexer **token)
 			tmp = tmp->next;
 	}
 	iofds->fdin = fd;
-	if (tmp->next->next)
+	if (tmp->next && tmp->next->next)
 		tmp = tmp->next->next;
 	else
 		tmp = tmp->next;

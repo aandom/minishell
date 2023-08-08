@@ -64,7 +64,7 @@ void	extract_command(t_data *data, t_lexer *lexed)
 	t_lexer	*tmp;
 
 	tmp = lexed;
-	while (tmp->next != NULL)
+	while (tmp && tmp->next != NULL)
 	{
 		if (tmp == lexed)
 			add_back_cmd(&data->cmds, new_cmd(0));

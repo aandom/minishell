@@ -18,7 +18,6 @@ char	*generate_heredoc_name(void)
 	char		*name;
 	char		*identifier;
 
-	i = 1;
 	identifier = ft_itoa(i);
 	name = ft_strjoin(ft_strdup("/tmp/.m_heredoc_"), identifier);
 	free(identifier);
