@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:25:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/05 22:40:21 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/08 20:57:12 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void	env_pointer(t_data *data)
 	int		env_len;
 	t_evar	*tmp;
 	int		i;
+	char	*holder;
 
-	if (data->env)
+	if (data->env != NULL)
 		ft_arr_freer(data->env);
 	if (!data->envar)
 		return ;
@@ -41,9 +42,12 @@ void	env_pointer(t_data *data)
 	tmp = data->envar;
 	i = 0;
 	data->env = (char **) malloc(sizeof(char *) * (env_len + 1));
+	if (!data->env)
+		return ;
 	while (tmp && i < env_len)
 	{
-		data->env[i] = ft_strjoin(ft_strjoin(tmp->key, "="), tmp->value);
+		holder = ft_strjoin(ft_strdup(tmp->key), "=");
+		data->env[i] = ft_strjoin(holder, tmp->value);
 		i++;
 		tmp = tmp->next;
 	}

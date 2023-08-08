@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 02:34:09 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/08 21:17:08 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ void	ft_print_export(t_data *data)
 	}
 }
 
+void	ft_var_freer(t_evar *env)
+{
+	t_evar	*tmp;
+
+	tmp = env;
+	free(tmp->key);
+	free(tmp->value);
+	free(tmp);
+}
+
 int	ft_export(t_data *d)
 {
 	int		i;
@@ -104,6 +114,7 @@ int	ft_export(t_data *d)
 			if (is_invalid_key(t->key) == 0)
 			{
 				print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
+				ft_var_freer(t);
 				return (EXIT_FAILURE);	
 			}
 			if (ft_already_exit(d->envar, t->key))

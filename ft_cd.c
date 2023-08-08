@@ -6,46 +6,29 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/07 21:25:11 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/08 21:11:16 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	old_pwd(t_evar *env)
+void	pwd(t_evar *env, char *key)
 {
 	t_evar	*tmp;
 	char	oldpwd[PATH_MAX];
+	char	*holder;
 
 	tmp = env;
 	if (getcwd(oldpwd, PATH_MAX) == NULL)
 		return ;
 	while (tmp)
 	{
-		if (tmp->key && ft_strncmp("OLDPWD", tmp->key, 6) == 0)
+		if (tmp->key && ft_strcmp(key, tmp->key) == 0)
 		{
-			ft_del_env(&env, "OLDPWD");
-			add_back_env(&env, new_evar(ft_strjoin("OLDPWD=", oldpwd)));
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	new_pwd(t_evar *env)
-{
-	t_evar	*tmp;
-	char	newpwd[PATH_MAX];
-
-	tmp = env;
-	if (getcwd(newpwd, PATH_MAX) == NULL)
-		return ;
-	while (tmp)
-	{
-		if (tmp->key && ft_strncmp("PWD", tmp->key, 3) == 0)
-		{
-			ft_del_env(&env, "PWD");
-			add_back_env(&env, new_evar(ft_strjoin("PWD=", newpwd)));
+			ft_del_env(&env, key);
+			holder = ft_strjoin(ft_strjoin(ft_strdup(key), "="), oldpwd);
+			add_back_env(&env, new_evar(holder));
+			free(holder);
 			break ;
 		}
 		tmp = tmp->next;
@@ -115,13 +98,17 @@ void	ft_expanding_tilda(t_data *data)
 {
 	t_evar	*tmp;
 	char	*h;
+	char	*temp;
 
 	tmp = data->envar;
 	h = NULL;
 	while (tmp)
 	{
 		if (tmp->key && ft_strcmp("HOME", tmp->key) == 0)
-			h = ft_strjoin(tmp->value, ft_strtrim(data->cmds->cmdarg[1], "~"));
+		{
+			temp = ft_strtrim(data->cmds->cmdarg[1], "~");
+			h = ft_strjoin(ft_strdup(tmp->value), temp);
+		}
 		tmp = tmp->next;
 	}
 	if (h)
@@ -130,6 +117,7 @@ void	ft_expanding_tilda(t_data *data)
 			perror("minishell: cd");
 	}
 	free(h);
+	free(temp);
 }
 
 void	ft_home(t_data *data)
@@ -158,7 +146,7 @@ int	ft_cd(t_data *d, t_cmd *cmd)
 		ft_previous_dir(d);
 		return (EXIT_SUCCESS);
 	}
-	old_pwd(d->envar);
+	pwd(d->envar, "OLDPWD");
 	if (cmd->cmdarg[1] && cmd->cmdarg[1][0] == '~' && cmd->cmdarg[1][1]
 		!= '\0' && ft_strcmp(cmd->cmdarg[1], ".."))
 		ft_expanding_tilda(d);
@@ -169,7 +157,7 @@ int	ft_cd(t_data *d, t_cmd *cmd)
 		perror("minishell: cd");
 		return (code = EXIT_FAILURE);
 	}
-	new_pwd(d->envar);
+	pwd(d->envar, "PWD");
 	env_pointer(d);
 	return (code);
 }

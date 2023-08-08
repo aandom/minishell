@@ -20,7 +20,7 @@ char	*generate_heredoc_name(void)
 
 	i = 1;
 	identifier = ft_itoa(i);
-	name = ft_strjoin("/tmp/.m_heredoc_", identifier);
+	name = ft_strjoin(ft_strdup("/tmp/.m_heredoc_"), identifier);
 	free(identifier);
 	i++;
 	return (name);

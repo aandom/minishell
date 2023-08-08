@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/stat.h>
+# include <stdint.h>
 
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
 # define QERRMSG "unexpected EOF while looking for matching `"
@@ -109,6 +110,9 @@ typedef struct s_data
 	t_evar		*envar;
 }	t_data;
 
+
+void	*ft_calloc(size_t count, size_t size);
+void	free_evar_list(t_evar *head);
 char	**clean(char **av);
 char	**ft_split(char *str, char c);
 int		ft_parser(t_data *data);
@@ -126,7 +130,7 @@ t_cmd	*new_cmd(int pipeout);
 void	add_back_cmd(t_cmd **cmds, t_cmd *cmd);
 void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token);
 char	*ft_itoa(int n);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	initialize_iofds(t_cmd *cmd);
 int		remove_prev_iofds(t_iofiles *iofds, int code);

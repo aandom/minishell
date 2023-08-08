@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shlvl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:09:52 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/07 22:04:01 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/08 20:53:38 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_shlvl(t_data *data, t_evar *env)
 {
 	int		sh_lvl;
 	t_evar	*tmp;
+	char	*shl;
+	char	*hold;
 
 	tmp = env;
 	sh_lvl = ft_current_shlvl(tmp) + 1;
@@ -44,6 +46,11 @@ void	ft_shlvl(t_data *data, t_evar *env)
 		}
 		tmp = tmp->next;
 	}
-	add_back_env(&env, new_evar(ft_strjoin("SHLVL=", ft_itoa(sh_lvl))));
+	shl = ft_itoa(sh_lvl);
+	hold = ft_strdup("SHLVL=");
+	hold = ft_strjoin(hold, shl);
+	add_back_env(&env, new_evar(hold));
+	free(shl);
+	free(hold);
 	env_pointer(data);
 }

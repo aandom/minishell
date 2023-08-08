@@ -64,6 +64,8 @@ void	exitshell(t_data *data, int excode)
 		if (data->cmds && data->cmds->iofiles)
 			close_iofds(data->cmds, 1);
 		free_all(data, 1);
+		if (data && data->envar)
+			free_evar_list(data->envar);
 		voidfree(data);
 	}
 	exit(excode);

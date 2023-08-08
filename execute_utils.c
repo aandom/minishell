@@ -42,7 +42,6 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 {
 	char	*c;
 	char	**path;
-	char	*tmp;
 	int		i;
 
 	if (!envar)
@@ -51,9 +50,7 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 	i = 0;
 	while (path && path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		c = ft_strjoin(tmp, cmd->cmd);
-		free(tmp);
+		c = ft_strjoin(ft_strjoin(path[i], "/"), cmd->cmd);
 		if (access(c, F_OK) == 0)
 			return (c);
 		free(c);
