@@ -6,7 +6,7 @@
 /*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 21:17:08 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/08 21:49:20 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_already_exit(t_evar *env, char *str)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(str, tmp->key, ft_strlen(str)) == 0)
+		if (ft_strcmp(str, tmp->key) == 0)
 			return (1);
 		tmp = tmp->next;
 	}
@@ -98,32 +98,37 @@ void	ft_var_freer(t_evar *env)
 	free(tmp);
 }
 
-int	ft_export(t_data *d)
+int	ft_export_util(t_data *d)
 {
 	int		i;
 	t_evar	*t;
-	int		code;
 
 	i = 1;
+	while (d->cmds->cmdarg[i])
+	{
+		t = new_evar(d->cmds->cmdarg[i]);
+		if (is_invalid_key(t->key) == 0)
+		{
+			print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
+			ft_var_freer(t);
+			return (EXIT_FAILURE);
+		}
+		if (ft_already_exit(d->envar, t->key))
+			ft_del_env(&d->envar, t->key);
+		add_back_env(&d->envar, t);
+		i++;
+	}
+	env_pointer(d);
+	return (EXIT_SUCCESS);
+}
+
+int	ft_export(t_data *d)
+{
+	int		code;
+
 	code = EXIT_SUCCESS;
 	if (d->cmds->cmdarg[1] != NULL)
-	{
-		while (d->cmds->cmdarg[i])
-		{
-			t = new_evar(d->cmds->cmdarg[i]);
-			if (is_invalid_key(t->key) == 0)
-			{
-				print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
-				ft_var_freer(t);
-				return (EXIT_FAILURE);	
-			}
-			if (ft_already_exit(d->envar, t->key))
-				ft_del_env(&d->envar, t->key);
-			add_back_env(&d->envar, t);
-			i++;
-		}
-		env_pointer(d);
-	}
+		code = ft_export_util(d);
 	else
 		ft_print_export(d);
 	return (code);
