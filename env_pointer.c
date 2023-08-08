@@ -34,7 +34,7 @@ void	env_pointer(t_data *data)
 	int		i;
 
 	if (data->env)
-		ft_arr_freer(data->env);
+		// ft_arr_freer(data->env);
 	if (!data->envar)
 		return ;
 	env_len = ft_envlen(data->envar);

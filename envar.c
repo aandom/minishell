@@ -126,7 +126,11 @@ void	ft_del_env(t_evar **head, char *str)
 int	initialize_envar(t_data *data, char **env)
 {
 	int		i;
+	// char	**envar;
 
+	// envar = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
+	// if (!envar)
+	// 	return (0);
 	data->env = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
 	if (!data->env)
 		return (0);
@@ -138,5 +142,14 @@ int	initialize_envar(t_data *data, char **env)
 			return (0);
 		i++;
 	}
+
+	// while ( env && env[i])
+	// {
+	// 	envar[i] = ft_strdup(env[i]);
+	// 	if (envar[i])
+	// 		return (0);
+	// 	i++;
+	// }
+	// data->env = envar;
 	return (1);
 }
