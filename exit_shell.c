@@ -43,7 +43,7 @@ void	free_all(t_data *data, int code)
 	if (data && data->input)
 	{
 		voidfree(data->input);
-		data->input = NULL;
+		// data->input = NULL;
 	}
 	if (data && data->lexed)
 		ft_lst_clear_token(&data->lexed, &voidfree);

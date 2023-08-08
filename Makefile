@@ -22,6 +22,12 @@ CC = cc -g
 $(NAME): $(OBJS)
 		 $(CC) $(CFLAGS)  $(OBJS) -o $(NAME) -lreadline
 
+leaks:
+	valgrind --suppressions=readleak.txt \
+	--leak-check=full --trace-children=yes \
+	--show-leak-kinds=all --track-origins=yes \
+	--track-fds=yes ./minishell
+
 all: $(NAME)
 
 clean: 
