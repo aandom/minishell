@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 total 22096
 drwxrwxrwx 1 alexashie alexashie    4096 Aug  9 11:56 .
 drwxrwxrwx 1 alexashie alexashie    4096 Jul  5 14:54 ..
@@ -155,3 +156,6 @@ drwxrwxrwx 1 alexashie alexashie    4096 Aug  9 01:48 tomas
 -rwxrwxrwx 1 alexashie alexashie 7147520 Aug  8 22:59 vgcore.8929
 -rwxrwxrwx 1 alexashie alexashie 7147520 Aug  8 22:59 vgcore.9173
 -rwxrwxrwx 1 alexashie alexashie 7147520 Aug  8 22:59 vgcore.9407
+=======
+5
+>>>>>>> c4a82ac041900be9e2994c82302b30c23ede9019

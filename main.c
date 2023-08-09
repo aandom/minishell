@@ -86,6 +86,8 @@ void	my_minishell(char **env)
 	t_data	*data;
 
 	data = (t_data *)malloc(sizeof(t_data));
+	if (!data)
+		return ;
 	ft_memset(data, 0, sizeof(t_data));
 	if (!initialize_data(data, env))
 		exitshell(NULL, EXIT_FAILURE);
@@ -101,5 +103,6 @@ int	main(int ac, char **av, char **env)
 	(void) env;
 	if (ac != 1)
 		return (127);
-	my_minishell(env);
+	if (env && env[0])
+		my_minishell(env);
 }
