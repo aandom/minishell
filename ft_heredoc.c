@@ -18,7 +18,6 @@ char	*generate_heredoc_name(void)
 	char		*name;
 	char		*identifier;
 
-	i = 1;
 	identifier = ft_itoa(i);
 	name = ft_strjoin(ft_strdup("/tmp/.m_heredoc_"), identifier);
 	free(identifier);
@@ -41,7 +40,7 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->h_delim);
 			break ;
 		}
-		if (!ft_strncmp(line, iofds->h_delim, ft_strlen(iofds->h_delim)))
+		if (!ft_strcmp(line, iofds->h_delim))
 			break ;
 		else if (iofds->here_quote != 1)
 		{

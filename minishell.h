@@ -243,8 +243,8 @@ int			check_prepare_exec(t_data *data);
 int			fork_wait(t_data *data);
 
 // execute.c
-int			execute_nopath_cmd(t_data *data, t_cmd *cmd);
-int			execute_path_cmd(t_data *data, t_cmd *cmd);
+int			exec_cmd_with_nopath(t_data *data, t_cmd *cmd);
+int			exec_cmd_with_path(t_data *data, t_cmd *cmd);
 int			execute_cmd(t_data *data, t_cmd *cmd);
 int			create_forks(t_data *data);
 int			ft_execute(t_data *data);

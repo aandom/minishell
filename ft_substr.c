@@ -22,10 +22,18 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	i = 0;
 	slen = ft_strlen(s);
+	// printf("start = [%u]\n", start);
+	// printf("str = [%s]\n", s);
 	if (slen < len)
+	{
+		// printf("slen[i] = %lu\n", slen);
 		result = (char *) malloc(slen + 1);
+	}
 	else
+	{
+		// printf("len[i] = %lu\n", len);
 		result = (char *) malloc(len + 1);
+	}
 	if (!result)
 		return (0);
 	while ((start < slen) && (i < len && i < slen))

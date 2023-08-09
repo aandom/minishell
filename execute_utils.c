@@ -56,6 +56,7 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 		free(c);
 		i++;
 	}
+	print_errmsg(cmd->cmd, NULL, "command not found", 127);
 	return (NULL);
 }
 
@@ -71,10 +72,10 @@ int	is_directory(char *cmd)
 int	check_command(t_cmd *cmd)
 {
 	if (access(cmd->cmd, F_OK) != 0)
-		return (127);
+		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
 	else if (is_directory(cmd->cmd))
-		return (126);
+		return(print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
 	else if (access(cmd->cmd, F_OK | X_OK) != 0)
-		return (126);
+		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
 	return (0);
 }

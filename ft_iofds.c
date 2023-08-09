@@ -24,6 +24,8 @@ void	initialize_iofds(t_cmd *cmd)
 		cmd->iofiles->fdin = -1;
 		cmd->iofiles->fdout = -1;
 		cmd->iofiles->h_delim = NULL;
+		cmd->iofiles->stdin_cp = -1;
+		cmd->iofiles->stdout_cp = -1;
 	}
 }
 

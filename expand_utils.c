@@ -25,14 +25,16 @@ void	update_quotes(t_lexer **token, char c)
 
 int	is_next_char_sep(char *str, int i)
 {
-	if (str[i] == ' ' || str[i] == '$' || str[i] == '=' || str[i] == '\0')
+	if (str && (str[i] == ' ' || str[i] == '$' || str[i] == '=' || str[i] == '\0'))
 		return (1);
 	return (0);
 }
 
 int	is_valid_expansion(t_lexer *token, int i)
 {
-	if (is_next_char_sep(token->str, i + 1))
+	if (!token->str || !token->str[i])
+		return (0);
+	if (is_next_char_sep(token->str, i + 1) || token->str [i + 1] == '\"' || token->str[i + 1] == '\'')
 		return (0);
 	if (i > 1 && (token->str[i - 1] == '\"' && token->str[i + 1] == '\"'))
 		return (0);

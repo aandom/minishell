@@ -44,7 +44,7 @@ int	exit_with_arg(t_data *data)
 	cmd = data->cmds;
 	if (!cmd)
 		return (0);
-	if (cmd->prev || cmd->next)
+	if (cmd->prev != NULL || cmd->next != NULL)
 		return (1);
 	return (0);
 }

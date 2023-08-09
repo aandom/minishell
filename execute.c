@@ -12,34 +12,25 @@
 
 #include "minishell.h"
 
-int	execute_nopath_cmd(t_data *data, t_cmd *cmd)
+int	exec_cmd_with_nopath(t_data *data, t_cmd *cmd)
 {
 	char	*c_exe;
 
 	if (!cmd->cmd || cmd->cmd[0] == '\0')
-	{
-		printf("cmd null\n");
 		return (127);
-	}
 	if (is_directory(cmd->cmd))
-	{
-		printf("is directory\n");
 		return (127);
-	}
 	c_exe = get_cmd(data->envar, cmd);
 	if (!c_exe)
-	{
-		printf("path not found [%s]\n", cmd->cmd);
 		return (127);
-	}
+	if (access(c_exe, F_OK | X_OK) == -1)
+		return(print_errmsg(c_exe, NULL, strerror(errno), 126));
 	if (execve(c_exe, cmd->cmdarg, data->env) == -1)
-	{
-		perror(cmd->cmdarg[0]);
-	}
+		return(print_errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
 }
 
-int	execute_path_cmd(t_data *data, t_cmd *cmd)
+int	exec_cmd_with_path(t_data *data, t_cmd *cmd)
 {
 	int	res;
 
@@ -47,7 +38,7 @@ int	execute_path_cmd(t_data *data, t_cmd *cmd)
 	if (res != 0)
 		return (res);
 	if (execve(cmd->cmd, cmd->cmdarg, data->env) == -1)
-		perror(cmd->cmdarg[0]);
+		return(print_errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
 }
 
@@ -69,13 +60,13 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 		else
 		{
 			res = 127;
-			res = execute_nopath_cmd(data, cmd);
+			res = exec_cmd_with_nopath(data, cmd);
 		}
 		if (res != 127)
 			exitshell(data, res);
 	}
 	else
-		res = execute_path_cmd(data, cmd);
+		res = exec_cmd_with_path(data, cmd);
 	exitshell(data, res);
 	return (res);
 }

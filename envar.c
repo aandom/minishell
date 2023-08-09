@@ -73,12 +73,14 @@ void	add_back_env(t_evar **evar, t_evar *newvar)
 
 void	copy_env(t_data *data, char **env)
 {
-	int	i;
+	int		i;
+	t_evar	*new;
 
 	i = 0;
 	while (env[i])
 	{
-		add_back_env(&data->envar, new_evar(env[i]));
+		new = new_evar(env[i]);
+		add_back_env(&data->envar, new);
 		i++;
 	}
 }
@@ -128,6 +130,7 @@ int	initialize_envar(t_data *data, char **env)
 	int		i;
 
 	data->env = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
+	printf("len = [%d]\n", env_var_len(env));
 	if (!data->env)
 		return (0);
 	i = 0;
