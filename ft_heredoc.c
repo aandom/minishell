@@ -34,7 +34,9 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (1)
 	{
+		herer_expecting_input(data);
 		line = readline(">");
+		here_not_expecting_input(data);
 		if (!line)
 		{
 			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->h_delim);

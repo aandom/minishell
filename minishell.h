@@ -20,8 +20,8 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "/usr/include/readline/readline.h"
-# include "/usr/include/readline/history.h"
+// # include "/usr/include/readline/readline.h"
+// # include "/usr/include/readline/history.h"
 # include <sys/fcntl.h>
 # include <limits.h>
 # include <fcntl.h>
@@ -343,5 +343,13 @@ void		ft_putendl_fd2(char *str, int fd);
 // ft_cd_utils
 void		ft_expanding_tilda(t_data *data);
 t_evar		*find_evar(t_evar *env, char *key);
+
+// signal.c
+// void	here_not_expecting_input(void);
+// void	herer_expecting_input(void);
+
+void	herer_expecting_input(t_data *data);
+void	here_not_expecting_input(t_data *data);
+
 
 #endif

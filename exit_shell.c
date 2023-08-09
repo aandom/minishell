@@ -53,6 +53,7 @@ void	free_all(t_data *data, int code)
 	{
 		if (data && data->env)
 			ft_arr_freer(data->env);
+		// clear_history();
 		rl_clear_history();
 	}
 }
