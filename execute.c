@@ -93,7 +93,6 @@ int	create_forks(t_data *data)
 int	ft_execute(t_data *data)
 {
 	int	res;
-
 	res = check_prepare_exec(data);
 	if (res != 127)
 		return (res);

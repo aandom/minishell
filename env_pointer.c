@@ -48,7 +48,6 @@ void	env_pointer(t_data *data)
 	{	
 		holder = ft_strjoin(ft_strdup(tmp->key), "=");
 		data->env[i] = ft_strjoin(holder, tmp->value);
-		// free(holder);
 		i++;
 		tmp = tmp->next;
 	}

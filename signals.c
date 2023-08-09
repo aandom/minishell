@@ -14,11 +14,14 @@
 
 static void	new_prompt(int signal)
 {
-	(void) signal;
-	ft_putendl_fd("", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (signal == SIGINT)
+	{
+		ft_putendl_fd("", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_code = 100;
+	}
 }
 
 void	expecting_input(void)
@@ -36,8 +39,16 @@ void	expecting_input(void)
 
 static void	print_line(int signal)
 {
-	(void) signal;
-	rl_on_new_line();
+	if (signal == SIGQUIT && g_exit_code != 50)
+	{
+		printf("Quit: 3\n");
+		rl_on_new_line();
+	}
+	else if (signal == SIGINT)
+	{
+		rl_on_new_line();
+		g_exit_code = 100;
+	}
 }
 
 void	not_expecting_input(void)

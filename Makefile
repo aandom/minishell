@@ -14,13 +14,15 @@ NAME = minishell
 SRC = $(wildcard *.c) $(wildcard ./exec/builtins/*.c)
 OBJS =  $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-CC = cc -g
+READLINE = -lreadline -L /usr/local/Cellar/readline/8.1/lib -L /usr/local/Cellar/readline/8.1/include
+READLINE_2 = -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
+CC = cc -I/usr/local/opt/readline/include -g
 
 %.o: %.c 
 		@${CC} ${CFLAGS} -c $< -o $@
 
 $(NAME): $(OBJS)
-		 $(CC) $(CFLAGS)  $(OBJS) -o $(NAME) -lreadline
+		 $(CC) $(CFLAGS)  $(OBJS) $(READLINE_2) -o $(NAME)
 
 leaks:
 	valgrind --suppressions=readleak.txt \
@@ -41,3 +43,4 @@ fclean: clean
 re: fclean	all
 
 .PHONY: all clean fclean re
+

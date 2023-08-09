@@ -42,7 +42,7 @@ void	update_pwd(t_data *data, char *key, char *value)
 
 	if (key == NULL || value == NULL)
 		return ;
-	new_env = ft_strjoin(ft_strjoin(key, "="), value);
+	new_env = ft_strjoin(ft_strjoin(ft_strdup(key), "="), value);
 	old = find_evar(data->envar, key);
 	if (old->value != NULL || old->key != NULL)
 	{
@@ -54,7 +54,7 @@ void	update_pwd(t_data *data, char *key, char *value)
 	free(new_env);
 }
 
-void	ft_previous_dir(t_data *data)
+int	ft_previous_dir(t_data *data)
 {
 	t_evar	*pwd;
 	t_evar	*oldpwd;
@@ -63,8 +63,10 @@ void	ft_previous_dir(t_data *data)
 
 	pwd = find_evar(data->envar, "PWD");
 	oldpwd = find_evar(data->envar, "OLDPWD");
+	if (!oldpwd)
+		return(print_errmsg("cd", NULL, "OLDPWD not set", 1), 1);
 	if (!pwd || !oldpwd || !pwd->value || !oldpwd->value)
-		return ;
+		return (1);
 	new_pwd = ft_strdup(oldpwd->value);
 	new_oldpwd = ft_strdup(pwd->value);
 	update_pwd(data, "PWD", new_pwd);
@@ -73,11 +75,13 @@ void	ft_previous_dir(t_data *data)
 	{
 		free(new_pwd);
 		free(new_oldpwd);
-		return ;
+		return (1);
 	}
+	ft_putendl_fd(new_pwd, STDOUT_FILENO);
 	free(new_pwd);
 	free(new_oldpwd);
 	env_pointer(data);
+	return (EXIT_SUCCESS);
 }
 
 void	ft_home(t_data *data)
@@ -99,12 +103,12 @@ int	ft_cd(t_data *d, t_cmd *cmd)
 	int		code;
 
 	code = EXIT_SUCCESS;
-	if (!cmd || !cmd->cmdarg || cmd->cmdarg[2] != NULL)
+	if (cmd->cmdarg[2] != NULL)
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	if (!ft_strcmp(cmd->cmdarg[1], "-"))
 	{
-		ft_previous_dir(d);
-		return (EXIT_SUCCESS);
+		code = ft_previous_dir(d);
+		return (code);
 	}
 	pwd(d->envar, "OLDPWD");
 	if (cmd->cmdarg[1] && cmd->cmdarg[1][0] == '~' && cmd->cmdarg[1][1]

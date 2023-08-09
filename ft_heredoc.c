@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+# define BUFFER_SIZE 100
 
 char	*generate_heredoc_name(void)
 {
@@ -25,6 +26,27 @@ char	*generate_heredoc_name(void)
 	return (name);
 }
 
+char *get_next_line(int fd)
+{
+    int i = 0;
+    int rd = 0;
+    char character;
+
+    if (BUFFER_SIZE <= 0)
+        return (NULL);
+    char *buffer = malloc(100000);
+    while ((rd = read(fd, &character, BUFFER_SIZE - BUFFER_SIZE + 1)) > 0)
+    {
+        if (character == '\n')
+            break;
+        buffer[i++] = character;
+    }
+    buffer[i] = '\0';
+    if (rd == -1 || i == 0 || (!buffer[i - 1] && !rd))
+        return (free(buffer), NULL);
+    return (buffer);
+}
+
 int	create_heredoc(t_data *data, t_iofiles *iofds)
 {
 	int		fd;
@@ -32,10 +54,16 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	char	*tmp;
 
 	fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	while (1)
+	line = get_next_line(STDIN_FILENO);
+	while (!(g_exit_code == 100) && line)
 	{
-		line = readline(">");
-		if (!line)
+		line = get_next_line(STDIN_FILENO);
+		if (!line && g_exit_code == 100)
+		{
+			g_exit_code = 0;
+			break ;
+		}
+		else if (!line && g_exit_code != 100)
 		{
 			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->h_delim);
 			break ;
@@ -49,10 +77,10 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 			line = tmp;
 		}
 		ft_putendl_fd(line, fd);
-		free(line);
+		voidfree(line);
 	}
 	close(fd);
-	return (free(line), 1);
+	return (voidfree(line), 1);
 }
 
 int	delim_len(char *str)
@@ -105,6 +133,7 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 	t_iofiles	*iofds;
 
 	lastcmd = get_last_cmd(*cmds);
+	g_exit_code = 50;
 	tmp = *token;
 	initialize_iofds(lastcmd);
 	iofds = lastcmd->iofiles;
