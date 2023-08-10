@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_pointer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:25:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 20:57:12 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/09 11:24:40 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ void	env_pointer(t_data *data)
 	if (!data->env)
 		return ;
 	while (tmp && i < env_len)
-	{
+	{	
 		holder = ft_strjoin(ft_strdup(tmp->key), "=");
 		data->env[i] = ft_strjoin(holder, tmp->value);
+		// free(holder);
 		i++;
 		tmp = tmp->next;
 	}

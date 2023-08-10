@@ -49,3 +49,38 @@ void	not_expecting_input(void)
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
 }
+
+static void	here_new_prompt(int sig)
+{
+	(void) sig;
+	
+	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, new_prompt);
+
+}
+
+void	herer_expecting_input(t_data *data)
+{
+	struct sigaction	sigint_act;
+	struct sigaction	sigquit_act;
+	
+	
+	ft_bzero(&sigint_act, sizeof(sigint_act));
+	sigint_act.sa_handler = &here_new_prompt;
+	if (sigaction(SIGINT, &sigint_act, NULL) == 0)
+		free_all(data, 0);
+	ft_bzero(&sigquit_act, sizeof(sigquit_act));
+	sigquit_act.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sigquit_act, NULL);
+}
+
+void	here_not_expecting_input(t_data *data)
+{
+	struct sigaction	act;
+
+	(void) data;
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = &print_line;
+	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
+}

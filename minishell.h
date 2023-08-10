@@ -20,8 +20,8 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "/usr/include/readline/readline.h"
-# include "/usr/include/readline/history.h"
+// # include "/usr/include/readline/readline.h"
+// # include "/usr/include/readline/history.h"
 # include <sys/fcntl.h>
 # include <limits.h>
 # include <fcntl.h>
@@ -250,8 +250,8 @@ int			check_prepare_exec(t_data *data);
 int			fork_wait(t_data *data);
 
 // execute.c
-int			execute_nopath_cmd(t_data *data, t_cmd *cmd);
-int			execute_path_cmd(t_data *data, t_cmd *cmd);
+int			exec_cmd_with_nopath(t_data *data, t_cmd *cmd);
+int			exec_cmd_with_path(t_data *data, t_cmd *cmd);
 int			execute_cmd(t_data *data, t_cmd *cmd);
 int			create_forks(t_data *data);
 int			ft_execute(t_data *data);
@@ -342,6 +342,21 @@ int			check_token(char *str, int i);
 int			check_quote(char *str, int i, int quote);
 int			ft_parser(t_data *data);
 
+// ft_export
+int			ft_already_exit(t_evar *env, char *str);
+int			is_invalid_key(char *str);
+void		ft_putendl_fd2(char *str, int fd);
+
+// ft_cd_utils
+void		ft_expanding_tilda(t_data *data);
+t_evar		*find_evar(t_evar *env, char *key);
+
+// signal.c
+// void	here_not_expecting_input(void);
+// void	herer_expecting_input(void);
+
+void	herer_expecting_input(t_data *data);
+void	here_not_expecting_input(t_data *data);
 
 
 int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no);

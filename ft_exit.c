@@ -44,7 +44,7 @@ int	exit_with_arg(t_data *data)
 	cmd = data->cmds;
 	if (!cmd)
 		return (0);
-	if (cmd->prev || cmd->next)
+	if (cmd->prev != NULL || cmd->next != NULL)
 		return (1);
 	return (0);
 }
@@ -57,7 +57,7 @@ int	ft_exit(t_data *data, char **args, t_exno *ex_no)
 
 	valid_arg = exit_with_arg(data);
 	is_valid_code = 1;
-	if (!valid_arg)
+	if (valid_arg)
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args || !args[1])
 		ex_code = ex_no->exno;
