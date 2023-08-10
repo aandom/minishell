@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/stat.h>
+# include <stdint.h>
 
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
 # define QERRMSG "unexpected EOF while looking for matching `"
@@ -54,6 +55,12 @@ enum e_quotes
 	SINGLE,
 	DOUBLE,
 };
+
+typedef	struct s_exno
+{
+	int	exno;
+}		t_exno;
+
 
 typedef struct s_evar
 {
@@ -100,6 +107,7 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
+	int			e_code;
 	char		*input;
 	char		**env;
 	char		**wdir;
@@ -109,6 +117,9 @@ typedef struct s_data
 	t_evar		*envar;
 }	t_data;
 
+
+void	*ft_calloc(size_t count, size_t size);
+void	free_evar_list(t_evar *head);
 char	**clean(char **av);
 char	**ft_split(char *str, char c);
 int		ft_parser(t_data *data);
@@ -126,7 +137,7 @@ t_cmd	*new_cmd(int pipeout);
 void	add_back_cmd(t_cmd **cmds, t_cmd *cmd);
 void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token);
 char	*ft_itoa(int n);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	initialize_iofds(t_cmd *cmd);
 int		remove_prev_iofds(t_iofiles *iofds, int code);
@@ -149,9 +160,9 @@ void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
-int		ft_expand_var(t_data *data, t_lexer **token);
+// int		ft_expand_var(t_data *data, t_lexer **token);
 int		is_next_char_sep(char *str, int i);
-char	*extract_var_value(t_lexer *token, int i, t_data *data);
+// char	*extract_var_value(t_lexer *token, int i, t_data *data);
 char	*get_varname(char *str);
 int		var_in_env(t_evar *envar, char *key);
 char	*get_varvalue(t_evar *evar, char *key);
@@ -164,7 +175,7 @@ int		initialize_envar(t_data *data, char **env);
 void	close_iofds(t_cmd *cmds, int code);
 int		ft_isspace(int c);
 void	exitshell(t_data *data, int excode);
-int		ft_exit(t_data *data, char **args);
+// int		ft_exit(t_data *data, char **args);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putendl_fd(char *s, int fd);
 int		print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
@@ -252,9 +263,9 @@ int			set_sign(const char *str, int *sign, int i);
 long long	ft_atoi_lu(char *str, int *is_valid);
 
 // ft_exit.c
-int			get_exit_code(char *exarg, int *is_valid);
+// int			get_exit_code(char *exarg, int *is_valid);
 int			exit_with_arg(t_data *data);
-int			ft_exit(t_data *data, char **args);
+// int			ft_exit(t_data *data, char **args);
 
 // ft_heredoc_utils.c
 char		*extract_here_val(char *str, int index, t_data *data);
@@ -290,7 +301,7 @@ void		remove_quotes(t_lexer **lexed);
 void		check_var(t_lexer **token);
 char		*get_varvalue(t_evar *evar, char *key);
 int			var_in_env(t_evar *envar, char *key);
-char		*extract_var_value(t_lexer *token, int i, t_data *data);
+// char		*extract_var_value(t_lexer *token, int i, t_data *data);
 void		delete_var(t_lexer **token, char *str, int index);
 
 // expand_utilis.c
@@ -302,10 +313,10 @@ char		*get_varname(char *str);
 
 // expand.c
 void		replace_var(t_lexer **token, char *varvalue, int index);
-int			expand_var(t_data *data, t_lexer **token);
+// int			expand_var(t_data *data, t_lexer **token);
 int			check_consecutive(t_lexer *token);
 int			parsing_check(t_lexer **token);
-int			ft_expand_var(t_data *data, t_lexer **token);
+// int			ft_expand_var(t_data *data, t_lexer **token);
 
 // expand_var_utils.c
 char		*copy_token_str(char *str, char *value, int index, int len);
@@ -331,6 +342,13 @@ int			check_token(char *str, int i);
 int			check_quote(char *str, int i, int quote);
 int			ft_parser(t_data *data);
 
+
+
+int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no);
+int	ft_exit(t_data *data, char **args, t_exno *ex_no);
+int	ft_expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
+int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
+char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no);
 
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
+/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 20:27:33 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/07 21:17:51 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/08 21:02:08 by tpetros          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	ft_echo(t_cmd *cmd)
 	int	i;
 
 	i = 1;
+	n_flag = 0;
 	while (cmd->cmdarg[i] && (!ft_strncmp(cmd->cmdarg[i], "-n", 2)
 			&& all_n(cmd->cmdarg[i])))
 	{

@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-int	get_exit_code(char *exarg, int *is_valid)
+int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no)
 {
 	unsigned long long	i;
 
 	if (!exarg)
-		return (g_exit_code);
+		return (ex_no->exno);
 	i = 0;
 	while (ft_isspace(exarg[i]))
 		i++;
@@ -49,7 +49,7 @@ int	exit_with_arg(t_data *data)
 	return (0);
 }
 
-int	ft_exit(t_data *data, char **args)
+int	ft_exit(t_data *data, char **args, t_exno *ex_no)
 {
 	int	ex_code;
 	int	valid_arg;
@@ -60,10 +60,10 @@ int	ft_exit(t_data *data, char **args)
 	if (!valid_arg)
 		ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args || !args[1])
-		ex_code = g_exit_code;
+		ex_code = ex_no->exno;
 	else
 	{
-		ex_code = get_exit_code(args[1], &is_valid_code);
+		ex_code = get_exit_code(args[1], &is_valid_code, ex_no);
 		if (!is_valid_code)
 			ex_code = print_errmsg("exit", args[1], INVARG, 2);
 		else if (args[2])

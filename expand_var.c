@@ -60,7 +60,7 @@ int	var_in_env(t_evar *envar, char *key)
 	return (0);
 }
 
-char	*extract_var_value(t_lexer *token, int i, t_data *data)
+char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no)
 {
 	char	*varname;
 	char	*varvalue;
@@ -69,7 +69,7 @@ char	*extract_var_value(t_lexer *token, int i, t_data *data)
 	if (varname && var_in_env(data->envar, varname))
 		varvalue = get_varvalue(data->envar, varname);
 	else if (varname && varname[0] == '?')
-		varvalue = ft_itoa(g_exit_code);
+		varvalue = ft_itoa(ex_no->exno);
 	else
 		varvalue = NULL;
 	voidfree(varname);

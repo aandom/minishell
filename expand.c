@@ -22,7 +22,7 @@ void	replace_var(t_lexer **token, char *varvalue, int index)
 	return ;
 }
 
-int	expand_var(t_data *data, t_lexer **token)
+int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no)
 {
 	int		i;
 	t_lexer	*tmp;
@@ -37,7 +37,7 @@ int	expand_var(t_data *data, t_lexer **token)
 			{
 				update_quotes(&tmp, tmp->str[i]);
 				if (tmp->str[i] == '$' && is_valid_expansion(tmp, i))
-					replace_var(&tmp, extract_var_value(tmp, i, data), i);
+					replace_var(&tmp, extract_var_value(tmp, i, data, ex_no), i);
 				else
 					i++;
 			}
@@ -88,7 +88,7 @@ int	parsing_check(t_lexer **token)
 	return (0);
 }
 
-int	ft_expand_var(t_data *data, t_lexer **token)
+int	ft_expand_var(t_data *data, t_lexer **token, t_exno *ex_no)
 {
 	t_lexer	*tmp;
 
@@ -98,5 +98,5 @@ int	ft_expand_var(t_data *data, t_lexer **token)
 		check_var(&tmp);
 		tmp = tmp->next;
 	}
-	return (expand_var(data, token), 1);
+	return (expand_var(data, token, ex_no), 1);
 }

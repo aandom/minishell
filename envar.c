@@ -142,14 +142,6 @@ int	initialize_envar(t_data *data, char **env)
 			return (0);
 		i++;
 	}
-
-	// while ( env && env[i])
-	// {
-	// 	envar[i] = ft_strdup(env[i]);
-	// 	if (envar[i])
-	// 		return (0);
-	// 	i++;
-	// }
-	// data->env = envar;
+	data->env[i] = NULL;
 	return (1);
 }
