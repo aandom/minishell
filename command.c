@@ -22,8 +22,7 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 	while (t->type == WORD)
 	{
 		lastcmd = get_last_cmd(*cmds);
-		if (t->prev == NULL || t->prev->type == PIPE
-			|| t->prev->prev->type == LESS || t->prev->prev->type == LESS_LESS)
+		if (t->prev == NULL || (t->prev &&  t->prev->type == PIPE) || lastcmd->cmd == NULL)
 		{
 			if (lastcmd == NULL || lastcmd->cmd == NULL)
 				lastcmd->cmd = ft_strdup(t->str);

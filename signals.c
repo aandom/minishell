@@ -37,7 +37,7 @@ void	expecting_input(void)
 static void	print_line(int signal)
 {
 	(void) signal;
-	ft_putendl_fd("", STDOUT_FILENO);
+	// ft_putendl_fd("", STDOUT_FILENO);
 	rl_on_new_line();
 }
 
