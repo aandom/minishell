@@ -54,13 +54,20 @@ void	ft_minishell_new(t_data *data, t_exno *ex_s)
 {
 	while (1)
 	{
-		expecting_input();
+		init_signals(ex_s);
 		data->input = readline(PROMPT);
-		not_expecting_input();
+		// not_expecting_input();
 		if (parse_input(data, ex_s) == 1)
 			ex_s->exno = ft_execute(data, ex_s);
 		else
+		{
 			ex_s->exno = 1;
+		}
+		if (g_exit_code == CTRL_C)
+		{
+			ex_s->exno = 130;
+			g_exit_code = 0;
+		}
 		free_all(data, 0);
 	}
 }
@@ -99,6 +106,8 @@ void	my_minishell(char **env)
 	if (!initialize_data(data, env))
 		exitshell(NULL, EXIT_FAILURE);
 	ft_shlvl(data, data->envar);
+	// ex_s.exno = init_signals();
+
 	ft_minishell_new(data, &ex_s);
 	exitshell(data, ex_s.exno);
 	return ;

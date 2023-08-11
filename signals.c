@@ -12,76 +12,65 @@
 
 #include "minishell.h"
 
-static void	new_prompt(int signal)
+int	event(void)
 {
-	(void) signal;
-	ft_putendl_fd("", STDOUT_FILENO);
+	return (EXIT_SUCCESS);
+}
+
+void	sigquit_handler(int sig)
+{
+	(void) sig;
+	if (g_exit_code == IN_CMD)
+	{
+		g_exit_code = CTRL_BS;
+		rl_replace_line("", 0);
+		rl_redisplay();
+		rl_done = 1;
+		ft_putendl_fd("Quit: ", STDERR_FILENO);
+		return ;
+	}
+}
+
+void	sigint_handler(int sig)
+{
+	(void) sig;
+	if (g_exit_code != IN_HEREDOC)
+		ft_putstr_fd("\n", STDERR_FILENO);
+	if (g_exit_code == IN_CMD)
+	{
+		g_exit_code = CTRL_C;
+		rl_replace_line("", 0);
+		rl_redisplay();
+		rl_done = 1;
+		return ;
+	}
+	else if (g_exit_code == IN_HEREDOC)
+	{
+		g_exit_code = STOP_HEREDOC;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		rl_done = 1;
+		return ;
+	}
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	expecting_input(void)
+int	init_signals(t_exno *ex_s)
 {
-	struct sigaction	sigint_act;
-	struct sigaction	sigquit_act;
-
-	ft_bzero(&sigint_act, sizeof(sigint_act));
-	sigint_act.sa_handler = &new_prompt;
-	sigaction(SIGINT, &sigint_act, NULL);
-	ft_bzero(&sigquit_act, sizeof(sigquit_act));
-	sigquit_act.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sigquit_act, NULL);
-}
-
-static void	print_line(int signal)
-{
-	(void) signal;
-	// ft_putendl_fd("", STDOUT_FILENO);
-	rl_on_new_line();
-}
-
-void	not_expecting_input(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &print_line;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
-}
-
-static void	here_new_prompt(int sig)
-{
-	(void) sig;
-	
-	signal(SIGINT, SIG_IGN);
-	// signal(SIGINT, new_prompt);
-
-}
-
-void	herer_expecting_input(t_data *data)
-{
-	struct sigaction	sigint_act;
-	struct sigaction	sigquit_act;
-	
-	
-	ft_bzero(&sigint_act, sizeof(sigint_act));
-	sigint_act.sa_handler = &here_new_prompt;
-	if (sigaction(SIGINT, &sigint_act, NULL) == 0)
-		free_all(data, 0);
-	ft_bzero(&sigquit_act, sizeof(sigquit_act));
-	sigquit_act.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sigquit_act, NULL);
-}
-
-void	here_not_expecting_input(t_data *data)
-{
-	struct sigaction	act;
-
-	(void) data;
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &print_line;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
+	rl_catch_signals = 0;
+	rl_event_hook = event;
+	if (signal(SIGINT, sigint_handler) == SIG_ERR)
+	{
+		printf("sigint\n");
+		ex_s->exno = 130;
+	}
+	if (signal(SIGQUIT, sigquit_handler) == SIG_ERR)
+	{
+		printf("siquit\n");
+		ex_s->exno = 1;
+	}
+	return (g_exit_code);
 }
