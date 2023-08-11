@@ -42,7 +42,7 @@ int	exec_cmd_with_path(t_data *data, t_cmd *cmd)
 	return (1);
 }
 
-int	execute_cmd(t_data *data, t_cmd *cmd)
+int	execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no)
 {
 	int	res;
 
@@ -56,7 +56,7 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 	if (!ft_strchr(cmd->cmd, '/'))
 	{
 		if (is_builtin(cmd->cmd))
-			res = execute_builtin(data, cmd);
+			res = execute_builtin(data, cmd, ex_no);
 		else
 		{
 			res = 127;
@@ -71,7 +71,7 @@ int	execute_cmd(t_data *data, t_cmd *cmd)
 	return (res);
 }
 
-int	create_forks(t_data *data)
+int	create_forks(t_data *data, t_exno *ex_no)
 {
 	t_cmd	*cmds;
 	int		a;
@@ -83,14 +83,14 @@ int	create_forks(t_data *data)
 		if (data->pid == -1)
 			return (1);
 		else if (data->pid == 0)
-			execute_cmd(data, cmds);
+			execute_cmd(data, cmds, ex_no);
 		cmds = cmds->next;
 	}
 	a = (fork_wait(data));
 	return (a);
 }
 
-int	ft_execute(t_data *data)
+int	ft_execute(t_data *data, t_exno *ex_no)
 {
 	int	res;
 
@@ -102,10 +102,10 @@ int	ft_execute(t_data *data)
 	{
 		set_iofds(data->cmds->iofiles);
 		if (is_builtin(data->cmds->cmd))
-			res = execute_builtin(data, data->cmds);
+			res = execute_builtin(data, data->cmds, ex_no);
 		reset_stdio(data->cmds->iofiles);
 	}
 	if (res != 127)
 		return (res);
-	return (create_forks(data));
+	return (create_forks(data, ex_no));
 }

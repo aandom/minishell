@@ -42,7 +42,9 @@ void	update_pwd(t_data *data, char *key, char *value)
 
 	if (key == NULL || value == NULL)
 		return ;
-	new_env = ft_strjoin(ft_strjoin(key, "="), value);
+	new_env = ft_strjoin(ft_strdup(key), "=");
+	new_env = ft_strjoin(new_env, value);
+	// new_env = ft_strjoin(ft_strjoin(key, "="), value);
 	old = find_evar(data->envar, key);
 	if (old->value != NULL || old->key != NULL)
 	{
@@ -121,3 +123,4 @@ int	ft_cd(t_data *d, t_cmd *cmd)
 	env_pointer(d);
 	return (code);
 }
+

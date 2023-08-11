@@ -20,8 +20,8 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "/usr/include/readline/readline.h"
-# include "/usr/include/readline/history.h"
+// # include "/usr/include/readline/readline.h"
+// # include "/usr/include/readline/history.h"
 # include <sys/fcntl.h>
 # include <limits.h>
 # include <fcntl.h>
@@ -34,6 +34,12 @@
 # define QERRMSG "unexpected EOF while looking for matching `"
 # define TOK_ERR "syntax error near unexpected token `"
 # define INVARG "numeric argument required"
+# define CD_ERR "cd: error retrieving current directory"
+# define CD_ERR2 "getcwd: cannot access parent directories"
+
+# ifndef MAX_PATH
+#  define MAX_PATH 4096
+# endif
 
 extern int	g_exit_code;
 
@@ -55,6 +61,12 @@ enum e_quotes
 	SINGLE,
 	DOUBLE,
 };
+
+typedef	struct s_exno
+{
+	int	exno;
+}		t_exno;
+
 
 typedef struct s_evar
 {
@@ -101,9 +113,12 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
+	int			e_code;
 	char		*input;
 	char		**env;
 	char		**wdir;
+	char		*pwd;
+	char		*oldpwd;
 	pid_t		pid;
 	t_cmd		*cmds;
 	t_lexer		*lexed;
@@ -140,7 +155,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 void	copy_env(t_data *data, char **env);
 void	*ft_memchr(const void *str, int c, size_t n);
 char	*ft_strchr(const char *s, int c);
-int		ft_execute(t_data *data);
+// int		ft_execute(t_data *data);
 char	*ft_strrchr(const char *s, int c);
 
 void	ft_expand(t_data *data);
@@ -153,9 +168,9 @@ void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
-int		ft_expand_var(t_data *data, t_lexer **token);
+// int		ft_expand_var(t_data *data, t_lexer **token);
 int		is_next_char_sep(char *str, int i);
-char	*extract_var_value(t_lexer *token, int i, t_data *data);
+// char	*extract_var_value(t_lexer *token, int i, t_data *data);
 char	*get_varname(char *str);
 int		var_in_env(t_evar *envar, char *key);
 char	*get_varvalue(t_evar *evar, char *key);
@@ -168,7 +183,7 @@ int		initialize_envar(t_data *data, char **env);
 void	close_iofds(t_cmd *cmds, int code);
 int		ft_isspace(int c);
 void	exitshell(t_data *data, int excode);
-int		ft_exit(t_data *data, char **args);
+// int		ft_exit(t_data *data, char **args);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putendl_fd(char *s, int fd);
 int		print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
@@ -178,10 +193,10 @@ void	free_all(t_data *data, int code);
 int		env_var_len(char **env);
 
 int		ft_cd(t_data *d, t_cmd *cmd);
-int		ft_pwd(void);
+// int		ft_pwd(void);
 int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
-int		execute_builtin(t_data *data, t_cmd *cmd);
+// int		execute_builtin(t_data *data, t_cmd *cmd);
 int		is_builtin(char *str);
 int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
@@ -245,9 +260,9 @@ int			fork_wait(t_data *data);
 // execute.c
 int			exec_cmd_with_nopath(t_data *data, t_cmd *cmd);
 int			exec_cmd_with_path(t_data *data, t_cmd *cmd);
-int			execute_cmd(t_data *data, t_cmd *cmd);
-int			create_forks(t_data *data);
-int			ft_execute(t_data *data);
+// int			execute_cmd(t_data *data, t_cmd *cmd);
+// int			create_forks(t_data *data);
+// int			ft_execute(t_data *data);
 
 
 // ft_exit_utils.c
@@ -256,9 +271,9 @@ int			set_sign(const char *str, int *sign, int i);
 long long	ft_atoi_lu(char *str, int *is_valid);
 
 // ft_exit.c
-int			get_exit_code(char *exarg, int *is_valid);
+// int			get_exit_code(char *exarg, int *is_valid);
 int			exit_with_arg(t_data *data);
-int			ft_exit(t_data *data, char **args);
+// int			ft_exit(t_data *data, char **args);
 
 // ft_heredoc_utils.c
 char		*extract_here_val(char *str, int index, t_data *data);
@@ -294,7 +309,7 @@ void		remove_quotes(t_lexer **lexed);
 void		check_var(t_lexer **token);
 char		*get_varvalue(t_evar *evar, char *key);
 int			var_in_env(t_evar *envar, char *key);
-char		*extract_var_value(t_lexer *token, int i, t_data *data);
+// char		*extract_var_value(t_lexer *token, int i, t_data *data);
 void		delete_var(t_lexer **token, char *str, int index);
 
 // expand_utilis.c
@@ -306,10 +321,10 @@ char		*get_varname(char *str);
 
 // expand.c
 void		replace_var(t_lexer **token, char *varvalue, int index);
-int			expand_var(t_data *data, t_lexer **token);
+// int			expand_var(t_data *data, t_lexer **token);
 int			check_consecutive(t_lexer *token);
 int			parsing_check(t_lexer **token);
-int			ft_expand_var(t_data *data, t_lexer **token);
+// int			ft_expand_var(t_data *data, t_lexer **token);
 
 // expand_var_utils.c
 char		*copy_token_str(char *str, char *value, int index, int len);
@@ -343,5 +358,32 @@ void		ft_putendl_fd2(char *str, int fd);
 // ft_cd_utils
 void		ft_expanding_tilda(t_data *data);
 t_evar		*find_evar(t_evar *env, char *key);
+
+// signal.c
+// void	here_not_expecting_input(void);
+// void	herer_expecting_input(void);
+
+void	herer_expecting_input(t_data *data);
+void	here_not_expecting_input(t_data *data);
+
+
+int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no);
+int	ft_exit(t_data *data, char **args, t_exno *ex_no);
+int	ft_expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
+int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
+char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no);
+int		execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no);
+int		create_forks(t_data *data, t_exno *ex_no);
+int		execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no);
+int		ft_execute(t_data *data, t_exno *ex_no);
+
+// fd_cd2.c
+int	init_wds(t_data *data);
+int	ft_cd_new(t_data *d, t_cmd *cmd);
+void	update_pwd(t_data *data, char *key, char *value);
+void	pwd(t_evar *env, char *key);
+int	ft_pwd(t_data *data);
+
+
 
 #endif

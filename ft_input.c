@@ -25,24 +25,10 @@ void	ft_read_from(t_cmd **cmds, t_lexer **token)
 	iofds = lastcmd->iofiles;
 	if (!remove_prev_iofds(iofds, 1))
 		return ;
-	
-	while (tmp->next && tmp->next->type == WORD)
-	{
-		iofds->infile = NULL;
-		if (fd != -1)
-			close(fd);
-		iofds->infile = ft_strdup(tmp->next->str);
-		fd = open(iofds->infile, O_RDONLY);
-		if (fd == -1)
-		{
-			print_errmsg(iofds->infile, NULL, strerror(errno), 1);
-			while (tmp->next && tmp->next->type != PIPE && tmp->next->type != END)
-				tmp = tmp->next;
-			if (tmp->next && (tmp->next->type == PIPE || tmp->next->type == END))
-				break;
-		}
-		tmp = tmp->next;
-	}
+	iofds->infile = ft_strdup(tmp->next->str);
+	fd = open(iofds->infile, O_RDONLY);
+	if (fd == -1)
+		print_errmsg(iofds->infile, NULL, strerror(errno), 1);
 	iofds->fdin = fd;
 	if (tmp->next && tmp->next->next)
 		tmp = tmp->next->next;

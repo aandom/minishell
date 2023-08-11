@@ -12,11 +12,16 @@
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_data *data)
 {
-	char	pwd[PATH_MAX];
+	char	pwd[MAX_PATH];
 
-	if (getcwd(pwd, PATH_MAX) != NULL)
+	if (data->pwd)
+	{
+		ft_putendl_fd(data->pwd, STDOUT_FILENO);
+		return (EXIT_SUCCESS);
+	}
+	if (getcwd(pwd, MAX_PATH) != NULL)
 	{
 		ft_putendl_fd(pwd, STDOUT_FILENO);
 		return (EXIT_SUCCESS);

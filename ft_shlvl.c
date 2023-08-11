@@ -54,3 +54,28 @@ void	ft_shlvl(t_data *data, t_evar *env)
 	free(hold);
 	env_pointer(data);
 }
+
+int	init_wds(t_data *data)
+{
+	char	buff[MAX_PATH];
+	char	*wd;
+
+	wd = getcwd(buff, MAX_PATH);
+	data->pwd = ft_strdup(wd);
+	if (!data->pwd)
+		return (0);
+	if (var_in_env(data->envar, "OLDPWD") == 1)
+	{
+		data->oldpwd = ft_strdup(get_varvalue(data->envar,
+					"OLDPWD"));
+		if (!data->oldpwd)
+			return (0);
+	}
+	else
+	{
+		data->oldpwd = ft_strdup(wd);
+		if (!data->oldpwd)
+			return (0);
+	}
+	return (1);
+}

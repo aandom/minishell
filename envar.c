@@ -128,7 +128,11 @@ void	ft_del_env(t_evar **head, char *str)
 int	initialize_envar(t_data *data, char **env)
 {
 	int		i;
+	// char	**envar;
 
+	// envar = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
+	// if (!envar)
+	// 	return (0);
 	data->env = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
 	printf("len = [%d]\n", env_var_len(env));
 	if (!data->env)
