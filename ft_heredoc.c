@@ -35,7 +35,9 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	while (1)
 	{
 		herer_expecting_input(data);
+		// expecting_input();
 		line = readline(">");
+		// not_expecting_input();
 		here_not_expecting_input(data);
 		if (!line)
 		{

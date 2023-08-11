@@ -58,7 +58,7 @@ void	ft_minishell_new(t_data *data, t_exno *ex_s)
 		data->input = readline(PROMPT);
 		not_expecting_input();
 		if (parse_input(data, ex_s) == 1)
-			ex_s->exno = ft_execute(data);
+			ex_s->exno = ft_execute(data, ex_s);
 		else
 			ex_s->exno = 1;
 		free_all(data, 0);
@@ -70,6 +70,11 @@ int	initialize_data(t_data *data, char **env)
 	if (!initialize_envar(data, env))
 	{
 		ft_putendl_fd("Couldn't initialize env", STDERR_FILENO);
+		return (0);
+	}
+	if (!init_wds(data))
+	{
+		ft_putendl_fd("Couldn't initialize working directory", STDERR_FILENO);
 		return (0);
 	}
 	data->lexed = NULL;

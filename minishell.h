@@ -34,6 +34,12 @@
 # define QERRMSG "unexpected EOF while looking for matching `"
 # define TOK_ERR "syntax error near unexpected token `"
 # define INVARG "numeric argument required"
+# define CD_ERR "cd: error retrieving current directory"
+# define CD_ERR2 "getcwd: cannot access parent directories"
+
+# ifndef MAX_PATH
+#  define MAX_PATH 4096
+# endif
 
 extern int	g_exit_code;
 
@@ -111,6 +117,8 @@ typedef struct s_data
 	char		*input;
 	char		**env;
 	char		**wdir;
+	char		*pwd;
+	char		*oldpwd;
 	pid_t		pid;
 	t_cmd		*cmds;
 	t_lexer		*lexed;
@@ -147,7 +155,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 void	copy_env(t_data *data, char **env);
 void	*ft_memchr(const void *str, int c, size_t n);
 char	*ft_strchr(const char *s, int c);
-int		ft_execute(t_data *data);
+// int		ft_execute(t_data *data);
 char	*ft_strrchr(const char *s, int c);
 
 void	ft_expand(t_data *data);
@@ -185,10 +193,10 @@ void	free_all(t_data *data, int code);
 int		env_var_len(char **env);
 
 int		ft_cd(t_data *d, t_cmd *cmd);
-int		ft_pwd(void);
+// int		ft_pwd(void);
 int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
-int		execute_builtin(t_data *data, t_cmd *cmd);
+// int		execute_builtin(t_data *data, t_cmd *cmd);
 int		is_builtin(char *str);
 int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
@@ -252,9 +260,9 @@ int			fork_wait(t_data *data);
 // execute.c
 int			exec_cmd_with_nopath(t_data *data, t_cmd *cmd);
 int			exec_cmd_with_path(t_data *data, t_cmd *cmd);
-int			execute_cmd(t_data *data, t_cmd *cmd);
-int			create_forks(t_data *data);
-int			ft_execute(t_data *data);
+// int			execute_cmd(t_data *data, t_cmd *cmd);
+// int			create_forks(t_data *data);
+// int			ft_execute(t_data *data);
 
 
 // ft_exit_utils.c
@@ -364,6 +372,18 @@ int	ft_exit(t_data *data, char **args, t_exno *ex_no);
 int	ft_expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
 int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
 char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no);
+int		execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no);
+int		create_forks(t_data *data, t_exno *ex_no);
+int		execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no);
+int		ft_execute(t_data *data, t_exno *ex_no);
+
+// fd_cd2.c
+int	init_wds(t_data *data);
+int	ft_cd_new(t_data *d, t_cmd *cmd);
+void	update_pwd(t_data *data, char *key, char *value);
+void	pwd(t_evar *env, char *key);
+int	ft_pwd(t_data *data);
+
 
 
 #endif

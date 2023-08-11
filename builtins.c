@@ -32,7 +32,7 @@ int	is_builtin(char *str)
 		return (0);
 }
 
-int	execute_builtin(t_data *data, t_cmd *cmd)
+int	execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no)
 {
 	int	code;
 
@@ -40,9 +40,12 @@ int	execute_builtin(t_data *data, t_cmd *cmd)
 	if (!ft_strcmp(cmd->cmd, "echo"))
 		code = ft_echo(cmd);
 	else if (!ft_strcmp(cmd->cmd, "cd"))
-		code = ft_cd(data, cmd);
+	{
+		// code = ft_cd(data, cmd);
+		code = ft_cd_new(data, cmd);
+	}
 	else if (!ft_strcmp(cmd->cmd, "pwd"))
-		code = ft_pwd();
+		code = ft_pwd(data);
 	else if (!ft_strcmp(cmd->cmd, "export"))
 		code = ft_export(data);
 	else if (!ft_strcmp(cmd->cmd, "unset"))
@@ -50,6 +53,6 @@ int	execute_builtin(t_data *data, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmd, "env"))
 		code = ft_env(cmd, data->envar);
 	else if (!ft_strcmp(cmd->cmd, "exit"))
-		code = ft_exit(data, cmd->cmdarg);
+		code = ft_exit(data, cmd->cmdarg, ex_no);
 	return (code);
 }
