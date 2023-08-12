@@ -50,13 +50,17 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 	i = 0;
 	while (path && path[i])
 	{
-		c = ft_strjoin(ft_strjoin(path[i], "/"), cmd->cmd);
+		c = ft_strjoin(ft_strjoin(ft_strdup(path[i]), "/"), cmd->cmd);
 		if (access(c, F_OK) == 0)
+		{
+			ft_arr_freer(path);
 			return (c);
+		}
 		free(c);
 		i++;
 	}
 	print_errmsg(cmd->cmd, NULL, "command not found", 127);
+	ft_arr_freer(path);
 	return (NULL);
 }
 

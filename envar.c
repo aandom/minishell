@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*extract_key(char *str)
+char	*extract_key(char *str, int *i)
 {
 	char	*res;
 	size_t	len;
@@ -20,6 +20,8 @@ char	*extract_key(char *str)
 	len = 0;
 	while (str[len] && str[len] != '=')
 		len++;
+	if (str[len] == '=')
+		*i = 1;
 	res = ft_substr(str, 0, len);
 	return (res);
 }
@@ -33,10 +35,8 @@ char	*extract_value(char *str)
 	start = 0;
 	while (str[start] && str[start] != '=')
 		start++;
-	if (str[start] == '\0')
-		return (NULL);
-	start++;
 	len = ft_strlen(str + start);
+	start++;
 	res = ft_substr(str, start, len);
 	return (res);
 }
@@ -44,12 +44,15 @@ char	*extract_value(char *str)
 t_evar	*new_evar(char *str)
 {
 	t_evar	*newvar;
+	int		i;
 
 	newvar = (t_evar *)malloc(sizeof(t_evar));
 	if (!newvar)
 		return (NULL);
-	newvar->key = extract_key(str);
+	i = 0;
+	newvar->key = extract_key(str, &i);
 	newvar->value = extract_value(str);
+	newvar->stat = i;
 	newvar->next = NULL;
 	return (newvar);
 }

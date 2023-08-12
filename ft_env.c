@@ -26,7 +26,7 @@ int	ft_env(t_cmd *cmd, t_evar *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->value[0])
+		if (tmp->stat)
 		{
 			ft_putstr_fd(tmp->key, STDOUT_FILENO);
 			ft_putstr_fd("=", STDOUT_FILENO);

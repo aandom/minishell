@@ -19,13 +19,18 @@ int	ft_current_shlvl(t_evar *env)
 
 	tmp = env;
 	sh_lvl = 0;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->key, "SHLVL") == 0)
-			sh_lvl = ft_atoi(tmp->value);
-		tmp = tmp->next;
-	}
+	tmp = find_evar(env, "SHLVL");
+	sh_lvl = ft_atoi(tmp->value);
 	return (sh_lvl);
+}
+
+void	init_oldpwd(t_evar *env)
+{
+	t_evar	*tmp;
+
+	tmp = find_evar(env, "OLDPWD");
+	if (!tmp)
+		add_back_env(&env, new_evar("OLDPWD="));
 }
 
 void	ft_shlvl(t_data *data, t_evar *env)
@@ -36,22 +41,22 @@ void	ft_shlvl(t_data *data, t_evar *env)
 	char	*hold;
 
 	tmp = env;
-	sh_lvl = ft_current_shlvl(tmp) + 1;
-	while (tmp)
+	tmp = find_evar(env, "SHLVL");
+	if (tmp == NULL)
 	{
-		if (ft_strcmp(tmp->key, "SHLVL") == 0)
-		{
-			ft_del_env(&env, "SHLVL");
-			break ;
-		}
-		tmp = tmp->next;
+		shl = ft_itoa(1);
+		hold = ft_strjoin(ft_strdup("SHLVL="), shl);
+		add_back_env(&env, new_evar(hold));
+		free(shl);
+		free(hold);
 	}
-	shl = ft_itoa(sh_lvl);
-	hold = ft_strdup("SHLVL=");
-	hold = ft_strjoin(hold, shl);
-	add_back_env(&env, new_evar(hold));
-	free(shl);
-	free(hold);
+	else
+	{
+		sh_lvl = ft_current_shlvl(tmp) + 1;
+		free(tmp->value);
+		tmp->value = ft_itoa(sh_lvl);
+	}
+	init_oldpwd(env);
 	env_pointer(data);
 }
 

@@ -42,7 +42,7 @@ int	ft_echo(t_cmd *cmd)
 		n_flag = 1;
 		i++;
 	}
-	while (cmd->cmdarg[i])
+	while (cmd->cmdarg[i] && cmd->cmdarg[i][0])
 	{
 		if (!ft_strcmp(cmd->cmdarg[i], ""))
 			ft_putstr_fd("", STDOUT_FILENO);

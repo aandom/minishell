@@ -134,7 +134,7 @@ int	ft_cd_new(t_data *d, t_cmd *cmd)
 	else if (!ft_strcmp(cmd->cmdarg[1], "-"))
 	{
 		path = get_varvalue(d->envar, "OLDPWD");
-		if (!path)
+		if (!path || ft_strcmp(path, "") == 0)
 			return (print_errmsg("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
 		ft_putendl_fd(path, STDOUT_FILENO);
 		return (!ch_dir(d, path));

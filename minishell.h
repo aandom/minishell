@@ -81,7 +81,8 @@ typedef struct s_evar
 {
 	char			*key;
 	char			*value;
-	struct s_evar	*next; 
+	int				stat;
+	struct s_evar	*next;
 }	t_evar;
 
 typedef struct s_iofiles
@@ -223,7 +224,7 @@ void	env_pointer(t_data *data);
 void	ft_del_env(t_evar **head, char *str);
 void	sort_env(char **tab, int env_len);
 int		ft_envlen(t_evar *env);
-char	*extract_key(char *str);
+char	*extract_key(char *str, int *i);
 char	*extract_value(char *str);
 void	add_back_env(t_evar **evar, t_evar *newvar);
 t_evar	*new_evar(char *str);
