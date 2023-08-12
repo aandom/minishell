@@ -34,9 +34,9 @@ void	ft_var_freer(t_evar *env)
 	t_evar	*tmp;
 
 	tmp = env;
-	free(tmp->key);
-	free(tmp->value);
-	free(tmp);
+	voidfree(tmp->key);
+	voidfree(tmp->value);
+	voidfree(tmp);
 }
 
 int	ft_export_util(t_data *d)

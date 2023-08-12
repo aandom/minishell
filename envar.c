@@ -33,6 +33,8 @@ char	*extract_value(char *str)
 	start = 0;
 	while (str[start] && str[start] != '=')
 		start++;
+	if (str[start] == '\0')
+		return (NULL);
 	start++;
 	len = ft_strlen(str + start);
 	res = ft_substr(str, start, len);
