@@ -28,6 +28,8 @@ int	fork_wait(t_data *data)
 			res = status;
 		continue ;
 	}
+	if (g_exit_code != STOP_HEREDOC)
+		status = res;
 	if (WIFSIGNALED(res))
 		status = 128 + WTERMSIG(res);
 	else if (WIFEXITED(res))

@@ -67,6 +67,14 @@ typedef	struct s_exno
 	int	exno;
 }		t_exno;
 
+typedef enum e_status
+{
+	IN_CMD = 20,
+	IN_HEREDOC = 40,
+	CTRL_C = 130,
+	CTRL_BS = 131,
+	STOP_HEREDOC = 1,
+}	t_g_status_code;
 
 typedef struct s_evar
 {
@@ -125,7 +133,8 @@ typedef struct s_data
 	t_evar		*envar;
 }	t_data;
 
-
+void	sigquit_handler(int sig);
+int		init_signals();
 void	*ft_calloc(size_t count, size_t size);
 void	free_evar_list(t_evar *head);
 char	**clean(char **av);

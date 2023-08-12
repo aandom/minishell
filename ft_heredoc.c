@@ -32,7 +32,7 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	char	*tmp;
 
 	fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	while (1)
+	while (1 && g_exit_code != STOP_HEREDOC)
 	{
 		// herer_expecting_input(data);
 		// expecting_input();
@@ -56,7 +56,7 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 		free(line);
 	}
 	close(fd);
-	return (free(line), 1);
+	return (1);
 }
 
 int	delim_len(char *str)
@@ -115,6 +115,7 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 	if (!remove_prev_iofds(iofds, 1))
 		return ;
 	iofds->h_delim = ft_strdup(tmp->next->str);
+	g_exit_code = IN_HEREDOC;
 	iofds->here_quote = check_update_delimiter(&iofds->h_delim);
 	iofds->infile = generate_heredoc_name();
 	if (create_heredoc(data, iofds))

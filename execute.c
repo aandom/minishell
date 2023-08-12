@@ -48,6 +48,8 @@ int	execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no)
 
 	if (!cmd && !cmd->cmd)
 		return (1);
+	signal(SIGQUIT, sigquit_handler);
+	g_exit_code = IN_CMD;
 	if (!ft_check_iofiles(cmd->iofiles))
 		exitshell(data, 1);
 	dup_pipe_fds(data->cmds, cmd);
@@ -93,7 +95,12 @@ int	create_forks(t_data *data, t_exno *ex_no)
 int	ft_execute(t_data *data, t_exno *ex_no)
 {
 	int	res;
-
+	
+	if (g_exit_code == STOP_HEREDOC)
+	{
+		g_exit_code = 0;
+		return(130);
+	}
 	res = check_prepare_exec(data);
 	if (res != 127)
 		return (res);
