@@ -365,7 +365,7 @@ int			is_invalid_key(char *str);
 void		ft_putendl_fd2(char *str, int fd);
 
 // ft_cd_utils
-void		ft_expanding_tilda(t_data *data);
+char		*ft_expanding_tilda(t_data *data);
 t_evar		*find_evar(t_evar *env, char *key);
 
 // signal.c
