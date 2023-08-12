@@ -33,6 +33,7 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 				add_back_cmd(cmds, new);
 				lastcmd = get_last_cmd(*cmds);
 			}
+			// printf("cmd = [%s]\n", lastcmd->cmd);
 		}
 		fill_cmd_args(&t, &lastcmd);
 	}

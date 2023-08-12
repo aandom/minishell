@@ -58,7 +58,6 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 		else if (iofds->here_quote != 1)
 		{
 			tmp = expand_here_var(line, data);
-			// voidfree(line);
 			line = tmp;
 		}
 		ft_putendl_fd(line, fd);
@@ -132,10 +131,8 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 	else
 		iofds->fdin = -1;
 	if  (g_exit_code == STOP_HEREDOC)
-	{
 		while (tmp && tmp->type != END)
 			tmp = tmp->next;
-	}
 	else
 		tmp = tmp->next->next;
 	*token = tmp;

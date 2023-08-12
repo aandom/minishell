@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 20:27:33 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 21:02:08 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/12 19:03:14 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int	all_n(char *str)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
+	if (str[i] && str[i] != '-')
+		return (0);
+	i++;
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -33,15 +36,18 @@ int	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	n_flag = 0;
-	while (cmd->cmdarg[i] && (!ft_strncmp(cmd->cmdarg[i], "-n", 2)
-			&& all_n(cmd->cmdarg[i])))
+	while (cmd->cmdarg[i] && (!ft_strcmp(cmd->cmdarg[i], "-n")
+			|| all_n(cmd->cmdarg[i])))
 	{
 		n_flag = 1;
 		i++;
 	}
 	while (cmd->cmdarg[i])
 	{
-		ft_putstr_fd(cmd->cmdarg[i], STDOUT_FILENO);
+		if (!ft_strcmp(cmd->cmdarg[i], ""))
+			ft_putstr_fd("", STDOUT_FILENO);
+		else
+			ft_putstr_fd(cmd->cmdarg[i], STDOUT_FILENO);
 		if (cmd->cmdarg[i + 1] && cmd->cmdarg[i][0] != '\0')
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;

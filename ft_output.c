@@ -23,20 +23,17 @@ void	ft_append(t_cmd **cmds, t_lexer **token)
 	lastcmd = get_last_cmd(*cmds);
 	initialize_iofds(lastcmd);
 	iofds = lastcmd->iofiles;
-	if (!remove_prev_iofds(iofds, 2))
-		return ;
-	iofds->outfile = ft_strdup(tmp->next->str);
-	fd = open(iofds->outfile, O_WRONLY | O_APPEND | O_CREAT, 0664);
-	if (fd == -1)
+	if (remove_prev_iofds(iofds, 2))
 	{
-		print_errmsg(iofds->outfile, NULL, strerror(errno), 1);
-		while (tmp->next && tmp->next->type != PIPE && tmp->next->type != END)
-			tmp = tmp->next;
+		iofds->outfile = ft_strdup(tmp->next->str);
+		fd = open(iofds->outfile, O_WRONLY | O_APPEND | O_CREAT, 0664);
+		if (fd == -1)
+			print_errmsg(iofds->outfile, NULL, strerror(errno), 1);
+		iofds->fdout = fd;
 	}
-	iofds->fdout = fd;
-	if (tmp->next->next)
+	if (tmp->next && tmp->next->next)
 		tmp = tmp->next->next;
-	else if (tmp->next)
+	else
 		tmp = tmp->next;
 	*token = tmp;
 }
@@ -52,13 +49,14 @@ void	ft_redirect(t_cmd **cmds, t_lexer **token)
 	lastcmd = get_last_cmd(*cmds);
 	initialize_iofds(lastcmd);
 	iofds = lastcmd->iofiles;
-	if (!remove_prev_iofds(iofds, 2))
-		return ;
-	iofds->outfile = ft_strdup(tmp->next->str);
-	fd = open(iofds->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	if (fd == -1)
-		print_errmsg(iofds->outfile, NULL, strerror(errno), 1);
-	iofds->fdout = fd;
+	if (remove_prev_iofds(iofds, 2))
+	{
+		iofds->outfile = ft_strdup(tmp->next->str);
+		fd = open(iofds->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+		if (fd == -1)
+			print_errmsg(iofds->outfile, NULL, strerror(errno), 1);
+		iofds->fdout = fd;
+	}
 	if (tmp->next && tmp->next->next)
 		tmp = tmp->next->next;
 	else

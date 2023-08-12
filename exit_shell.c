@@ -30,11 +30,22 @@ void	ft_free_iofile(t_iofiles *iofiles)
 	if (!iofiles)
 		return ;
 	if (iofiles->infile)
+	{
+		if (iofiles->fdin != -1)
+			close(iofiles->fdin);
 		free(iofiles->infile);
+	}
 	if (iofiles->outfile)
+	{
+		if (iofiles->fdout != -1)
+			close(iofiles->fdout);
 		free(iofiles->outfile);
+	}
 	if (iofiles->h_delim)
+	{
+		unlink(iofiles->infile);
 		free(iofiles->h_delim);
+	}
 	free(iofiles);
 }
 

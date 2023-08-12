@@ -20,7 +20,10 @@ void	ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token)
 	(void) data;
 	tmp = *token;
 	lastcmd = get_last_cmd(*cmds);
+	if (lastcmd->cmd == NULL)
+		lastcmd->cmd = ft_strdup("");
 	lastcmd->pipeout = 1;
+	
 	tmp = tmp->next;
 	*token = tmp;
 }
@@ -56,6 +59,13 @@ void	close_unused_pipes(t_cmd *headcmd, t_cmd *curcmd)
 		{
 			close(headcmd->tube[0]);
 			close(headcmd->tube[1]);
+			if (headcmd->iofiles)
+			{
+				if (headcmd->iofiles->fdin != -1)
+					close(headcmd->iofiles->fdin);
+				if (headcmd->iofiles->fdout != -1)
+					close (headcmd->iofiles->fdout);
+			}
 		}
 		headcmd = headcmd->next;
 	}
