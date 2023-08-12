@@ -134,7 +134,6 @@ int	initialize_envar(t_data *data, char **env)
 	// if (!envar)
 	// 	return (0);
 	data->env = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
-	printf("len = [%d]\n", env_var_len(env));
 	if (!data->env)
 		return (0);
 	i = 0;

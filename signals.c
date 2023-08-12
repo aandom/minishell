@@ -17,25 +17,30 @@ int	event(void)
 	return (EXIT_SUCCESS);
 }
 
+void	child_signal_handler(int num)
+{
+	if (num == SIGINT)
+		write(1, "\n", 1);
+	else if (num == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", 2);
+}
+
+
+void	child_signals( void)
+{
+	signal(SIGINT, child_signal_handler);
+	signal(SIGQUIT, child_signal_handler);
+}
+
 void	sigquit_handler(int sig)
 {
 	(void) sig;
-	if (g_exit_code == IN_CMD)
-	{
-		g_exit_code = CTRL_BS;
-		rl_replace_line("", 0);
-		rl_redisplay();
-		rl_done = 1;
-		ft_putendl_fd("Quit: ", STDERR_FILENO);
-		return ;
-	}
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	sigint_handler(int sig)
 {
 	(void) sig;
-	if (g_exit_code != IN_HEREDOC)
-		ft_putstr_fd("\n", STDERR_FILENO);
 	if (g_exit_code == IN_CMD)
 	{
 		g_exit_code = CTRL_C;
@@ -53,24 +58,13 @@ void	sigint_handler(int sig)
 		rl_done = 1;
 		return ;
 	}
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }
 
-int	init_signals(t_exno *ex_s)
+int	init_signals()
 {
 	rl_catch_signals = 0;
 	rl_event_hook = event;
-	if (signal(SIGINT, sigint_handler) == SIG_ERR)
-	{
-		printf("sigint\n");
-		ex_s->exno = 130;
-	}
-	if (signal(SIGQUIT, sigquit_handler) == SIG_ERR)
-	{
-		printf("siquit\n");
-		ex_s->exno = 1;
-	}
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 	return (g_exit_code);
 }

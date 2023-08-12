@@ -25,6 +25,18 @@ char	*generate_heredoc_name(void)
 	return (name);
 }
 
+void	print_here_err(char	*here)
+{
+	char *errmsg;
+
+	errmsg = ft_strjoin(ft_strdup("minishell: "), HR_ERR);
+	errmsg = ft_strjoin(errmsg, "(wanted `");
+	errmsg = ft_strjoin(errmsg, here);
+	errmsg = ft_strjoin(errmsg, "')");
+	ft_putendl_fd(errmsg, STDERR_FILENO);
+	free(errmsg);
+}
+
 int	create_heredoc(t_data *data, t_iofiles *iofds)
 {
 	int		fd;
@@ -34,14 +46,11 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (1 && g_exit_code != STOP_HEREDOC)
 	{
-		// herer_expecting_input(data);
-		// expecting_input();
 		line = readline(">");
-		// not_expecting_input();
-		// here_not_expecting_input(data);
 		if (!line)
 		{
-			printf ("warning: here-document delimited by end-of-file (wanted `%s')\n", iofds->h_delim);
+			rl_redisplay();
+			print_here_err(iofds->h_delim);
 			break ;
 		}
 		if (!ft_strcmp(line, iofds->h_delim))
@@ -122,6 +131,12 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 		iofds->fdin = open(iofds->infile, O_RDONLY);
 	else
 		iofds->fdin = -1;
-	tmp = tmp->next->next;
+	if  (g_exit_code == STOP_HEREDOC)
+	{
+		while (tmp && tmp->type != END)
+			tmp = tmp->next;
+	}
+	else
+		tmp = tmp->next->next;
 	*token = tmp;
 }

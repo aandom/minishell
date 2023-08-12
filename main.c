@@ -34,8 +34,6 @@ int	parse_input(t_data *data, t_exno *ex_no)
 		ft_exit(data, NULL, ex_no);
 	else if (ft_strcmp(data->input, "\0") == 0)
 		return (0);
-	else if (all_space(data->input))
-		return (1);
 	add_history(data->input);
 	if (ft_parser(data) == 1)
 		return (0);
@@ -54,20 +52,19 @@ void	ft_minishell_new(t_data *data, t_exno *ex_s)
 {
 	while (1)
 	{
-		init_signals(ex_s);
+		init_signals();
 		data->input = readline(PROMPT);
-		// not_expecting_input();
-		if (parse_input(data, ex_s) == 1)
-			ex_s->exno = ft_execute(data, ex_s);
-		else
-		{
-			ex_s->exno = 1;
-		}
 		if (g_exit_code == CTRL_C)
 		{
-			ex_s->exno = 130;
-			g_exit_code = 0;
+			ex_s->exno = g_exit_code;
+			g_exit_code = IN_CMD;
 		}
+		if (data->input != NULL && all_space(data->input))
+			ex_s->exno = ex_s->exno;
+		else if (parse_input(data, ex_s) == 1)
+			ex_s->exno = ft_execute(data, ex_s);
+		else if (ex_s->exno != CTRL_C && g_exit_code != IN_CMD)
+			ex_s->exno = 1;
 		free_all(data, 0);
 	}
 }
@@ -86,7 +83,7 @@ int	initialize_data(t_data *data, char **env)
 	}
 	data->lexed = NULL;
 	data->cmds = NULL;
-	g_exit_code = 0;
+	g_exit_code = IN_CMD;
 	data->pid = -1;
 	data->input = NULL;
 	copy_env(data, env);
@@ -106,8 +103,6 @@ void	my_minishell(char **env)
 	if (!initialize_data(data, env))
 		exitshell(NULL, EXIT_FAILURE);
 	ft_shlvl(data, data->envar);
-	// ex_s.exno = init_signals();
-
 	ft_minishell_new(data, &ex_s);
 	exitshell(data, ex_s.exno);
 	return ;

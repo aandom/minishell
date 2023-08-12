@@ -36,6 +36,7 @@
 # define INVARG "numeric argument required"
 # define CD_ERR "cd: error retrieving current directory"
 # define CD_ERR2 "getcwd: cannot access parent directories"
+# define HR_ERR "warning: here-document at line 1 delimited by end-of-file "
 
 # ifndef MAX_PATH
 #  define MAX_PATH 4096
@@ -392,6 +393,8 @@ int	ft_cd_new(t_data *d, t_cmd *cmd);
 void	update_pwd(t_data *data, char *key, char *value);
 void	pwd(t_evar *env, char *key);
 int	ft_pwd(t_data *data);
+
+void	child_signals( void);
 
 
 

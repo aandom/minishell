@@ -78,7 +78,10 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == GREAT)
 			ft_redirect(&data->cmds, &tmp);
 		else if (tmp->type == PIPE)
+		{
 			ft_pipe(data, &data->cmds, &tmp);
+			add_back_cmd(&data->cmds, new_cmd(0));
+		}
 		else if (tmp->type == END)
 			break ;
 	}

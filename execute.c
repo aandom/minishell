@@ -79,8 +79,9 @@ int	create_forks(t_data *data, t_exno *ex_no)
 	int		a;
 
 	cmds = data->cmds;
-	while (cmds)
+	while (cmds && data->pid != 0)
 	{
+		child_signals();
 		data->pid = fork();
 		if (data->pid == -1)
 			return (1);
@@ -98,7 +99,7 @@ int	ft_execute(t_data *data, t_exno *ex_no)
 	
 	if (g_exit_code == STOP_HEREDOC)
 	{
-		g_exit_code = 0;
+		g_exit_code = IN_CMD;
 		return(130);
 	}
 	res = check_prepare_exec(data);
