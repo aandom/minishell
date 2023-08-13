@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 03:25:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/13 03:25:44 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/13 15:41:31 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	delim_len(char *str)
+static int	delim_len(char *str)
 {
 	int	i;
 	int	c;

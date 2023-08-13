@@ -27,7 +27,7 @@ int	check_prepare_exec(t_data *data)
 	return (127);
 }
 
-char	**get_splited_path(t_evar *evar)
+static char	**get_splited_path(t_evar *evar)
 {
 	while (evar)
 	{

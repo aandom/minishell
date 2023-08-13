@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	count_args(t_lexer *token)
+static int	count_args(t_lexer *token)
 {
 	int		len;
 	t_lexer	*tmp;
@@ -27,7 +27,7 @@ int	count_args(t_lexer *token)
 	return (len);
 }
 
-int	copy_cmdarg(char **cmdarg, char **newarg)
+static int	copy_cmdarg(char **cmdarg, char **newarg)
 {
 	int	i;
 

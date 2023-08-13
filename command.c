@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	word_as_cmd(t_cmd **cmds, t_lexer **token)
+static void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 {
 	t_cmd	*lastcmd;
 	t_cmd	*new;
@@ -38,25 +38,6 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 		fill_cmd_args(&t, &lastcmd);
 	}
 	*token = t;
-}
-
-void	no_args_cmds(t_data *data)
-{
-	t_cmd	*cmds;
-
-	if (!data || data->cmds)
-		return ;
-	cmds = data->cmds;
-	while (cmds && cmds->cmd)
-	{
-		if (!cmds->cmdarg)
-		{
-			cmds->cmdarg = (char **)malloc(sizeof(char *) * 2);
-			cmds->cmdarg[0] = ft_strdup(cmds->cmd);
-			cmds->cmdarg[1] = NULL;
-		}
-		cmds = cmds->next;
-	}
 }
 
 void	extract_command(t_data *data, t_lexer *lexed)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*generate_heredoc_name(void)
+static char	*generate_heredoc_name(void)
 {
 	static int	i;
 	char		*name;
@@ -25,7 +25,7 @@ char	*generate_heredoc_name(void)
 	return (name);
 }
 
-int	print_here_err(char	*here)
+static int	print_here_err(char	*here)
 {
 	char	*errmsg;
 
@@ -38,7 +38,7 @@ int	print_here_err(char	*here)
 	return (1);
 }
 
-int	create_heredoc(t_data *data, t_iofiles *iofds)
+static int	create_heredoc(t_data *data, t_iofiles *iofds)
 {
 	int		fd;
 	char	*line;

@@ -26,7 +26,7 @@ int	all_space(char *str)
 	return (1);
 }
 
-void	change_to_quote(t_lexer **token, int *i)
+static void	change_to_quote(t_lexer **token, int *i)
 {
 	char	c;
 
@@ -38,7 +38,7 @@ void	change_to_quote(t_lexer **token, int *i)
 	(*i)++;
 }
 
-int	change_to_noquote(t_lexer **token, int *i)
+static int	change_to_noquote(t_lexer **token, int *i)
 {
 	char	c;
 	int		q;
@@ -54,7 +54,7 @@ int	change_to_noquote(t_lexer **token, int *i)
 	return (0);
 }
 
-void	trim_quote(t_lexer **token)
+static void	trim_quote(t_lexer **token)
 {
 	int		i;
 	int		j;

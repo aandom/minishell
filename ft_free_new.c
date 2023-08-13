@@ -51,7 +51,7 @@ void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*))
 	}
 }
 
-void	ft_delone_cmd(t_cmd *lst, void (*del) (void *))
+static void	ft_delone_cmd(t_cmd *lst, void (*del) (void *))
 {
 	if (lst->cmd)
 		(*del)(lst->cmd);

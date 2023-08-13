@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no)
+static int	get_exit_code(char *exarg, int *is_valid, t_exno *ex_no)
 {
 	unsigned long long	i;
 

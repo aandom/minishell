@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*extract_here_val(char *str, int index, t_data *data)
+static char	*extract_here_val(char *str, int index, t_data *data)
 {
 	char	*varname;
 	char	*varvalue;

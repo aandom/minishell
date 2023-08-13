@@ -6,13 +6,13 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/13 04:50:24 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/13 16:50:35 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ch_dir(t_data *data, char *path)
+static int	ch_dir(t_data *data, char *path)
 {
 	char	*ret;
 	char	*tmp;
@@ -40,7 +40,7 @@ int	ch_dir(t_data *data, char *path)
 	return (1);
 }
 
-char	*ft_expanding_tilda(t_data *data)
+static char	*ft_expanding_tilda(t_data *data)
 {
 	char	*h;
 	char	*temp;
@@ -52,7 +52,7 @@ char	*ft_expanding_tilda(t_data *data)
 	return (h);
 }
 
-int	ft_cd_helper(t_data *d, t_cmd *cmd, int *i)
+static int	ft_cd_helper(t_data *d, t_cmd *cmd, int *i)
 {
 	char	*tmp;
 
@@ -77,7 +77,7 @@ int	ft_cd_helper(t_data *d, t_cmd *cmd, int *i)
 	return (0);
 }
 
-int	is_to_home(t_data *d, t_cmd *cmd)
+static int	is_to_home(t_data *d, t_cmd *cmd)
 {
 	(void) d;
 	if (!cmd->cmdarg || !cmd->cmdarg[1] || ft_isspace(cmd->cmdarg[1][0])

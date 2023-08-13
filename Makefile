@@ -13,13 +13,11 @@
 NAME = minishell
 
 SRC = 	builtins.c command.c command_arg.c execute_fin_cmd.c command_utils.c env_pointer.c envar_utils.c\
-		envar.c error.c execute.c execute_utils.c exit_shell.c expand.c expand_utils.c   \
-		expand_var.c expand_var_utils.c free_iofds.c ft_cd.c ft_cd_utils.c \
-		ft_echo.c ft_env.c ft_exit.c ft_exit_utils.c ft_export.c ft_export_utils.c \
-		ft_free.c ft_free_new.c ft_heredoc.c ft_heredoc_utils.c  ft_heredoc_utils2.c ft_input.c ft_iofds.c \
-		ft_output.c ft_pipe.c ft_pwd.c ft_shlvl.c ft_strcmp.c ft_token.c ft_token_utils.c \
-		ft_unset.c ft_wait.c iofds.c lexer.c lexer_utils.c main.c parser.c signals.c \
-		signals_2.c
+		envar.c error.c execute.c execute_utils.c exit_shell.c expand.c expand_utils.c expand_var.c  \
+		expand_var_utils.c ft_cd.c ft_cd_utils.c ft_echo.c ft_env.c ft_exit.c ft_exit_utils.c ft_export.c \
+		ft_export_utils.c ft_free.c ft_free_new.c ft_heredoc.c ft_heredoc_utils.c  ft_heredoc_utils2.c \
+		ft_input.c ft_iofds.c ft_output.c ft_pipe.c ft_pwd.c ft_shlvl.c ft_strcmp.c ft_token.c ft_token_utils.c \
+		ft_unset.c ft_wait.c iofds.c lexer.c lexer_utils.c main.c parser.c signals.c signals_2.c
 
 OBJS =  $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror

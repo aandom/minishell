@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	check_max(unsigned long long num, int sign, int *is_valid)
+static int	check_max(unsigned long long num, int sign, int *is_valid)
 {
 	if (sign == 1 && num > LONG_MAX)
 		*is_valid = 0;

@@ -60,7 +60,7 @@ int	var_in_env(t_evar *envar, char *key)
 	return (0);
 }
 
-char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no)
+char	*ex_var_val(t_lexer *token, int i, t_data *data, t_exno *ex_no)
 {
 	char	*varname;
 	char	*varvalue;

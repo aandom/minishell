@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	add_word_to_lexer(t_data *data, int start, size_t end, int type)
+static void	add_word_to_lexer(t_data *data, int start, size_t end, int type)
 {
 	char	*word;
 	int		i;
@@ -31,7 +31,7 @@ void	add_word_to_lexer(t_data *data, int start, size_t end, int type)
 	ft_add_token_back(&data->lexed, ft_new_token(word, type));
 }
 
-void	add_token_to_lexer(t_data *data, size_t idx, int type)
+static void	add_token_to_lexer(t_data *data, size_t idx, int type)
 {
 	char	*word;
 	int		i;
