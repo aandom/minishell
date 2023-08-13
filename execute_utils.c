@@ -76,10 +76,10 @@ int	is_directory(char *cmd)
 int	check_command(t_cmd *cmd)
 {
 	if (access(cmd->cmd, F_OK) != 0)
-		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
+		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
 	else if (is_directory(cmd->cmd))
-		return(print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
+		return (print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
 	else if (access(cmd->cmd, F_OK | X_OK) != 0)
-		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
+		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
 	return (0);
 }

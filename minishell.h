@@ -331,7 +331,7 @@ int			var_len(char *str);
 char		*get_varname(char *str);
 
 // expand.c
-void		replace_var(t_lexer **token, char *varvalue, int index);
+void		repl_var(t_lexer **token, char *varvalue, int index);
 // int			expand_var(t_data *data, t_lexer **token);
 int			check_consecutive(t_lexer *token);
 int			parsing_check(t_lexer **token);
@@ -397,6 +397,9 @@ int	ft_pwd(t_data *data);
 
 void	child_signals( void);
 
-
+void	ft_var_freer(t_evar *env);
+void	update_wds_env(t_data *data, char *wd);
+int		arg_counter(char **cmd);
+int		all_space(char *str);
 
 #endif

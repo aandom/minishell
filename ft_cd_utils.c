@@ -12,42 +12,78 @@
 
 #include "minishell.h"
 
-t_evar	*find_evar(t_evar *env, char *key)
+void	pwd(t_evar *env, char *key)
 {
 	t_evar	*tmp;
+	char	oldpwd[PATH_MAX];
+	char	*holder;
 
 	tmp = env;
-	while (tmp != NULL)
+	if (getcwd(oldpwd, PATH_MAX) == NULL)
+		return ;
+	while (tmp)
 	{
-		if (tmp->key && strcmp(tmp->key, key) == 0)
-			return (tmp);
+		if (tmp->key && ft_strcmp(key, tmp->key) == 0)
+		{
+			ft_del_env(&env, key);
+			holder = ft_strjoin(ft_strjoin(ft_strdup(key), "="), oldpwd);
+			add_back_env(&env, new_evar(holder));
+			free(holder);
+			break ;
+		}
 		tmp = tmp->next;
 	}
-	return (NULL);
 }
 
-// void	ft_expanding_tilda(t_data *data)
-// {
-// 	t_evar	*tmp;
-// 	char	*h;
-// 	char	*temp;
+void	update_pwd(t_data *data, char *key, char *value)
+{
+	char	*new_env;
+	t_evar	*old;
 
-// 	tmp = data->envar;
-// 	h = NULL;
-// 	while (tmp)
-// 	{
-// 		if (tmp->key && ft_strcmp("HOME", tmp->key) == 0)
-// 		{
-// 			temp = ft_strtrim(data->cmds->cmdarg[1], "~");
-// 			h = ft_strjoin(ft_strdup(tmp->value), temp);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	if (h)
-// 	{
-// 		if (chdir(h) != 0)
-// 			perror("minishell: cd");
-// 	}
-// 	free(h);
-// 	free(temp);
-// }
+	if (key == NULL || value == NULL)
+		return ;
+	new_env = ft_strjoin(ft_strdup(key), "=");
+	new_env = ft_strjoin(new_env, value);
+	old = find_evar(data->envar, key);
+	if (old->value != NULL || old->key != NULL)
+	{
+		free(old->value);
+		old->value = ft_strdup(value);
+	}
+	else
+		add_back_env(&data->envar, new_evar(new_env));
+	free(new_env);
+}
+
+void	update_wds_env(t_data *data, char *wd)
+{
+	char	*hold;
+
+	hold = get_varvalue(data->envar, "PWD");
+	update_pwd(data, "OLDPWD", hold);
+	update_pwd(data, "PWD", wd);
+	if (data->oldpwd)
+	{
+		voidfree(data->oldpwd);
+		data->oldpwd = ft_strdup(data->pwd);
+	}
+	if (data->pwd)
+	{
+		voidfree(data->pwd);
+		data->pwd = ft_strdup(wd);
+	}
+	voidfree(wd);
+	voidfree(hold);
+	pwd(data->envar, "PWD");
+	env_pointer(data);
+}
+
+int	arg_counter(char **cmd)
+{
+	int	count;
+
+	count = 0;
+	while (cmd[count])
+		count++;
+	return (count);
+}

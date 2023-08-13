@@ -27,7 +27,7 @@ char	*generate_heredoc_name(void)
 
 void	print_here_err(char	*here)
 {
-	char *errmsg;
+	char	*errmsg;
 
 	errmsg = ft_strjoin(ft_strdup("minishell: "), HR_ERR);
 	errmsg = ft_strjoin(errmsg, "(wanted `");
@@ -63,51 +63,7 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	close(fd);
-	return (1);
-}
-
-int	delim_len(char *str)
-{
-	int	i;
-	int	c;
-
-	i = -1;
-	c = 0;
-	while (str[++i])
-	{
-		if (str[i] != '\'' && str[i] != '\"')
-			c++;
-	}
-	return (c);
-}
-
-int	check_update_delimiter(char **delim)
-{
-	int		i;
-	char	*d;
-	char	*str;
-
-	i = 0;
-	str = *delim;
-	if (!ft_strchr(*delim, '\'') && !ft_strchr(*delim, '\"'))
-		return (0);
-	d = (char *)malloc(sizeof(char) * delim_len(*delim) + 1);
-	if (!d)
-		return (0);
-	while (str && *str)
-	{
-		if (*str != '\"' && *str != '\'')
-		{
-			d[i] = *str;
-			i++;
-		}
-		str++;
-	}
-	d[i] = '\0';
-	voidfree(*delim);
-	*delim = d;
-	return (1);
+	return (close(fd), 1);
 }
 
 void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
@@ -130,7 +86,7 @@ void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token)
 		iofds->fdin = open(iofds->infile, O_RDONLY);
 	else
 		iofds->fdin = -1;
-	if  (g_exit_code == STOP_HEREDOC)
+	if (g_exit_code == STOP_HEREDOC)
 		while (tmp && tmp->type != END)
 			tmp = tmp->next;
 	else

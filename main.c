@@ -14,20 +14,6 @@
 
 int	g_exit_code;
 
-int	all_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str [i])
-	{
-		if (!ft_isspace(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	parse_input(t_data *data, t_exno *ex_no)
 {
 	if (data->input == NULL)

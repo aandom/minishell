@@ -30,7 +30,6 @@ int	print_errmsg(char *cmd, char *info, char *errmsg, int errnum)
 	message = ft_strjoin(message, errmsg);
 	ft_putendl_fd(message, STDERR_FILENO);
 	free(message);
-	// voidfree(info);
 	return (errnum);
 }
 

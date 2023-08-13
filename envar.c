@@ -41,22 +41,6 @@ char	*extract_value(char *str)
 	return (res);
 }
 
-t_evar	*new_evar(char *str)
-{
-	t_evar	*newvar;
-	int		i;
-
-	newvar = (t_evar *)malloc(sizeof(t_evar));
-	if (!newvar)
-		return (NULL);
-	i = 0;
-	newvar->key = extract_key(str, &i);
-	newvar->value = extract_value(str);
-	newvar->stat = i;
-	newvar->next = NULL;
-	return (newvar);
-}
-
 void	add_back_env(t_evar **evar, t_evar *newvar)
 {
 	t_evar	*tmp;
@@ -76,30 +60,6 @@ void	add_back_env(t_evar **evar, t_evar *newvar)
 	return ;
 }
 
-void	copy_env(t_data *data, char **env)
-{
-	int		i;
-	t_evar	*new;
-
-	i = 0;
-	while (env[i])
-	{
-		new = new_evar(env[i]);
-		add_back_env(&data->envar, new);
-		i++;
-	}
-}
-
-int	env_var_len(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env && env[i])
-		i++;
-	return (i);
-}
-
 void	ft_del_env(t_evar **head, char *str)
 {
 	t_evar	*temp;
@@ -112,9 +72,7 @@ void	ft_del_env(t_evar **head, char *str)
 	if (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) == 0)
 	{
 		*head = temp->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
+		ft_var_freer(temp);
 		return ;
 	}
 	while (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) != 0)
@@ -125,19 +83,13 @@ void	ft_del_env(t_evar **head, char *str)
 	if (temp == NULL)
 		return ;
 	prev->next = temp->next;
-	free(temp->key);
-	free(temp->value);
-	free(temp);
+	ft_var_freer(temp);
 }
 
 int	initialize_envar(t_data *data, char **env)
 {
 	int		i;
-	// char	**envar;
 
-	// envar = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
-	// if (!envar)
-	// 	return (0);
 	data->env = (char **)malloc(sizeof(char *) * (env_var_len(env) + 1));
 	if (!data->env)
 		return (0);

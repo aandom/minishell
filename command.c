@@ -22,7 +22,8 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 	while (t->type == WORD)
 	{
 		lastcmd = get_last_cmd(*cmds);
-		if (t->prev == NULL || (t->prev &&  t->prev->type == PIPE) || lastcmd->cmd == NULL)
+		if (t->prev == NULL || (t->prev && t->prev->type == PIPE)
+			|| lastcmd->cmd == NULL)
 		{
 			if (lastcmd == NULL || lastcmd->cmd == NULL)
 				lastcmd->cmd = ft_strdup(t->str);
@@ -33,7 +34,6 @@ void	word_as_cmd(t_cmd **cmds, t_lexer **token)
 				add_back_cmd(cmds, new);
 				lastcmd = get_last_cmd(*cmds);
 			}
-			// printf("cmd = [%s]\n", lastcmd->cmd);
 		}
 		fill_cmd_args(&t, &lastcmd);
 	}
@@ -79,10 +79,7 @@ void	extract_command(t_data *data, t_lexer *lexed)
 		else if (tmp->type == GREAT)
 			ft_redirect(&data->cmds, &tmp);
 		else if (tmp->type == PIPE)
-		{
 			ft_pipe(data, &data->cmds, &tmp);
-			add_back_cmd(&data->cmds, new_cmd(0));
-		}
 		else if (tmp->type == END)
 			break ;
 	}

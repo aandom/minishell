@@ -33,7 +33,6 @@ void	ft_delone_token(t_lexer *lst, void (*del)(void*))
 		lst->prev->next = lst->next;
 	if (lst->next)
 		lst->next->prev = lst->prev;
-	// voidfree(lst);
 }
 
 void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*))

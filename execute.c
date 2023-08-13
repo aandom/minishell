@@ -24,9 +24,9 @@ int	exec_cmd_with_nopath(t_data *data, t_cmd *cmd)
 	if (!c_exe)
 		return (127);
 	if (access(c_exe, F_OK | X_OK) == -1)
-		return(print_errmsg(c_exe, NULL, strerror(errno), 126));
+		return (print_errmsg(c_exe, NULL, strerror(errno), 126));
 	if (execve(c_exe, cmd->cmdarg, data->env) == -1)
-		return(print_errmsg("execve", NULL, strerror(errno), errno));
+		return (print_errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
 }
 
@@ -38,8 +38,22 @@ int	exec_cmd_with_path(t_data *data, t_cmd *cmd)
 	if (res != 0)
 		return (res);
 	if (execve(cmd->cmd, cmd->cmdarg, data->env) == -1)
-		return(print_errmsg("execve", NULL, strerror(errno), errno));
+		return (print_errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
+}
+
+int	execute_cmd_helper(t_data *data, t_cmd *cmd, t_exno *ex_no)
+{
+	int	res;
+
+	if (is_builtin(cmd->cmd))
+		res = execute_builtin(data, cmd, ex_no);
+	else
+	{
+		res = 127;
+		res = exec_cmd_with_nopath(data, cmd);
+	}
+	return (res);
 }
 
 int	execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no)
@@ -57,13 +71,7 @@ int	execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no)
 	close_iofds(data->cmds, 0);
 	if (!ft_strchr(cmd->cmd, '/'))
 	{
-		if (is_builtin(cmd->cmd))
-			res = execute_builtin(data, cmd, ex_no);
-		else
-		{
-			res = 127;
-			res = exec_cmd_with_nopath(data, cmd);
-		}
+		res = execute_cmd_helper(data, cmd, ex_no);
 		if (res != 127)
 			exitshell(data, res);
 	}
@@ -96,11 +104,11 @@ int	create_forks(t_data *data, t_exno *ex_no)
 int	ft_execute(t_data *data, t_exno *ex_no)
 {
 	int	res;
-	
+
 	if (g_exit_code == STOP_HEREDOC)
 	{
 		g_exit_code = IN_CMD;
-		return(130);
+		return (130);
 	}
 	res = check_prepare_exec(data);
 	if (res != 127)
