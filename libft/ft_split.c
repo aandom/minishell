@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 int	count_strings(char *str, char c)
 {
@@ -96,7 +96,7 @@ char	**ft_split(char *str, char c)
 		{
 			strings[i] = ft_word(str, c);
 			if (strings[i] == NULL)
-				return (clean(strings));
+				return (clean_all(strings));
 			i++;
 		}
 		str = jump_chars(str, c, 2);

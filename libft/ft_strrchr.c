@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 12:02:26 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/03 16:55:38 by tpetros          ###   ########.fr       */
+/*   Created: 2022/09/24 17:32:54 by tpetros           #+#    #+#             */
+/*   Updated: 2023/08/13 03:20:54 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *s, int fd)
+char	*ft_strrchr(const char *s, int c)
 {
 	int	i;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
+	i = ft_strlen(s);
+	while (i >= 0)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
+		i--;
 	}
+	return (NULL);
 }

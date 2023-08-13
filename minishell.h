@@ -29,6 +29,7 @@
 # include <errno.h>
 # include <sys/stat.h>
 # include <stdint.h>
+# include "./libft/libft.h"
 
 # define PROMPT "\033[0;32m[Minishell]~$ \x1B[0m"
 # define QERRMSG "unexpected EOF while looking for matching `"
@@ -136,37 +137,23 @@ typedef struct s_data
 
 void	sigquit_handler(int sig);
 int		init_signals();
-void	*ft_calloc(size_t count, size_t size);
 void	free_evar_list(t_evar *head);
 char	**clean(char **av);
-char	**ft_split(char *str, char c);
 int		ft_parser(t_data *data);
-size_t	ft_strlen(const char *s);
 void	remove_quotes(t_lexer **lexed);
 int		inside_quote(char *str);
 int		check_quote(char *str, int i, int quote);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *src);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strtrim(const char *s1, const char *set);
 void	extract_command(t_data *data, t_lexer *lexed);
 t_cmd	*get_last_cmd(t_cmd *cmd);
 t_cmd	*new_cmd(int pipeout);
 void	add_back_cmd(t_cmd **cmds, t_cmd *cmd);
 void	ft_heredoc(t_data *data, t_cmd **cmds, t_lexer **token);
-char	*ft_itoa(int n);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	initialize_iofds(t_cmd *cmd);
 int		remove_prev_iofds(t_iofiles *iofds, int code);
 void	ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token);
-void	*ft_memset(void *s, int c, size_t n);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 void	copy_env(t_data *data, char **env);
-void	*ft_memchr(const void *str, int c, size_t n);
-char	*ft_strchr(const char *s, int c);
+
 // int		ft_execute(t_data *data);
-char	*ft_strrchr(const char *s, int c);
 
 void	ft_expand(t_data *data);
 
@@ -175,9 +162,7 @@ void	voidfree(void *ptr);
 void	ft_arr_freer(char **str);
 void	ft_free_iofile(t_iofiles *iofiles);
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
-int		ft_isdigit(int c);
-int		ft_isalpha(int c);
-int		ft_isalnum(int c);
+
 // int		ft_expand_var(t_data *data, t_lexer **token);
 int		is_next_char_sep(char *str, int i);
 // char	*extract_var_value(t_lexer *token, int i, t_data *data);
@@ -191,11 +176,9 @@ void	ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
 void	ft_lst_clear_cmd(t_cmd **lst, void (*del)(void*));
 int		initialize_envar(t_data *data, char **env);
 void	close_iofds(t_cmd *cmds, int code);
-int		ft_isspace(int c);
 void	exitshell(t_data *data, int excode);
 // int		ft_exit(t_data *data, char **args);
 int		ft_strcmp(const char *s1, const char *s2);
-void	ft_putendl_fd(char *s, int fd);
 int		print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
 void	ft_errmsg(char *msg, char *info, int quote);
 int		parsing_check(t_lexer **token);
@@ -211,12 +194,8 @@ int		is_builtin(char *str);
 int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
 
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putchar_fd(char c, int fd);
 
 void	expecting_input(void);
-void	ft_bzero(void *s, size_t n);
 void	not_expecting_input(void);
 
 void	env_pointer(t_data *data);
@@ -230,7 +209,6 @@ t_evar	*new_evar(char *str);
 int		initialize_envar(t_data *data, char **env);
 
 void	ft_shlvl(t_data *data, t_evar *env);
-int		ft_atoi(const char *str);
 int		ft_already_exit(t_evar *env, char *str);
 
 
@@ -396,6 +374,9 @@ int	ft_pwd(t_data *data);
 
 void	child_signals( void);
 
+// signals_2.c
 
+void	set_signals_interactive(void);
+void	set_signals_noninteractive(void);
 
 #endif

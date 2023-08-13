@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 12:45:48 by aandom            #+#    #+#             */
-/*   Updated: 2023/07/12 12:45:48 by aandom           ###   ########.fr       */
+/*   Created: 2022/12/22 10:40:41 by aandom            #+#    #+#             */
+/*   Updated: 2022/12/22 10:40:41 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+char	*ft_strtrim(const char *s1, const char *set)
 {
-	size_t	i;
+	size_t	left;
+	size_t	right;
 
-	i = 0;
-	if (size != 0)
+	if (!(s1) || !(set))
+		return (NULL);
+	left = 0;
+	right = ft_strlen(s1) - 1;
+	while (s1[left] && ft_strchr(set, s1[left]))
 	{
-		while (src[i] != '\0' && i < size - 1)
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
+		left++;
 	}
-	return (ft_strlen(src));
+	while (s1[right] && ft_strrchr(set, s1[right]) && (right > left))
+	{
+		right--;
+	}
+	return (ft_substr(s1, left, right - left + 1));
 }

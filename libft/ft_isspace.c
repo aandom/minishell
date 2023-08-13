@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 15:59:35 by aandom            #+#    #+#             */
-/*   Updated: 2023/07/21 15:59:35 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/29 10:11:11 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/29 10:11:11 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	*ft_memchr(const void *str, int c, size_t n)
+int	ft_isspace(int c)
 {
-	size_t			i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n)
-	{
-		if (((unsigned char *)str)[i] == (unsigned char )c)
-			return (((unsigned char *)str) + i);
-		i++;
-	}
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (c);
 	return (0);
 }

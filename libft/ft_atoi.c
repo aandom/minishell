@@ -6,11 +6,11 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 13:30:01 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/07 21:15:47 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/13 03:20:54 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 static int	ft_is_space(char c)
 {

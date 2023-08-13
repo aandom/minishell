@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/24 17:32:54 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 22:20:55 by tpetros          ###   ########.fr       */
+/*   Created: 2023/08/13 03:30:01 by aandom            #+#    #+#             */
+/*   Updated: 2023/08/13 03:31:09 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	**clean_all(char **av)
 {
 	int	i;
 
-	i = ft_strlen(s);
-	while (i >= 0)
+	i = 0;
+	while (av[i] != NULL)
 	{
-		if (s[i] == (char) c)
-			return ((char *)&s[i]);
-		i--;
+		free(av[i]);
+		i++;
 	}
-	return (NULL);
+	free(av);
+	return (0);
 }

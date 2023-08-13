@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/22 10:40:41 by aandom            #+#    #+#             */
-/*   Updated: 2022/12/22 10:40:41 by aandom           ###   ########.fr       */
+/*   Created: 2022/12/15 00:45:55 by aandom            #+#    #+#             */
+/*   Updated: 2022/12/15 00:45:55 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_strtrim(const char *s1, const char *set)
+size_t	ft_strlen(const char *s)
 {
-	size_t	left;
-	size_t	right;
+	size_t	i;
 
-	if (!(s1) || !(set))
-		return (NULL);
-	left = 0;
-	right = ft_strlen(s1) - 1;
-	while (s1[left] && ft_strchr(set, s1[left]))
-	{
-		left++;
-	}
-	while (s1[right] && ft_strrchr(set, s1[right]) && (right > left))
-	{
-		right--;
-	}
-	return (ft_substr(s1, left, right - left + 1));
+	i = 0;
+	while (s && s[i] != '\0')
+		i++;
+	return (i);
 }

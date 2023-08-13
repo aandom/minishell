@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 15:57:26 by aandom            #+#    #+#             */
-/*   Updated: 2023/07/21 15:57:26 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/27 13:52:14 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/27 13:52:14 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+int	ft_isdigit(int c)
 {
-	char	*res;
-
-	res = ft_memchr(s, c, ft_strlen(s) + 1);
-	return (res);
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
 }

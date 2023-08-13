@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 00:45:55 by aandom            #+#    #+#             */
-/*   Updated: 2022/12/15 00:45:55 by aandom           ###   ########.fr       */
+/*   Created: 2023/07/21 15:57:26 by aandom            #+#    #+#             */
+/*   Updated: 2023/07/21 15:57:26 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	char	*res;
 
-	i = 0;
-	while (s && s[i] != '\0')
-		i++;
-	return (i);
+	res = ft_memchr(s, c, ft_strlen(s) + 1);
+	return (res);
 }
