@@ -27,6 +27,18 @@ int	ft_envlen(t_evar *env)
 	return (i);
 }
 
+int	clear_env(t_data *data)
+{
+	if (data->env != NULL)
+		ft_arr_freer(data->env);
+	if (!data->envar)
+	{
+		data->env = NULL;
+		return (0);
+	}
+	return (1);
+}
+
 void	env_pointer(t_data *data)
 {
 	int		env_len;
@@ -34,9 +46,7 @@ void	env_pointer(t_data *data)
 	int		i;
 	char	*holder;
 
-	if (data->env != NULL)
-		ft_arr_freer(data->env);
-	if (!data->envar)
+	if (!clear_env(data))
 		return ;
 	env_len = ft_envlen(data->envar);
 	tmp = data->envar;

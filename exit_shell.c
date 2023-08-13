@@ -20,6 +20,7 @@ void	ft_arr_freer(char **str)
 	while (str && str[i])
 	{
 		voidfree(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	voidfree(str);
