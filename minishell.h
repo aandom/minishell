@@ -39,6 +39,9 @@
 # define CD_ERR2 "getcwd: cannot access parent directories"
 # define HR_ERR "warning: here-document at line 1 delimited by end-of-file "
 # define NFE "No such file or directory"
+# define EXP_ERR "not a valid identifier"
+# define NO_HOME "HOME not set"
+# define NO_OPWD "OLDPWD not set"
 
 # ifndef MAX_PATH
 #  define MAX_PATH 4096

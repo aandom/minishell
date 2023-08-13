@@ -17,6 +17,8 @@ int	all_n(char *str)
 	int	i;
 
 	i = 0;
+	if (ft_strcmp(str, "") == 0)
+		return (0);
 	if (str[i] && str[i] != '-')
 		return (0);
 	i++;
