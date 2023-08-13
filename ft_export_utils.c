@@ -55,7 +55,7 @@ void	ft_putendl_fd2(char *str, int fd)
 		i = 0;
 		while (str[i])
 		{
-			if (flag == 0 && str[i - 1] == '=')
+			if (i > 0 && flag == 0 && str[i - 1] == '=')
 			{
 				write(fd, "\"", 1);
 				flag = 1;

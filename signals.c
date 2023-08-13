@@ -25,7 +25,6 @@ void	child_signal_handler(int num)
 		ft_putstr_fd("Quit: 3\n", 2);
 }
 
-
 void	child_signals( void)
 {
 	signal(SIGINT, child_signal_handler);
@@ -60,7 +59,7 @@ void	sigint_handler(int sig)
 	}
 }
 
-int	init_signals()
+int	init_signals(void)
 {
 	rl_catch_signals = 0;
 	rl_event_hook = event;

@@ -21,6 +21,8 @@ int	ft_unset(t_data *data, t_cmd *cmd)
 	code = EXIT_SUCCESS;
 	while (cmd->cmdarg[i])
 	{
+		if (!is_invalid_key(cmd->cmdarg[i]))
+			print_errmsg("unset", cmd->cmdarg[i], "not a valid identifier", 1);
 		ft_del_env(&data->envar, cmd->cmdarg[i]);
 		i++;
 	}

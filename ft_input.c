@@ -33,7 +33,7 @@ void	ft_read_from(t_cmd **cmds, t_lexer **token)
 	}
 	if (tmp->next && tmp->next->next)
 		tmp = tmp->next->next;
-	else 
+	else
 		tmp = tmp->next;
 	*token = tmp;
 }

@@ -50,13 +50,17 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 	i = 0;
 	while (path && path[i])
 	{
-		c = ft_strjoin(ft_strjoin(path[i], "/"), cmd->cmd);
+		c = ft_strjoin(ft_strjoin(ft_strdup(path[i]), "/"), cmd->cmd);
 		if (access(c, F_OK) == 0)
+		{
+			ft_arr_freer(path);
 			return (c);
+		}
 		free(c);
 		i++;
 	}
 	print_errmsg(cmd->cmd, NULL, "command not found", 127);
+	ft_arr_freer(path);
 	return (NULL);
 }
 
@@ -72,10 +76,10 @@ int	is_directory(char *cmd)
 int	check_command(t_cmd *cmd)
 {
 	if (access(cmd->cmd, F_OK) != 0)
-		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
+		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
 	else if (is_directory(cmd->cmd))
-		return(print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
+		return (print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
 	else if (access(cmd->cmd, F_OK | X_OK) != 0)
-		return(print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
+		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
 	return (0);
 }

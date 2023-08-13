@@ -3,124 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 22:23:03 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/13 04:50:24 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(t_evar *env, char *key)
+int	ch_dir(t_data *data, char *path)
 {
-	t_evar	*tmp;
-	char	oldpwd[PATH_MAX];
-	char	*holder;
+	char	*ret;
+	char	*tmp;
+	char	cwd[MAX_PATH];
 
-	tmp = env;
-	if (getcwd(oldpwd, PATH_MAX) == NULL)
-		return ;
-	while (tmp)
+	ret = NULL;
+	if (chdir(path) != 0)
 	{
-		if (tmp->key && ft_strcmp(key, tmp->key) == 0)
-		{
-			ft_del_env(&env, key);
-			holder = ft_strjoin(ft_strjoin(ft_strdup(key), "="), oldpwd);
-			add_back_env(&env, new_evar(holder));
-			free(holder);
-			break ;
-		}
-		tmp = tmp->next;
+		print_errmsg("cd", path, "no such file or directory", 2);
+		return (voidfree(path), 0);
 	}
-}
-
-void	update_pwd(t_data *data, char *key, char *value)
-{
-	char	*new_env;
-	t_evar	*old;
-
-	if (key == NULL || value == NULL)
-		return ;
-	new_env = ft_strjoin(ft_strdup(key), "=");
-	new_env = ft_strjoin(new_env, value);
-	// new_env = ft_strjoin(ft_strjoin(key, "="), value);
-	old = find_evar(data->envar, key);
-	if (old->value != NULL || old->key != NULL)
+	ret = getcwd(cwd, MAX_PATH);
+	if (!ret)
 	{
-		free(old->value);
-		old->value = ft_strdup(value);
+		print_errmsg(CD_ERR, CD_ERR2, strerror(errno), errno);
+		ret = ft_strjoin(ft_strdup(data->pwd), "/");
+		tmp = ret;
+		ret = ft_strjoin(ft_strdup(tmp), path);
+		voidfree(tmp);
 	}
 	else
-		add_back_env(&data->envar, new_evar(new_env));
-	free(new_env);
+		ret = ft_strdup(cwd);
+	update_wds_env(data, ret);
+	voidfree(path);
+	return (1);
 }
 
-void	ft_previous_dir(t_data *data)
+char	*ft_expanding_tilda(t_data *data)
 {
-	t_evar	*pwd;
-	t_evar	*oldpwd;
-	char	*new_pwd;
-	char	*new_oldpwd;
+	char	*h;
+	char	*temp;
 
-	pwd = find_evar(data->envar, "PWD");
-	oldpwd = find_evar(data->envar, "OLDPWD");
-	if (!pwd || !oldpwd || !pwd->value || !oldpwd->value)
-		return ;
-	new_pwd = ft_strdup(oldpwd->value);
-	new_oldpwd = ft_strdup(pwd->value);
-	update_pwd(data, "PWD", new_pwd);
-	update_pwd(data, "OLDPWD", new_oldpwd);
-	if (chdir(new_pwd) == -1)
-	{
-		free(new_pwd);
-		free(new_oldpwd);
-		return ;
-	}
-	free(new_pwd);
-	free(new_oldpwd);
-	env_pointer(data);
+	h = get_varvalue(data->envar, "HOME");
+	temp = ft_strtrim(data->cmds->cmdarg[1], "~");
+	h = ft_strjoin(h, temp);
+	free(temp);
+	return (h);
 }
 
-void	ft_home(t_data *data)
+int	ft_cd_helper(t_data *d, t_cmd *cmd, int *i)
 {
-	t_evar	*tmp;
+	char	*tmp;
 
-	tmp = data->envar;
-	while (tmp)
+	*i = 0;
+	if (cmd->cmdarg[1][0] != '~')
+		return (1);
+	if (cmd->cmdarg[1][1] != '/')
 	{
-		if (tmp->key && ft_strcmp("HOME", tmp->key) == 0)
-			if (chdir(tmp->value) != 0)
-				perror("minishell: cd");
-		tmp = tmp->next;
+		*i = 1;
+		return (print_errmsg("cd", cmd->cmdarg[1], NFE, 1), 0);
 	}
-}
-
-int	ft_cd(t_data *d, t_cmd *cmd)
-{
-	int		code;
-
-	code = EXIT_SUCCESS;
-	if (!cmd || !cmd->cmdarg || cmd->cmdarg[2] != NULL)
-		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
-	if (!ft_strcmp(cmd->cmdarg[1], "-"))
-	{
-		ft_previous_dir(d);
-		return (EXIT_SUCCESS);
-	}
-	pwd(d->envar, "OLDPWD");
-	if (cmd->cmdarg[1] && cmd->cmdarg[1][0] == '~' && cmd->cmdarg[1][1]
+	tmp = ft_expanding_tilda(d);
+	if (!tmp)
+		return (print_errmsg("cd", tmp, "No such file or directory", 1), 0);
+	else if (cmd->cmdarg[1] && cmd->cmdarg[1][0] == '~' && cmd->cmdarg[1][1]
 		!= '\0' && ft_strcmp(cmd->cmdarg[1], ".."))
-		ft_expanding_tilda(d);
-	else if ((cmd->cmdarg[1]) == NULL || !ft_strncmp(cmd->cmdarg[1], "~", 1))
-		ft_home(d);
-	else if (chdir(cmd->cmdarg[1]) != 0)
 	{
-		perror("minishell: cd");
-		return (code = EXIT_FAILURE);
+		*i = !ch_dir(d, tmp);
+		return (0);
 	}
-	pwd(d->envar, "PWD");
-	env_pointer(d);
-	return (code);
+	voidfree(tmp);
+	return (0);
 }
 
+int	is_to_home(t_data *d, t_cmd *cmd)
+{
+	(void) d;
+	if (!cmd->cmdarg || !cmd->cmdarg[1] || ft_isspace(cmd->cmdarg[1][0])
+		|| cmd->cmdarg[1][0] == '\0' || ft_strcmp(cmd->cmdarg[1], "--") == 0
+		|| ft_strcmp(cmd->cmdarg[1], "~") == 0)
+		return (1);
+	return (0);
+}
+
+int	ft_cd_new(t_data *d, t_cmd *cmd)
+{
+	char	*path;
+	int		i;
+
+	if (arg_counter(cmd->cmdarg) > 2)
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
+	if (is_to_home(d, cmd))
+	{
+		path = get_varvalue(d->envar, "HOME");
+		if (!path || *path == '\0' || ft_isspace(*path))
+			return (print_errmsg("cd", NULL, "HOME not set", EXIT_FAILURE));
+		return (!ch_dir(d, path));
+	}
+	else if (!ft_strcmp(cmd->cmdarg[1], "-"))
+	{
+		path = get_varvalue(d->envar, "OLDPWD");
+		if (!path || ft_strcmp(path, "") == 0)
+			return (print_errmsg("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
+		ft_putendl_fd(path, STDOUT_FILENO);
+		return (!ch_dir(d, path));
+	}
+	else if (!ft_cd_helper(d, cmd, &i))
+		return (i);
+	path = ft_strdup(cmd->cmdarg[1]);
+	return (!ch_dir(d, path));
+}

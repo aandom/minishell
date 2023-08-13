@@ -38,6 +38,7 @@
 # define CD_ERR "cd: error retrieving current directory"
 # define CD_ERR2 "getcwd: cannot access parent directories"
 # define HR_ERR "warning: here-document at line 1 delimited by end-of-file "
+# define NFE "No such file or directory"
 
 # ifndef MAX_PATH
 #  define MAX_PATH 4096
@@ -82,7 +83,8 @@ typedef struct s_evar
 {
 	char			*key;
 	char			*value;
-	struct s_evar	*next; 
+	int				stat;
+	struct s_evar	*next;
 }	t_evar;
 
 typedef struct s_iofiles
@@ -202,7 +204,7 @@ void	env_pointer(t_data *data);
 void	ft_del_env(t_evar **head, char *str);
 void	sort_env(char **tab, int env_len);
 int		ft_envlen(t_evar *env);
-char	*extract_key(char *str);
+char	*extract_key(char *str, int *i);
 char	*extract_value(char *str);
 void	add_back_env(t_evar **evar, t_evar *newvar);
 t_evar	*new_evar(char *str);
@@ -308,7 +310,7 @@ int			var_len(char *str);
 char		*get_varname(char *str);
 
 // expand.c
-void		replace_var(t_lexer **token, char *varvalue, int index);
+void		repl_var(t_lexer **token, char *varvalue, int index);
 // int			expand_var(t_data *data, t_lexer **token);
 int			check_consecutive(t_lexer *token);
 int			parsing_check(t_lexer **token);
@@ -378,5 +380,13 @@ void	child_signals( void);
 
 void	set_signals_interactive(void);
 void	set_signals_noninteractive(void);
+
+void	ft_var_freer(t_evar *env);
+void	update_wds_env(t_data *data, char *wd);
+int		arg_counter(char **cmd);
+int		all_space(char *str);
+
+int	exec_cmd_with_nopath(t_data *data, t_cmd *cmd);
+int	exec_cmd_with_path(t_data *data, t_cmd *cmd);
 
 #endif

@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+int	all_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str [i])
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	change_to_quote(t_lexer **token, int *i)
 {
 	char	c;

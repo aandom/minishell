@@ -40,10 +40,7 @@ int	execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no)
 	if (!ft_strcmp(cmd->cmd, "echo"))
 		code = ft_echo(cmd);
 	else if (!ft_strcmp(cmd->cmd, "cd"))
-	{
-		// code = ft_cd(data, cmd);
 		code = ft_cd_new(data, cmd);
-	}
 	else if (!ft_strcmp(cmd->cmd, "pwd"))
 		code = ft_pwd(data);
 	else if (!ft_strcmp(cmd->cmd, "export"))

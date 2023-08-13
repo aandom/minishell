@@ -52,10 +52,7 @@ void	ft_free_iofile(t_iofiles *iofiles)
 void	free_all(t_data *data, int code)
 {
 	if (data && data->input)
-	{
 		voidfree(data->input);
-		// data->input = NULL;
-	}
 	if (data && data->lexed)
 		ft_lst_clear_token(&data->lexed, &voidfree);
 	if (data && data->cmds)
@@ -64,7 +61,6 @@ void	free_all(t_data *data, int code)
 	{
 		if (data && data->env)
 			ft_arr_freer(data->env);
-		// clear_history();
 		rl_clear_history();
 	}
 }

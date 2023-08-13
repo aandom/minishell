@@ -23,8 +23,8 @@ void	ft_pipe(t_data *data, t_cmd **cmds, t_lexer **token)
 	if (lastcmd->cmd == NULL)
 		lastcmd->cmd = ft_strdup("");
 	lastcmd->pipeout = 1;
-	
 	tmp = tmp->next;
+	add_back_cmd(&data->cmds, new_cmd(0));
 	*token = tmp;
 }
 

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	replace_var(t_lexer **token, char *varvalue, int index)
+void	repl_var(t_lexer **token, char *varvalue, int index)
 {
 	if (varvalue == NULL)
 		delete_var(token, (*token)->str, index);
@@ -37,7 +37,7 @@ int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no)
 			{
 				update_quotes(&tmp, tmp->str[i]);
 				if (tmp->str[i] == '$' && is_valid_expansion(tmp, i))
-					replace_var(&tmp, extract_var_value(tmp, i, data, ex_no), i);
+					repl_var(&tmp, extract_var_value(tmp, i, data, ex_no), i);
 				else
 					i++;
 			}
