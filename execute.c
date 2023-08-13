@@ -32,7 +32,6 @@ int	execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no)
 
 	if (!cmd && !cmd->cmd)
 		return (1);
-	signal(SIGQUIT, sigquit_handler);
 	g_exit_code = IN_CMD;
 	if (!ft_check_iofiles(cmd->iofiles))
 		exitshell(data, 1);

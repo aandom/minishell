@@ -72,6 +72,7 @@ typedef	struct s_exno
 
 typedef enum e_status
 {
+	IN_MINI = 10,
 	IN_CMD = 20,
 	IN_HEREDOC = 40,
 	CTRL_C = 130,
@@ -137,8 +138,14 @@ typedef struct s_data
 	t_evar		*envar;
 }	t_data;
 
-void	sigquit_handler(int sig);
-int		init_signals();
+
+// builtins.c
+int			is_builtin(char *str);
+int			execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no);
+
+
+
+int			init_signals(void)
 void	free_evar_list(t_evar *head);
 char	**clean(char **av);
 int		ft_parser(t_data *data);
@@ -192,7 +199,6 @@ int		ft_cd(t_data *d, t_cmd *cmd);
 int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
 // int		execute_builtin(t_data *data, t_cmd *cmd);
-int		is_builtin(char *str);
 int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
 

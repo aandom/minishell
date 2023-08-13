@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 20:27:33 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/12 19:03:14 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/13 09:37:42 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	all_n(char *str)
 	int	i;
 
 	i = 0;
+	if (ft_strcmp(str, "") == 0)
+		return (0);
 	if (str[i] && str[i] != '-')
 		return (0);
 	i++;

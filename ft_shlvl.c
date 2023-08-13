@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shlvl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:09:52 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/09 00:47:20 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/13 09:33:09 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_oldpwd(t_evar *env)
 
 	tmp = find_evar(env, "OLDPWD");
 	if (!tmp)
-		add_back_env(&env, new_evar("OLDPWD="));
+		add_back_env(&env, new_evar("OLDPWD"));
 }
 
 void	ft_shlvl(t_data *data, t_evar *env)

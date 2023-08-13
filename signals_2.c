@@ -6,12 +6,11 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 02:08:40 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/13 02:15:54 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/13 13:00:12 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
-
+#include "minishell.h"
 
 void	ignore_sigquit(void)
 {
@@ -21,7 +20,6 @@ void	ignore_sigquit(void)
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &act, NULL);
 }
-
 
 void	signal_reset_prompt(int signo)
 {
@@ -58,4 +56,3 @@ void	set_signals_noninteractive(void)
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
 }
-

@@ -39,13 +39,12 @@ void	ft_minishell_new(t_data *data, t_exno *ex_s)
 	while (1)
 	{
 		init_signals();
-		// set_signals_interactive();
 		data->input = readline(PROMPT);
-		// set_signals_noninteractive();
+		set_signals_noninteractive();
 		if (g_exit_code == CTRL_C)
 		{
 			ex_s->exno = g_exit_code;
-			g_exit_code = IN_CMD;
+			g_exit_code = IN_MINI;
 		}
 		if (data->input != NULL && all_space(data->input))
 			ex_s->exno = ex_s->exno;
@@ -71,7 +70,7 @@ int	initialize_data(t_data *data, char **env)
 	}
 	data->lexed = NULL;
 	data->cmds = NULL;
-	g_exit_code = IN_CMD;
+	g_exit_code = IN_MINI;
 	data->pid = -1;
 	data->input = NULL;
 	copy_env(data, env);

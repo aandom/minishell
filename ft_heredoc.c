@@ -19,13 +19,13 @@ char	*generate_heredoc_name(void)
 	char		*identifier;
 
 	identifier = ft_itoa(i);
-	name = ft_strjoin(ft_strdup("/tmp/.m_heredoc_"), identifier);
+	name = ft_strjoin(ft_strdup(".m_heredoc_"), identifier);
 	free(identifier);
 	i++;
 	return (name);
 }
 
-void	print_here_err(char	*here)
+int	print_here_err(char	*here)
 {
 	char	*errmsg;
 
@@ -35,6 +35,7 @@ void	print_here_err(char	*here)
 	errmsg = ft_strjoin(errmsg, "')");
 	ft_putendl_fd(errmsg, STDERR_FILENO);
 	free(errmsg);
+	return (1);
 }
 
 int	create_heredoc(t_data *data, t_iofiles *iofds)
@@ -46,13 +47,11 @@ int	create_heredoc(t_data *data, t_iofiles *iofds)
 	fd = open(iofds->infile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (1 && g_exit_code != STOP_HEREDOC)
 	{
+		init_signals();
 		line = readline(">");
+		set_signals_noninteractive();
 		if (!line)
-		{
-			rl_redisplay();
-			print_here_err(iofds->h_delim);
-			break ;
-		}
+			return (close (fd), print_here_err(iofds->h_delim));
 		if (!ft_strcmp(line, iofds->h_delim))
 			break ;
 		else if (iofds->here_quote != 1)
