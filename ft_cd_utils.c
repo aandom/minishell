@@ -51,13 +51,11 @@ void	update_pwd(t_data *data, char *key, char *value)
 		free(new_env);
 		return ;
 	}
-	if (old && !old->value)
-	{
-		free(old->value);
-		old->value = ft_strdup(value);
-	}
 	else
+	{
+		ft_del_env(&data->envar, key);
 		add_back_env(&data->envar, new_evar(new_env));
+	}
 	free(new_env);
 }
 

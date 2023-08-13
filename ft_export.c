@@ -21,7 +21,7 @@ void	ft_print_export(t_data *data)
 	sort_env(data->env, ft_envlen(data->envar));
 	tab = data->env;
 	i = 0;
-	while (tab[i])
+	while (tab && tab[i])
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putendl_fd2(tab[i], STDOUT_FILENO);
