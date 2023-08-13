@@ -39,6 +39,9 @@
 # define CD_ERR2 "getcwd: cannot access parent directories"
 # define HR_ERR "warning: here-document at line 1 delimited by end-of-file "
 # define NFE "No such file or directory"
+# define EXP_ERR "not a valid identifier"
+# define NO_HOME "HOME not set"
+# define NO_OPWD "OLDPWD not set"
 
 # ifndef MAX_PATH
 #  define MAX_PATH 4096
@@ -145,7 +148,7 @@ int			execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no);
 
 
 
-int			init_signals(void)
+int			init_signals(void);
 void	free_evar_list(t_evar *head);
 char	**clean(char **av);
 int		ft_parser(t_data *data);
@@ -198,7 +201,6 @@ int		ft_cd(t_data *d, t_cmd *cmd);
 // int		ft_pwd(void);
 int		ft_unset(t_data *data, t_cmd *cmd);
 int		ft_export(t_data *d);
-// int		execute_builtin(t_data *data, t_cmd *cmd);
 int		ft_env(t_cmd *cmd, t_evar *env);
 int		ft_echo(t_cmd *cmd);
 
@@ -368,7 +370,6 @@ int	ft_exit(t_data *data, char **args, t_exno *ex_no);
 int	ft_expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
 int	expand_var(t_data *data, t_lexer **token, t_exno *ex_no);
 char	*extract_var_value(t_lexer *token, int i, t_data *data, t_exno *ex_no);
-int		execute_builtin(t_data *data, t_cmd *cmd, t_exno *ex_no);
 int		create_forks(t_data *data, t_exno *ex_no);
 int		execute_cmd(t_data *data, t_cmd *cmd, t_exno *ex_no);
 int		ft_execute(t_data *data, t_exno *ex_no);

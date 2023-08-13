@@ -98,14 +98,14 @@ int	ft_cd_new(t_data *d, t_cmd *cmd)
 	{
 		path = get_varvalue(d->envar, "HOME");
 		if (!path || *path == '\0' || ft_isspace(*path))
-			return (print_errmsg("cd", NULL, "HOME not set", EXIT_FAILURE));
+			return (voidfree(path), print_errmsg("cd", NULL, NO_HOME, 1));
 		return (!ch_dir(d, path));
 	}
 	else if (!ft_strcmp(cmd->cmdarg[1], "-"))
 	{
 		path = get_varvalue(d->envar, "OLDPWD");
 		if (!path || ft_strcmp(path, "") == 0)
-			return (print_errmsg("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
+			return (voidfree(path), print_errmsg("cd", NULL, NO_OPWD, 1));
 		ft_putendl_fd(path, STDOUT_FILENO);
 		return (!ch_dir(d, path));
 	}

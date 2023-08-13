@@ -50,7 +50,7 @@ int	ft_export_util(t_data *d)
 		t = new_evar(d->cmds->cmdarg[i]);
 		if (is_invalid_key(t->key) == 0)
 		{
-			print_errmsg(d->cmds->cmd, t->key, "not a valid identifier", 1);
+			print_errmsg(d->cmds->cmd, d->cmds->cmdarg[i], EXP_ERR, 1);
 			ft_var_freer(t);
 			return (EXIT_FAILURE);
 		}

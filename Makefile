@@ -33,11 +33,9 @@ $(NAME): $(OBJS)
 		 @$(MAKE) -C ./libft/
 		 $(CC) $(CFLAGS) $(OBJS) $(READLINE) libft/libft.a  -o $(NAME) 
 
-leaks:
-	valgrind --suppressions=readleak.txt \
-	--leak-check=full --trace-children=yes \
-	--show-leak-kinds=all --track-origins=yes \
-	--track-fds=yes ./minishell
+leaks: 
+	valgrind --suppressions=readleak.txt --leak-check=full --trace-children=yes \
+	--show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
 all: $(NAME)
 

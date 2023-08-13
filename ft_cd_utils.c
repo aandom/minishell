@@ -15,11 +15,11 @@
 void	pwd(t_evar *env, char *key)
 {
 	t_evar	*tmp;
-	char	oldpwd[PATH_MAX];
+	char	oldpwd[MAX_PATH];
 	char	*holder;
 
 	tmp = env;
-	if (getcwd(oldpwd, PATH_MAX) == NULL)
+	if (getcwd(oldpwd, MAX_PATH) == NULL)
 		return ;
 	while (tmp)
 	{
@@ -44,8 +44,14 @@ void	update_pwd(t_data *data, char *key, char *value)
 		return ;
 	new_env = ft_strjoin(ft_strdup(key), "=");
 	new_env = ft_strjoin(new_env, value);
+	(void) data;
 	old = find_evar(data->envar, key);
-	if (old->value != NULL || old->key != NULL)
+	if (old == NULL && ft_strcmp(key, "OLDPWD") == 0)
+	{
+		free(new_env);
+		return ;
+	}
+	if (old && !old->value)
 	{
 		free(old->value);
 		old->value = ft_strdup(value);
