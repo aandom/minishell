@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 18:18:36 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/13 07:22:56 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/14 21:54:18 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ char	*ft_strdup(const char *src);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+// int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ft_strncmp(char *s1, char *s2, unsigned int n);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

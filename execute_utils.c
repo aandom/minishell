@@ -45,7 +45,7 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 	int		i;
 
 	if (!envar)
-		return (ft_strdup(cmd->cmd));
+		return (cmd->cmd);
 	path = get_splited_path(envar);
 	i = 0;
 	while (path && path[i])

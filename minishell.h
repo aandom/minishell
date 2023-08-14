@@ -256,7 +256,7 @@ void		ft_lst_clear_token(t_lexer **lst, void (*del)(void*));
 void		voidfree(void *ptr);
 
 // ft_free.c
-void		free_evar_list(t_evar *head);
+// void		free_evar_list(t_evar *head);
 char		**clean(char **av);
 
 // ft_heredoc_utils.c
@@ -337,5 +337,11 @@ void		set_signals_noninteractive(void);
 // signals.c
 void		child_signals( void);
 int			init_signals(void);
+
+// ft_new_env.c
+void	update_wds(t_data *data, char *wd);
+int		ft_strncmp(char *s1, char *s2, unsigned int n);
+void	ft_lst_clear_tvar(t_evar **lst, void (*del)(void*));
+void	free_evar_list(t_evar **head);
 
 #endif

@@ -74,7 +74,7 @@ void	exitshell(t_data *data, int excode)
 			close_iofds(data->cmds, 1);
 		free_all(data, 1);
 		if (data && data->envar)
-			free_evar_list(data->envar);
+			free_evar_list(&data->envar);
 		if (data && data->pwd)
 			voidfree(data->pwd);
 		if (data && data->oldpwd)

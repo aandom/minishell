@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/08 22:18:02 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/14 22:55:28 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_print_export(t_data *data)
 	char	**tab;
 	int		i;
 
-	env_pointer(data);
+	// env_pointer(data);
 	sort_env(data->env, ft_envlen(data->envar));
 	tab = data->env;
 	i = 0;

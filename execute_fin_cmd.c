@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 04:16:47 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/13 04:17:33 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/14 18:46:00 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	exec_cmd_with_nopath(t_data *data, t_cmd *cmd)
 	c_exe = get_cmd(data->envar, cmd);
 	if (!c_exe)
 		return (127);
+	if (access(c_exe, F_OK) == -1)
+		return (print_errmsg(c_exe, NULL, strerror(errno), 127));
 	if (access(c_exe, F_OK | X_OK) == -1)
 		return (print_errmsg(c_exe, NULL, strerror(errno), 126));
 	if (execve(c_exe, cmd->cmdarg, data->env) == -1)

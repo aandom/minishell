@@ -12,21 +12,19 @@
 
 #include "minishell.h"
 
-void	free_evar_list(t_evar *head)
+void	free_evar_list(t_evar **head)
 {
 	t_evar	*tmp;
 
-	if (head == NULL || head->key == NULL)
-		return ;
-	while (head)
+	while (*head)
 	{
-		tmp = head;
-		head = head->next;
-		if (tmp->key)
-			free(tmp->key);
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
+		tmp = (*head)->next;
+		if ((*head)->key)
+			free((*head)->key);
+		if ((*head)->value)
+			free((*head)->value);
+		free(*head);
+		*head = tmp;
 	}
 }
 
