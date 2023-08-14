@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:25:54 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/14 22:29:22 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/14 23:05:46 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	update_wds(t_data *data, char *wd)
 	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));
 	set_env_var(data, "PWD", wd);
     free_evar_list(&data->envar);
-    // ft_lst_clear_tvar(&data->envar, voidfree);
 	copy_env(data, data->env);
 	if (data->oldpwd)
 	{

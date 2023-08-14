@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/14 22:55:53 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/14 23:02:02 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	ch_dir(t_data *data, char *path)
 	}
 	else
 		ret = ft_strdup(cwd);
-	// update_wds_env(data, ret);
 	update_wds(data, ret);
 	voidfree(path);
 	return (1);

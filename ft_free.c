@@ -28,6 +28,30 @@ void	free_evar_list(t_evar **head)
 	}
 }
 
+static void	ft_delone_tvar(t_evar *lst, void (*del) (void *))
+{
+	if (lst->key)
+		(*del)(lst->key);
+	if (lst->value)
+		(*del)(lst->value);
+}
+
+void	ft_lst_clear_tvar(t_evar **lst, void (*del)(void*))
+{
+	t_evar	*m;
+
+	if (lst && del && lst)
+	{
+		while (*lst)
+		{
+			m = (*lst)->next;
+			ft_delone_tvar(*lst, del);
+			free(*lst);
+			*lst = m;
+		}
+	}
+}
+
 char	**clean(char **av)
 {
 	int	i;

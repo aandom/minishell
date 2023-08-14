@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 03:18:40 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/14 22:15:36 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/14 23:07:23 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,14 @@ t_evar	*new_evar(char *str)
 	return (newvar);
 }
 
-static void	ft_delone_tvar(t_evar *lst, void (*del) (void *))
-{
-	if (lst->key)
-		(*del)(lst->key);
-	if (lst->value)
-		(*del)(lst->value);
-}
-
-void	ft_lst_clear_tvar(t_evar **lst, void (*del)(void*))
-{
-	t_evar	*m;
-
-	if (lst && del && lst)
-	{
-		while (*lst)
-		{
-			m = (*lst)->next;
-			ft_delone_tvar(*lst, del);
-			free(*lst);
-			*lst = m;
-		}
-	}
-}
-
 void	copy_env(t_data *data, char **env)
 {
 	int		i;
 	t_evar	*new;
 
 	i = 0;
-	// if (data->envar != NULL)
-	// 	ft_lst_clear_tvar(&data->envar, voidfree);
+	if (data->envar != NULL)
+		ft_lst_clear_tvar(&data->envar, voidfree);
 	while (env && env[i])
 	{
 		new = new_evar(env[i]);
