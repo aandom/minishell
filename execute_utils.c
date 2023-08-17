@@ -43,9 +43,11 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 	char	*c;
 	char	**path;
 	int		i;
+	t_evar	*tmp;
 
-	if (!envar)
-		return (cmd->cmd);
+	tmp = find_evar(envar, "PATH");
+	if (!tmp)
+		return (ft_strdup(cmd->cmd));
 	path = get_splited_path(envar);
 	i = 0;
 	while (path && path[i])
@@ -59,7 +61,7 @@ char	*get_cmd(t_evar *envar, t_cmd *cmd)
 		free(c);
 		i++;
 	}
-	print_errmsg(cmd->cmd, NULL, "command not found", 127);
+	errmsg(cmd->cmd, NULL, "command not found", 127);
 	ft_arr_freer(path);
 	return (NULL);
 }
@@ -76,10 +78,10 @@ int	is_directory(char *cmd)
 int	check_command(t_cmd *cmd)
 {
 	if (access(cmd->cmd, F_OK) != 0)
-		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 127));
+		return (errmsg(cmd->cmd, NULL, strerror(errno), 127));
 	else if (is_directory(cmd->cmd))
-		return (print_errmsg(cmd->cmd, NULL, "Is a directory", 126));
+		return (errmsg(cmd->cmd, NULL, "Is a directory", 126));
 	else if (access(cmd->cmd, F_OK | X_OK) != 0)
-		return (print_errmsg(cmd->cmd, NULL, strerror(errno), 126));
+		return (errmsg(cmd->cmd, NULL, strerror(errno), 126));
 	return (0);
 }

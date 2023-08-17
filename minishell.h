@@ -173,7 +173,7 @@ void		ft_del_env(t_evar **head, char *str);
 int			initialize_envar(t_data *data, char **env);
 
 // error.c
-int			print_errmsg(char *cmd, char *info, char *errmsg, int errnum);
+int			errmsg(char *cmd, char *info, char *errmsg, int errnum);
 void		ft_errmsg(char *msg, char *info, int quote);
 
 // execute_fin_cmd.c
@@ -257,7 +257,7 @@ void		voidfree(void *ptr);
 // ft_free.c
 void		free_evar_list(t_evar **head);
 char		**clean(char **av);
-void	ft_lst_clear_tvar(t_evar **lst, void (*del)(void*));
+void		ft_lst_clear_tvar(t_evar **lst, void (*del)(void*));
 
 // ft_heredoc_utils.c
 char		*expand_here_var(char *lineorgin, t_data *data);
@@ -339,7 +339,6 @@ void		child_signals( void);
 int			init_signals(void);
 
 // ft_new_env.c
-void	update_wds(t_data *data, char *wd);
-int		ft_strncmp(char *s1, char *s2, unsigned int n);
+void		update_wds(t_data *data, char *wd);
 
 #endif

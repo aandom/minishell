@@ -65,9 +65,9 @@ int	ft_exit(t_data *data, char **args, t_exno *ex_no)
 	{
 		ex_code = get_exit_code(args[1], &is_valid_code, ex_no);
 		if (!is_valid_code)
-			ex_code = print_errmsg("exit", args[1], INVARG, 2);
+			ex_code = errmsg("exit", args[1], INVARG, 2);
 		else if (args[2])
-			return (print_errmsg("exit", NULL, "too many arguments", 1));
+			return (errmsg("exit", NULL, "too many arguments", 1));
 	}
 	exitshell(data, ex_code);
 	return (2);

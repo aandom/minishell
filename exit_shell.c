@@ -43,10 +43,7 @@ void	ft_free_iofile(t_iofiles *iofiles)
 		free(iofiles->outfile);
 	}
 	if (iofiles->h_delim)
-	{
 		free(iofiles->h_delim);
-		// unlink(iofiles->infile);
-	}
 	free(iofiles);
 }
 

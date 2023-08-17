@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:54:42 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/14 23:02:02 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/15 00:34:28 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static int	ch_dir(t_data *data, char *path)
 	ret = NULL;
 	if (chdir(path) != 0)
 	{
-		print_errmsg("cd", path, "no such file or directory", 2);
+		errmsg("cd", path, "no such file or directory", 2);
 		return (voidfree(path), 0);
 	}
 	ret = getcwd(cwd, MAX_PATH);
 	if (!ret)
 	{
-		print_errmsg(CD_ERR, CD_ERR2, strerror(errno), errno);
+		errmsg(CD_ERR, CD_ERR2, strerror(errno), errno);
 		ret = ft_strjoin(ft_strdup(data->pwd), "/");
 		tmp = ret;
 		ret = ft_strjoin(ft_strdup(tmp), path);
@@ -62,11 +62,11 @@ static int	ft_cd_helper(t_data *d, t_cmd *cmd, int *i)
 	if (cmd->cmdarg[1][1] != '/')
 	{
 		*i = 1;
-		return (print_errmsg("cd", cmd->cmdarg[1], NFE, 1), 0);
+		return (errmsg("cd", cmd->cmdarg[1], NFE, 1), 0);
 	}
 	tmp = ft_expanding_tilda(d);
 	if (!tmp)
-		return (print_errmsg("cd", tmp, "No such file or directory", 1), 0);
+		return (errmsg("cd", tmp, "No such file or directory", 1), 0);
 	else if (cmd->cmdarg[1] && cmd->cmdarg[1][0] == '~' && cmd->cmdarg[1][1]
 		!= '\0' && ft_strcmp(cmd->cmdarg[1], ".."))
 	{
@@ -98,14 +98,14 @@ int	ft_cd_new(t_data *d, t_cmd *cmd)
 	{
 		path = get_varvalue(d->envar, "HOME");
 		if (!path || *path == '\0' || ft_isspace(*path))
-			return (voidfree(path), print_errmsg("cd", NULL, NO_HOME, 1));
+			return (voidfree(path), errmsg("cd", NULL, NO_HOME, 1));
 		return (!ch_dir(d, path));
 	}
 	else if (!ft_strcmp(cmd->cmdarg[1], "-"))
 	{
 		path = get_varvalue(d->envar, "OLDPWD");
 		if (!path || ft_strcmp(path, "") == 0)
-			return (voidfree(path), print_errmsg("cd", NULL, NO_OPWD, 1));
+			return (voidfree(path), errmsg("cd", NULL, NO_OPWD, 1));
 		ft_putendl_fd(path, STDOUT_FILENO);
 		return (!ch_dir(d, path));
 	}

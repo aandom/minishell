@@ -74,12 +74,12 @@ void	set_iofds(t_iofiles *iofds)
 	if (iofds->fdin != -1)
 	{
 		if (dup2(iofds->fdin, STDIN_FILENO) == -1)
-			print_errmsg("dup2", iofds->infile, strerror(errno), 0);
+			errmsg("dup2", iofds->infile, strerror(errno), 0);
 	}
 	if (iofds->fdout != -1)
 	{
 		if (dup2(iofds->fdout, STDOUT_FILENO) == -1)
-			print_errmsg("dup2", iofds->outfile, strerror(errno), 0);
+			errmsg("dup2", iofds->outfile, strerror(errno), 0);
 	}
 	return ;
 }

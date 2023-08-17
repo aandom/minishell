@@ -33,7 +33,7 @@ $(NAME): $(OBJS)
 
 leaks: 
 	valgrind --suppressions=readleak.txt --leak-check=full --trace-children=yes \
-	--show-leak-kinds=all --track-origins=yes --track-fds=yes env -i ./minishell
+	--show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:25:54 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/14 23:05:46 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/15 01:17:07 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ static char	**realloc_env(t_data *data, int size)
 		i++;
 	}
 	free(data->env);
-    data->env = NULL;
+	data->env = NULL;
 	return (new_env);
 }
-
 
 int	get_var_ndex(char **env, char *var)
 {
@@ -55,7 +54,6 @@ int	get_var_ndex(char **env, char *var)
 	return (-1);
 }
 
-
 int	set_env_var(t_data *data, char *key, char *value)
 {
 	int		idx;
@@ -64,7 +62,7 @@ int	set_env_var(t_data *data, char *key, char *value)
 	idx = get_var_ndex(data->env, key);
 	if (value == NULL)
 		value = "";
-	tmp = ft_strjoin( ft_strdup ("="), value);
+	tmp = ft_strjoin(ft_strdup ("="), value);
 	if (!tmp)
 		return (0);
 	if (idx != -1 && data->env[idx])
@@ -80,8 +78,7 @@ int	set_env_var(t_data *data, char *key, char *value)
 			return (0);
 		data->env[idx] = ft_strjoin(ft_strdup(key), tmp);
 	}
-	voidfree(tmp);
-	return (1);
+	return (voidfree(tmp), 1);
 }
 
 char	*get_env_var_value(char **env, char *var)
@@ -110,7 +107,7 @@ void	update_wds(t_data *data, char *wd)
 {
 	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));
 	set_env_var(data, "PWD", wd);
-    free_evar_list(&data->envar);
+	free_evar_list(&data->envar);
 	copy_env(data, data->env);
 	if (data->oldpwd)
 	{

@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 15:24:24 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/14 22:55:28 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/15 00:34:28 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_print_export(t_data *data)
 	char	**tab;
 	int		i;
 
-	// env_pointer(data);
 	sort_env(data->env, ft_envlen(data->envar));
 	tab = data->env;
 	i = 0;
@@ -50,7 +49,7 @@ int	ft_export_util(t_data *d)
 		t = new_evar(d->cmds->cmdarg[i]);
 		if (is_invalid_key(t->key) == 0)
 		{
-			print_errmsg(d->cmds->cmd, d->cmds->cmdarg[i], EXP_ERR, 1);
+			errmsg(d->cmds->cmd, d->cmds->cmdarg[i], EXP_ERR, 1);
 			ft_var_freer(t);
 			return (EXIT_FAILURE);
 		}

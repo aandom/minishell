@@ -6,7 +6,7 @@
 /*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 04:16:47 by aandom            #+#    #+#             */
-/*   Updated: 2023/08/14 18:46:00 by aandom           ###   ########.fr       */
+/*   Updated: 2023/08/15 00:34:42 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,17 @@ int	exec_cmd_with_nopath(t_data *data, t_cmd *cmd)
 	if (!c_exe)
 		return (127);
 	if (access(c_exe, F_OK) == -1)
-		return (print_errmsg(c_exe, NULL, strerror(errno), 127));
+	{
+		errmsg(c_exe, NULL, strerror(errno), 127);
+		return (free(c_exe), 127);
+	}
 	if (access(c_exe, F_OK | X_OK) == -1)
-		return (print_errmsg(c_exe, NULL, strerror(errno), 126));
+	{
+		errmsg(c_exe, NULL, strerror(errno), 126);
+		return (free(c_exe), 126);
+	}
 	if (execve(c_exe, cmd->cmdarg, data->env) == -1)
-		return (print_errmsg("execve", NULL, strerror(errno), errno));
+		return (free(c_exe), errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
 }
 
@@ -40,6 +46,6 @@ int	exec_cmd_with_path(t_data *data, t_cmd *cmd)
 	if (res != 0)
 		return (res);
 	if (execve(cmd->cmd, cmd->cmdarg, data->env) == -1)
-		return (print_errmsg("execve", NULL, strerror(errno), errno));
+		return (errmsg("execve", NULL, strerror(errno), errno));
 	return (1);
 }

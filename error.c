@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	print_errmsg(char *cmd, char *info, char *errmsg, int errnum)
+int	errmsg(char *cmd, char *info, char *errmsg, int errnum)
 {
 	char	*message;
 

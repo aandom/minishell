@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpetros <tpetros@student.42abudhabi.ae>    +#+  +:+       +#+        */
+/*   By: aandom <aandom@student.abudhabi42.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:29:59 by tpetros           #+#    #+#             */
-/*   Updated: 2023/08/05 22:53:05 by tpetros          ###   ########.fr       */
+/*   Updated: 2023/08/15 00:34:28 by aandom           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_unset(t_data *data, t_cmd *cmd)
 	while (cmd->cmdarg[i])
 	{
 		if (!is_invalid_key(cmd->cmdarg[i]))
-			print_errmsg("unset", cmd->cmdarg[i], "not a valid identifier", 1);
+			errmsg("unset", cmd->cmdarg[i], "not a valid identifier", 1);
 		ft_del_env(&data->envar, cmd->cmdarg[i]);
 		i++;
 	}

@@ -28,7 +28,7 @@ void	ft_read_from(t_cmd **cmds, t_lexer **token)
 		iofds->infile = ft_strdup(tmp->next->str);
 		fd = open(iofds->infile, O_RDONLY);
 		if (fd == -1)
-			print_errmsg(iofds->infile, NULL, strerror(errno), 1);
+			errmsg(iofds->infile, NULL, strerror(errno), 1);
 		iofds->fdin = fd;
 	}
 	if (tmp->next && tmp->next->next)
