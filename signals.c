@@ -19,8 +19,9 @@ int	event(void)
 
 void	child_signal_handler(int num)
 {
-	if (num == SIGINT)
-		write(1, "\n", 1);
+	if (num == SIGINT){
+		// write(1, "\n", 1);
+	}
 	else if (num == SIGQUIT && g_exit_code == IN_HEREDOC)
 		signal(SIGQUIT, SIG_IGN);
 	else if (num == SIGQUIT && g_exit_code == IN_CMD)
@@ -40,7 +41,9 @@ void	sigint_handler(int sig)
 	{
 		g_exit_code = CTRL_C;
 		rl_replace_line("", 0);
+		write(1, "  \n", 3);
 		rl_redisplay();
+		rl_on_new_line();
 		rl_done = 1;
 		return ;
 	}

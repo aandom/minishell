@@ -17,7 +17,11 @@ int	g_exit_code;
 int	parse_input(t_data *data, t_exno *ex_no)
 {
 	if (data->input == NULL)
+	{
+		
+		ft_putendl_fd("", STDERR_FILENO);
 		ft_exit(data, NULL, ex_no);
+	}
 	else if (ft_strcmp(data->input, "\0") == 0)
 		return (0);
 	add_history(data->input);

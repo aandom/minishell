@@ -106,4 +106,5 @@ int	initialize_envar(t_data *data, char **env)
 	}
 	data->env[i] = NULL;
 	return (1);
+
 }
