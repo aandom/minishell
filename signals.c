@@ -19,7 +19,7 @@ int	event(void)
 
 void	child_signal_handler(int num)
 {
-	if (num == SIGINT){
+	if (num == SIGINT && g_exit_code == IN_MINI){
 		// write(1, "\n", 1);
 	}
 	else if (num == SIGQUIT && g_exit_code == IN_HEREDOC)
@@ -40,6 +40,7 @@ void	sigint_handler(int sig)
 	if (g_exit_code == IN_MINI || g_exit_code == IN_CMD)
 	{
 		g_exit_code = CTRL_C;
+		write(1, "^C", 2);
 		rl_replace_line("", 0);
 		write(1, "  \n", 3);
 		rl_redisplay();

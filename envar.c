@@ -72,13 +72,13 @@ void	ft_del_env(t_evar **head, char *str)
 		return ;
 	temp = *head;
 	prev = NULL;
-	if (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) == 0)
+	if (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str) + 1) == 0)
 	{
 		*head = temp->next;
 		ft_var_freer(temp);
 		return ;
 	}
-	while (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str)) != 0)
+	while (temp != NULL && ft_strncmp(temp->key, str, ft_strlen(str) + 1) != 0)
 	{
 		prev = temp;
 		temp = temp->next;

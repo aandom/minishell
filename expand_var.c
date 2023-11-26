@@ -39,7 +39,8 @@ char	*get_varvalue(t_evar *evar, char *key)
 	varvalue = NULL;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, key, ft_strlen(key)))
+		// if (!ft_strncmp(tmp->key, key, ft_strlen(key) + 1))
+		if (!ft_strcmp(tmp->key, key))
 		{
 			varvalue = ft_strdup(tmp->value);
 			break ;
@@ -53,7 +54,9 @@ int	var_in_env(t_evar *envar, char *key)
 {
 	while (envar)
 	{
-		if (!ft_strncmp(envar->key, key, ft_strlen(key)))
+		// if (!ft_strncmp(envar->key, key, ft_strlen(key)))
+		// 	return (1);
+		if (!ft_strcmp(envar->key, key))
 			return (1);
 		envar = envar->next;
 	}
