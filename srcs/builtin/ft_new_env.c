@@ -43,7 +43,7 @@ int	get_var_ndex(char **env, char *var)
 	i = 0;
 	while (env && env[i])
 	{
-		if (ft_strncmp(tmp, env[i], ft_strlen(tmp) + 1) == 0)
+		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
 			voidfree(tmp);
 			return (i);
